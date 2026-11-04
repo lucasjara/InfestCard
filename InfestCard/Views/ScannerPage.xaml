@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:InfestCard.ViewModels"
+             xmlns:zxing="clr-namespace:ZXing.Net.Maui.Controls;assembly=ZXing.Net.Maui.Controls"
+             x:Class="InfestCard.Views.ScannerPage"
+             x:DataType="vm:ScannerViewModel"
+             Title="Escanear carta"
+             BackgroundColor="{StaticResource BackgroundColor}">
+    <Grid RowDefinitions="Auto,*,Auto" Padding="20" RowSpacing="16">
+        <VerticalStackLayout Grid.Row="0" Spacing="4">
+            <Label
+                Text="ESCANEAR CARTA"
+                Style="{StaticResource BrandTitle}"
+                SemanticProperties.HeadingLevel="Level1" />
+            <Label
+                Text="Lee el código QR de una carta INFESTCard"
+                Style="{StaticResource SecondaryText}" />
+        </VerticalStackLayout>
+
+        <Border Grid.Row="1" Style="{StaticResource NeonCard}" Padding="0">
+            <Grid>
+                <zxing:CameraBarcodeReaderView
+                    IsDetecting="{Binding IsDetecting}"
+                    BarcodesDetected="OnBarcodesDetected" />
+                <Border
+                    Margin="28"
+                    Stroke="#C026D3"
+                    StrokeThickness="2"
+                    BackgroundColor="Transparent"
+                    HeightRequest="180"
+                    VerticalOptions="Center"
+                    StrokeShape="RoundRectangle 12" />
+            </Grid>
+        </Border>
+
+        <VerticalStackLayout Grid.Row="2" Spacing="8">
+            <ActivityIndicator
+                IsRunning="{Binding IsBusy}"
+                IsVisible="{Binding IsBusy}"
+                Color="{StaticResource AccentColor}" />
+            <Label
+                Text="{Binding StatusMessage}"
+                Style="{StaticResource SecondaryText}"
+                HorizontalTextAlignment="Center" />
+            <Label
+                Text="{Binding DetectedCode}"
+                Style="{StaticResource BodyText}"
+                HorizontalTextAlignment="Center" />
+            <Label
+                Text="{Binding ErrorMessage}"
+                TextColor="{StaticResource ErrorColor}"
+                HorizontalTextAlignment="Center" />
+        </VerticalStackLayout>
+    </Grid>
+</ContentPage>

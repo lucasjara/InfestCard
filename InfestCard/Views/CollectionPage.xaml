@@ -2,13 +2,14 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:vm="clr-namespace:InfestCard.ViewModels"
+             xmlns:models="clr-namespace:InfestCard.Models"
              xmlns:components="clr-namespace:InfestCard.Views.Components"
              x:Class="InfestCard.Views.CollectionPage"
              x:DataType="vm:CollectionViewModel"
              Title="Colección"
              BackgroundColor="{StaticResource BackgroundColor}">
     <Grid Padding="20" RowDefinitions="Auto,*" RowSpacing="16">
-        <Grid Grid.Row="0" ColumnDefinitions="*,Auto">
+        <Grid Grid.Row="0" ColumnDefinitions="*,Auto" ColumnSpacing="12">
             <VerticalStackLayout Spacing="4">
                 <Label
                     Text="MI COLECCIÓN"
@@ -18,6 +19,11 @@
                     Text="Tus cartas INFESTCard"
                     Style="{StaticResource SecondaryText}" />
             </VerticalStackLayout>
+            <Button
+                Grid.Column="1"
+                Text="Escanear"
+                Command="{Binding NavigateToScannerCommand}"
+                VerticalOptions="Center" />
         </Grid>
 
         <CollectionView
@@ -35,7 +41,7 @@
                 <components:EmptyCollectionView />
             </CollectionView.EmptyView>
             <CollectionView.ItemTemplate>
-                <DataTemplate>
+                <DataTemplate x:DataType="models:Card">
                     <Border Style="{StaticResource NeonCard}" HeightRequest="220">
                         <VerticalStackLayout Spacing="8">
                             <Label Text="{Binding Name}" Style="{StaticResource BodyText}" />

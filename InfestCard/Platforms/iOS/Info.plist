@@ -4,6 +4,8 @@
 <dict>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
+	<key>NSCameraUsageDescription</key>
+	<string>INFESTCard necesita acceso a la cámara para leer códigos QR.</string>
 	<key>UIDeviceFamily</key>
 	<array>
 		<integer>1</integer>

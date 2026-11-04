@@ -1,10 +1,18 @@
-﻿namespace InfestCard
+﻿using InfestCard.Views;
+
+namespace InfestCard
 {
     public partial class AppShell : Shell
     {
-        public AppShell()
+        public AppShell(CollectionPage collectionPage)
         {
             InitializeComponent();
+            Items.Add(new ShellContent
+            {
+                Title = "Colección",
+                Route = "CollectionPage",
+                Content = collectionPage
+            });
         }
     }
 }

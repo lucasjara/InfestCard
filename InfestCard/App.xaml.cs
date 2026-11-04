@@ -4,14 +4,17 @@ namespace InfestCard
 {
     public partial class App : Application
     {
-        public App()
+        private readonly AppShell appShell;
+
+        public App(IServiceProvider services)
         {
             InitializeComponent();
+            appShell = services.GetRequiredService<AppShell>();
         }
 
         protected override Window CreateWindow(IActivationState? activationState)
         {
-            return new Window(new AppShell());
+            return new Window(appShell);
         }
     }
 }

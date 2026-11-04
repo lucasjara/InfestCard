@@ -361,3 +361,5 @@ MigrationBackup/
 
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
+/InfestCard/docs/PROJECT_BRIEF.md
+/InfestCard/.github/copilot-instructions.md

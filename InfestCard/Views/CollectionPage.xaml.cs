@@ -14,7 +14,15 @@ public partial class CollectionPage : ContentPage
     protected override async void OnAppearing()
     {
         base.OnAppearing();
-        await ViewModel.RefreshCommand.ExecuteAsync(null);
+        try
+        {
+            await ViewModel.RefreshCommand.ExecuteAsync(null);
+        }
+        catch (Exception ex)
+        {
+            System.Diagnostics.Debug.WriteLine($"[INFESTCard][CollectionPage] Error al refrescar la colección: {ex.Message}");
+            await DisplayAlert("Error", "No se pudo actualizar la colección. Por favor, inténtalo de nuevo más tarde.", "OK");
+        }
     }
 
     private CollectionViewModel ViewModel => (CollectionViewModel)BindingContext;

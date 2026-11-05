@@ -1,5 +1,7 @@
 using InfestCard.ViewModels;
+#if ANDROID
 using Java.Util;
+#endif
 using Microsoft.Maui.Controls.Shapes;
 using ZXing.Net.Maui;
 using ZXing.Net.Maui.Controls;

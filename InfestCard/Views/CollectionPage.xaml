@@ -10,6 +10,13 @@
              Title="Colección"
              Shell.NavBarIsVisible="False"
              BackgroundColor="{StaticResource BackgroundColor}">
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <converters:CardNameFontSizeConverter
+                x:Key="CardNameFontSizeConverter" />
+        </ResourceDictionary>
+    </ContentPage.Resources>
+    
     <Grid Padding="20" RowDefinitions="Auto,*" RowSpacing="16">
         <Grid Grid.Row="0" ColumnDefinitions="*,Auto" ColumnSpacing="12">
             <VerticalStackLayout Spacing="4">

@@ -19,16 +19,23 @@
         </VerticalStackLayout>
 
         <Border Grid.Row="1" Style="{StaticResource NeonCard}" Padding="0">
-            <Grid>
+            <Grid
+                WidthRequest="320"
+                HeightRequest="320"
+                HorizontalOptions="Center"
+                VerticalOptions="Center">
                 <zxing:CameraBarcodeReaderView
+                    x:Name="BarcodeReader"
                     IsDetecting="{Binding IsDetecting}"
                     BarcodesDetected="OnBarcodesDetected" />
                 <Border
-                    Margin="28"
+                    Margin="8"
                     Stroke="#C026D3"
                     StrokeThickness="2"
                     BackgroundColor="Transparent"
-                    HeightRequest="180"
+                    WidthRequest="304"
+                    HeightRequest="304"
+                    HorizontalOptions="Center"
                     VerticalOptions="Center"
                     StrokeShape="RoundRectangle 12" />
             </Grid>
@@ -44,7 +51,7 @@
                 Style="{StaticResource SecondaryText}"
                 HorizontalTextAlignment="Center" />
             <Label
-                Text="{Binding DetectedCode}"
+                Text="{Binding DetectedCardName}"
                 Style="{StaticResource BodyText}"
                 HorizontalTextAlignment="Center" />
             <Label

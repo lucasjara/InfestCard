@@ -22,8 +22,18 @@ public sealed class CardRepository(AppDatabase database) : ICardRepository
     {
         ArgumentNullException.ThrowIfNull(card);
         ArgumentException.ThrowIfNullOrWhiteSpace(card.Id);
+        cancellationToken.ThrowIfCancellationRequested();
 
         var connection = await database.GetConnectionAsync(cancellationToken);
-        await connection.InsertOrReplaceAsync(card);
+        var existingCard = await connection.FindAsync<CardEntity>(card.Id);
+        cancellationToken.ThrowIfCancellationRequested();
+
+        if (existingCard is null)
+        {
+            await connection.InsertAsync(card);
+            return;
+        }
+
+        await connection.UpdateAsync(card);
     }
 }

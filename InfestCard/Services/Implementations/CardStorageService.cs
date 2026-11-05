@@ -22,6 +22,13 @@ public sealed class CardStorageService(ICardRepository cardRepository) : ICardSt
     public Task SaveCardAsync(Card card, CancellationToken cancellationToken = default)
     {
         ArgumentNullException.ThrowIfNull(card);
+        ArgumentException.ThrowIfNullOrWhiteSpace(card.Id);
+
+        if (card.Quantity < 0)
+        {
+            throw new ArgumentOutOfRangeException(nameof(card), "La cantidad de la carta no puede ser negativa.");
+        }
+
         return cardRepository.UpsertAsync(MapToEntity(card), cancellationToken);
     }
 

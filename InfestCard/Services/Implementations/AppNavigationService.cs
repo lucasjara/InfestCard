@@ -1,4 +1,5 @@
 using InfestCard.Services.Interfaces;
+using InfestCard.Models;
 using InfestCard.Views;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -11,5 +12,15 @@ public sealed class AppNavigationService(IServiceProvider serviceProvider) : IAp
         cancellationToken.ThrowIfCancellationRequested();
         var scannerPage = serviceProvider.GetRequiredService<ScannerPage>();
         return Shell.Current.Navigation.PushAsync(scannerPage);
+    }
+
+    public Task NavigateToCardDetailAsync(Card card, CancellationToken cancellationToken = default)
+    {
+        ArgumentNullException.ThrowIfNull(card);
+        cancellationToken.ThrowIfCancellationRequested();
+
+        var detailPage = serviceProvider.GetRequiredService<CardDetailPage>();
+        detailPage.ViewModel.Load(card);
+        return Shell.Current.Navigation.PushAsync(detailPage);
     }
 }

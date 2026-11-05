@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:InfestCard.ViewModels"
+             x:Class="InfestCard.Views.CardDetailPage"
+             x:DataType="vm:CardDetailViewModel"
+             Title="Detalle de carta"
+             BackgroundColor="{StaticResource BackgroundColor}">
+    <ScrollView>
+        <VerticalStackLayout Padding="20" Spacing="18">
+            <Border Style="{StaticResource NeonCard}" Padding="16">
+                <VerticalStackLayout Spacing="14">
+                    <Image
+                        Source="{Binding ImageSource}"
+                        HeightRequest="260"
+                        Aspect="AspectFit" />
+                    <Label
+                        Text="{Binding Card.Name}"
+                        Style="{StaticResource PageTitle}"
+                        HorizontalTextAlignment="Center"
+                        SemanticProperties.HeadingLevel="Level1" />
+                    <Label
+                        Text="{Binding Card.Category}"
+                        Style="{StaticResource BrandTitle}"
+                        FontSize="16"
+                        HorizontalTextAlignment="Center" />
+                    <BoxView Style="{StaticResource AccentDivider}" />
+                    <Label
+                        Text="{Binding Card.Description}"
+                        Style="{StaticResource BodyText}" />
+                    <Grid ColumnDefinitions="*,*" RowDefinitions="Auto,Auto" RowSpacing="10">
+                        <Label Text="ID" Style="{StaticResource SecondaryText}" />
+                        <Label Grid.Column="1" Text="{Binding Card.Id}" Style="{StaticResource BodyText}" HorizontalTextAlignment="End" />
+                        <Label Grid.Row="1" Text="Cantidad" Style="{StaticResource SecondaryText}" />
+                        <Label Grid.Row="1" Grid.Column="1" Text="{Binding Card.Quantity}" Style="{StaticResource BodyText}" HorizontalTextAlignment="End" />
+                    </Grid>
+                    <Label
+                        Text="NIVEL"
+                        Style="{StaticResource SecondaryText}"
+                        HorizontalTextAlignment="Center" />
+                    <Label
+                        Text="{Binding LevelIndicators}"
+                        TextColor="{StaticResource AccentColor}"
+                        FontSize="20"
+                        HorizontalTextAlignment="Center" />
+                </VerticalStackLayout>
+            </Border>
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>

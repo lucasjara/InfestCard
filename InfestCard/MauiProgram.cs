@@ -1,4 +1,5 @@
 ﻿using Microsoft.Extensions.Logging;
+using InfestCard.Configuration;
 using InfestCard.Data;
 using InfestCard.Data.Repositories;
 using InfestCard.Services.Implementations;
@@ -28,11 +29,17 @@ namespace InfestCard
             builder.Services.AddSingleton<AppDatabase>();
             builder.Services.AddSingleton<ICardRepository, CardRepository>();
             builder.Services.AddSingleton<ICardStorageService, CardStorageService>();
+            builder.Services.AddSingleton(new ApiOptions { BaseUrl = string.Empty });
+            builder.Services.AddSingleton<ICardApiService, CardApiService>();
+            builder.Services.AddSingleton(new HttpClient());
+            builder.Services.AddSingleton<ICardImageService, CardImageService>();
             builder.Services.AddSingleton<ICameraPermissionService, CameraPermissionService>();
-            builder.Services.AddSingleton<IQrScannerService, QrScannerService>();
+            builder.Services.AddTransient<IQrScannerService, QrScannerService>();
             builder.Services.AddSingleton<IAppNavigationService, AppNavigationService>();
             builder.Services.AddSingleton<CollectionViewModel>();
             builder.Services.AddSingleton<CollectionPage>();
+            builder.Services.AddTransient<CardDetailViewModel>();
+            builder.Services.AddTransient<CardDetailPage>();
             builder.Services.AddTransient<ScannerViewModel>();
             builder.Services.AddTransient<ScannerPage>();
             builder.Services.AddSingleton<AppShell>();

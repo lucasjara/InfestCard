@@ -27,9 +27,11 @@
         </Grid>
 
         <CollectionView
+            x:Name="CardsView"
             Grid.Row="1"
             ItemsSource="{Binding Cards}"
-            SelectionMode="None">
+            SelectionMode="Single"
+            SelectionChanged="OnCardSelected">
             <CollectionView.ItemsLayout>
                 <GridItemsLayout
                     Orientation="Vertical"
@@ -44,6 +46,10 @@
                 <DataTemplate x:DataType="models:Card">
                     <Border Style="{StaticResource NeonCard}" HeightRequest="220">
                         <VerticalStackLayout Spacing="8">
+                            <Image
+                                Source="{Binding LocalImagePath}"
+                                HeightRequest="145"
+                                Aspect="AspectFit" />
                             <Label Text="{Binding Name}" Style="{StaticResource BodyText}" />
                             <Label Text="{Binding Quantity, StringFormat='Cantidad: {0}'}" Style="{StaticResource SecondaryText}" />
                         </VerticalStackLayout>

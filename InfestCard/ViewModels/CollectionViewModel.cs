@@ -10,12 +10,15 @@ public partial class CollectionViewModel : BaseViewModel
     private readonly ICardStorageService cardStorageService;
     private readonly IAppNavigationService appNavigationService;
 
+    public IAsyncRelayCommand RefreshCommand { get; }
+
     public CollectionViewModel(
         ICardStorageService cardStorageService,
         IAppNavigationService appNavigationService)
     {
         this.cardStorageService = cardStorageService;
         this.appNavigationService = appNavigationService;
+        RefreshCommand = new AsyncRelayCommand(LoadAsync);
         Cards.CollectionChanged += (_, _) => OnPropertyChanged(nameof(IsEmpty));
         _ = LoadAsync();
     }
@@ -26,6 +29,11 @@ public partial class CollectionViewModel : BaseViewModel
 
     [RelayCommand]
     private Task NavigateToScannerAsync() => appNavigationService.NavigateToScannerAsync();
+
+    [RelayCommand]
+    private Task SelectCardAsync(Card? card) => card is null
+        ? Task.CompletedTask
+        : appNavigationService.NavigateToCardDetailAsync(card);
 
     private async Task LoadAsync()
     {

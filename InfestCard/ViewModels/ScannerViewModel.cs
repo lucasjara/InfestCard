@@ -12,19 +12,22 @@ public partial class ScannerViewModel : BaseViewModel
     private readonly ICardApiService cardApiService;
     private readonly ICardImageService cardImageService;
     private readonly ICardStorageService cardStorageService;
+    private readonly IAppNavigationService appNavigationService;
 
     public ScannerViewModel(
         ICameraPermissionService cameraPermissionService,
         IQrScannerService qrScannerService,
         ICardApiService cardApiService,
         ICardImageService cardImageService,
-        ICardStorageService cardStorageService)
+        ICardStorageService cardStorageService,
+        IAppNavigationService appNavigationService)
     {
         this.cameraPermissionService = cameraPermissionService;
         this.qrScannerService = qrScannerService;
         this.cardApiService = cardApiService;
         this.cardImageService = cardImageService;
         this.cardStorageService = cardStorageService;
+        this.appNavigationService = appNavigationService;
         _ = InitializeAsync();
     }
 
@@ -69,6 +72,8 @@ public partial class ScannerViewModel : BaseViewModel
             OnPropertyChanged(nameof(DetectedCode));
             OnPropertyChanged(nameof(DetectedCardName));
             OnPropertyChanged(nameof(StatusMessage));
+
+            await appNavigationService.CloseScannerAsync();
         }
         catch (Exception exception) when (exception is InvalidDataException or JsonException)
         {

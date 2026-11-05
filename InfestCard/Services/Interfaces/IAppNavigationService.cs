@@ -6,5 +6,7 @@ public interface IAppNavigationService
 {
     Task NavigateToScannerAsync(CancellationToken cancellationToken = default);
 
+    Task CloseScannerAsync(CancellationToken cancellationToken = default);
+
     Task NavigateToCardDetailAsync(Card card, CancellationToken cancellationToken = default);
 }

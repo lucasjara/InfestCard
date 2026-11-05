@@ -42,4 +42,5 @@ public partial class ScannerPage : ContentPage
             await ViewModel.ProcessCodeCommand.ExecuteAsync(value);
         });
     }
+    
 }

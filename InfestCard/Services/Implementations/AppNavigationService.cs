@@ -14,6 +14,12 @@ public sealed class AppNavigationService(IServiceProvider serviceProvider) : IAp
         return Shell.Current.Navigation.PushAsync(scannerPage);
     }
 
+    public Task CloseScannerAsync(CancellationToken cancellationToken = default)
+    {
+        cancellationToken.ThrowIfCancellationRequested();
+        return Shell.Current.Navigation.PopAsync();
+    }
+
     public Task NavigateToCardDetailAsync(Card card, CancellationToken cancellationToken = default)
     {
         ArgumentNullException.ThrowIfNull(card);

@@ -6,6 +6,7 @@
              x:Class="InfestCard.Views.ScannerPage"
              x:DataType="vm:ScannerViewModel"
              Title="Escanear carta"
+             Shell.NavBarIsVisible="False"
              BackgroundColor="{StaticResource BackgroundColor}">
     <Grid RowDefinitions="Auto,*,Auto" Padding="20" RowSpacing="16">
         <VerticalStackLayout Grid.Row="0" Spacing="4">
@@ -27,7 +28,8 @@
                 <zxing:CameraBarcodeReaderView
                     x:Name="BarcodeReader"
                     IsDetecting="{Binding IsDetecting}"
-                    BarcodesDetected="OnBarcodesDetected" />
+                    BarcodesDetected="OnBarcodesDetected"
+                     />
                 <Border
                     Margin="8"
                     Stroke="#C026D3"

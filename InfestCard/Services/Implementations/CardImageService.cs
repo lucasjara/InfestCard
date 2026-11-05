@@ -29,7 +29,7 @@ public sealed class CardImageService(HttpClient httpClient) : ICardImageService
             }
         }
 
-        return CopyWithLocalImagePath(card, await GetPlaceholderPathAsync(cancellationToken));
+        return CopyWithLocalImagePath(card, GetPlaceholderResource());
     }
 
     private async Task<string?> DownloadIfNeededAsync(
@@ -75,19 +75,7 @@ public sealed class CardImageService(HttpClient httpClient) : ICardImageService
         }
     }
 
-    private static async Task<string> GetPlaceholderPathAsync(CancellationToken cancellationToken)
-    {
-        var filePath = Path.Combine(FileSystem.AppDataDirectory, PlaceholderResource);
-        if (File.Exists(filePath) && new FileInfo(filePath).Length > 0)
-        {
-            return filePath;
-        }
-
-        await using var source = await FileSystem.OpenAppPackageFileAsync(PlaceholderResource);
-        await using var destination = File.Create(filePath);
-        await source.CopyToAsync(destination, cancellationToken);
-        return filePath;
-    }
+    private static string GetPlaceholderResource() => PlaceholderResource;
 
     private static bool IsUsableLocalImage(string? path) =>
         !string.IsNullOrWhiteSpace(path) && File.Exists(path) && new FileInfo(path).Length > 0;

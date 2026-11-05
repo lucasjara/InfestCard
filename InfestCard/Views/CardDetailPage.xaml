@@ -5,6 +5,7 @@
              x:Class="InfestCard.Views.CardDetailPage"
              x:DataType="vm:CardDetailViewModel"
              Title="Detalle de carta"
+             Shell.NavBarIsVisible="False"
              BackgroundColor="{StaticResource BackgroundColor}">
     <ScrollView>
         <VerticalStackLayout Padding="20" Spacing="18">
@@ -20,7 +21,7 @@
                         HorizontalTextAlignment="Center"
                         SemanticProperties.HeadingLevel="Level1" />
                     <Label
-                        Text="{Binding Card.Category}"
+                        Text="{Binding CategoryDisplayName}"
                         Style="{StaticResource BrandTitle}"
                         FontSize="16"
                         HorizontalTextAlignment="Center" />
@@ -29,8 +30,9 @@
                         Text="{Binding Card.Description}"
                         Style="{StaticResource BodyText}" />
                     <Grid ColumnDefinitions="*,*" RowDefinitions="Auto,Auto" RowSpacing="10">
-                        <Label Text="ID" Style="{StaticResource SecondaryText}" />
+                        <!--<Label Text="ID" Style="{StaticResource SecondaryText}" />
                         <Label Grid.Column="1" Text="{Binding Card.Id}" Style="{StaticResource BodyText}" HorizontalTextAlignment="End" />
+                        -->
                         <Label Grid.Row="1" Text="Cantidad" Style="{StaticResource SecondaryText}" />
                         <Label Grid.Row="1" Grid.Column="1" Text="{Binding Card.Quantity}" Style="{StaticResource BodyText}" HorizontalTextAlignment="End" />
                     </Grid>

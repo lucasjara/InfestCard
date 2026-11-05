@@ -14,6 +14,10 @@ public partial class ScannerViewModel : BaseViewModel
     private readonly ICardStorageService cardStorageService;
     private readonly IAppNavigationService appNavigationService;
 
+    public async Task OnPageAppearingAsync()
+    {
+        await InitializeAsync();
+    }
     public ScannerViewModel(
         ICameraPermissionService cameraPermissionService,
         IQrScannerService qrScannerService,
@@ -28,7 +32,6 @@ public partial class ScannerViewModel : BaseViewModel
         this.cardImageService = cardImageService;
         this.cardStorageService = cardStorageService;
         this.appNavigationService = appNavigationService;
-        _ = InitializeAsync();
     }
 
     public bool IsDetecting { get; private set; }

@@ -20,7 +20,7 @@
         </VerticalStackLayout>
 
         <Border Grid.Row="1" Style="{StaticResource NeonCard}" Padding="0">
-            <Grid
+            <Grid x:Name="ScannerContainer"
                 WidthRequest="320"
                 HeightRequest="320"
                 HorizontalOptions="Center"
@@ -30,6 +30,7 @@
                     IsDetecting="{Binding IsDetecting}"
                     BarcodesDetected="OnBarcodesDetected"
                      />
+
                 <Border
                     Margin="8"
                     Stroke="#C026D3"
@@ -42,12 +43,16 @@
                     StrokeShape="RoundRectangle 12" />
             </Grid>
         </Border>
-
         <VerticalStackLayout Grid.Row="2" Spacing="8">
             <ActivityIndicator
                 IsRunning="{Binding IsBusy}"
                 IsVisible="{Binding IsBusy}"
                 Color="{StaticResource AccentColor}" />
+            <Slider
+Minimum="0"
+Maximum="1"
+Value="0"
+ValueChanged="OnZoomChanged" />
             <Label
                 Text="{Binding StatusMessage}"
                 Style="{StaticResource SecondaryText}"

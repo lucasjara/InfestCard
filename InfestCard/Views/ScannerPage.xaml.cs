@@ -1,5 +1,8 @@
 using InfestCard.ViewModels;
+using Java.Util;
+using Microsoft.Maui.Controls.Shapes;
 using ZXing.Net.Maui;
+using ZXing.Net.Maui.Controls;
 
 namespace InfestCard.Views;
 
@@ -42,5 +45,62 @@ public partial class ScannerPage : ContentPage
             await ViewModel.ProcessCodeCommand.ExecuteAsync(value);
         });
     }
-    
+    private void OnZoomChanged(object sender, ValueChangedEventArgs e)
+    {
+        BarcodeReader.ZoomFactor = (float)e.NewValue;
+    }
+    protected override async void OnAppearing()
+    {
+        base.OnAppearing();
+
+        await ViewModel.OnPageAppearingAsync();
+
+        RestartScanner();
+    }
+
+    protected override void OnDisappearing()
+    {
+        BarcodeReader.IsDetecting = false;
+
+        base.OnDisappearing();
+    }
+    private void RestartScanner()
+    {
+        ScannerContainer.Children.Clear();
+
+        var scanner = new CameraBarcodeReaderView
+        {
+            Options = BarcodeReader.Options,
+            IsDetecting = false
+        };
+
+        scanner.BarcodesDetected += OnBarcodesDetected;
+        var frame = new Border
+        {
+            Margin = new Thickness(8),
+            Stroke = Color.FromArgb("#C026D3"),
+            StrokeThickness = 2,
+            BackgroundColor = Colors.Transparent,
+            WidthRequest = 304,
+            HeightRequest = 304,
+            HorizontalOptions = LayoutOptions.Center,
+            VerticalOptions = LayoutOptions.Center,
+            StrokeShape = new RoundRectangle
+            {
+                CornerRadius = new CornerRadius(12)
+            },
+            InputTransparent = true
+        };
+
+        ScannerContainer.Children.Add(scanner);
+        ScannerContainer.Children.Add(frame);
+
+        BarcodeReader = scanner;
+
+        MainThread.BeginInvokeOnMainThread(async () =>
+        {
+            await Task.Delay(500);
+            scanner.IsDetecting = ViewModel.IsDetecting;
+        });
+    }
 }

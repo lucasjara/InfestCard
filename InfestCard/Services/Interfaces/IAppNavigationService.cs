@@ -10,4 +10,5 @@ public interface IAppNavigationService
 
     Task NavigateToCardDetailAsync(Card card, CancellationToken cancellationToken = default);
     Task NavigateBackToCollectionAsync(CancellationToken cancellationToken = default);
+    Task NavigateToQrAsync(Card card, CancellationToken cancellationToken = default);
 }

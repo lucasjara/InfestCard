@@ -95,4 +95,24 @@ public sealed partial class CardDetailViewModel : BaseViewModel
                 "Aceptar");
         }
     }
+    [RelayCommand]
+    private async Task GenerateQrAsync()
+    {
+        if (Card is null)
+            return;
+
+        try
+        {
+            await appNavigationService.NavigateToQrAsync(Card);
+        }
+        catch (Exception exception)
+        {
+            System.Diagnostics.Debug.WriteLine(exception);
+
+            await Shell.Current.DisplayAlert(
+                "Error",
+                "No se pudo generar el código QR.",
+                "Aceptar");
+        }
+    }
 }

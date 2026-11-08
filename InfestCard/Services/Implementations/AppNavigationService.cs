@@ -32,4 +32,14 @@ public sealed class AppNavigationService(IServiceProvider serviceProvider) : IAp
         cancellationToken.ThrowIfCancellationRequested();
         return Shell.Current.Navigation.PopAsync();
     }
+    public Task NavigateToQrAsync(Card card,CancellationToken cancellationToken = default)
+    {
+        ArgumentNullException.ThrowIfNull(card);
+        cancellationToken.ThrowIfCancellationRequested();
+
+        var qrPage = serviceProvider.GetRequiredService<QrCodePage>();
+        qrPage.Load(card);
+
+        return Shell.Current.Navigation.PushAsync(qrPage);
+    }
 }

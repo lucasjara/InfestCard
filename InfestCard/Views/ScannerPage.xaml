@@ -49,10 +49,20 @@
                 IsVisible="{Binding IsBusy}"
                 Color="{StaticResource AccentColor}" />
             <Slider
-Minimum="0"
-Maximum="1"
-Value="0"
-ValueChanged="OnZoomChanged" />
+                Minimum="0"
+                Maximum="1"
+                Value="0"
+                ValueChanged="OnZoomChanged" />
+            <Button
+                Text="SELECCIONAR DESDE GALERÍA"
+                Clicked="OnSelectImageClicked"
+                BackgroundColor="{StaticResource SurfaceColor}"
+                TextColor="{StaticResource AccentColor}"
+                BorderColor="#C026D3"
+                BorderWidth="1.5"
+                CornerRadius="12"
+                HeightRequest="48"
+                FontAttributes="Bold" />
             <Label
                 Text="{Binding StatusMessage}"
                 Style="{StaticResource SecondaryText}"

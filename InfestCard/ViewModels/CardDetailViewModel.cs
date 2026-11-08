@@ -8,7 +8,7 @@ public sealed class CardDetailViewModel : BaseViewModel
 
     public string LevelIndicators => Card is null || Card.Level <= 0
         ? string.Empty
-        : string.Join(" ", Enumerable.Repeat("◆", Card.Level));
+        : string.Join(" ", Enumerable.Repeat("◆", Math.Min(Card.Level, 10)));
 
     public string ImageSource => Card?.LocalImagePath ?? Card?.ImageUrl ?? "card_placeholder.svg";
     public string CategoryDisplayName => Card?.Category?.ToLowerInvariant() switch

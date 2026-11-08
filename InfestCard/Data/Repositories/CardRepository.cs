@@ -36,4 +36,14 @@ public sealed class CardRepository(AppDatabase database) : ICardRepository
 
         await connection.UpdateAsync(card);
     }
+    public async Task DeleteAsync(string id, CancellationToken cancellationToken = default)
+    {
+        ArgumentException.ThrowIfNullOrWhiteSpace(id);
+        cancellationToken.ThrowIfCancellationRequested();
+
+        var connection = await database.GetConnectionAsync(cancellationToken);
+        cancellationToken.ThrowIfCancellationRequested();
+
+        await connection.DeleteAsync<CardEntity>(id);
+    }
 }

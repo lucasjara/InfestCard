@@ -9,4 +9,5 @@ public interface ICardRepository
     Task<CardEntity?> GetByIdAsync(string id, CancellationToken cancellationToken = default);
 
     Task UpsertAsync(CardEntity card, CancellationToken cancellationToken = default);
+    Task DeleteAsync(string id, CancellationToken cancellationToken = default);
 }

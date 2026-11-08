@@ -31,6 +31,12 @@ public sealed class CardStorageService(ICardRepository cardRepository) : ICardSt
 
         return cardRepository.UpsertAsync(MapToEntity(card), cancellationToken);
     }
+    public Task DeleteCardAsync(string id, CancellationToken cancellationToken = default)
+    {
+        ArgumentException.ThrowIfNullOrWhiteSpace(id);
+
+        return cardRepository.DeleteAsync(id, cancellationToken);
+    }
 
     private static Card MapToModel(CardEntity entity) => new()
     {

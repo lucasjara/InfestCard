@@ -32,9 +32,12 @@
             </VerticalStackLayout>
             <Button
                 Grid.Column="1"
-                Text="Escanear"
                 Command="{Binding NavigateToScannerCommand}"
-                VerticalOptions="Center" />
+                VerticalOptions="Center"
+                ImageSource="qr_code.png"
+                WidthRequest="42"
+                HeightRequest="42"
+                Padding="8" />
         </Grid>
 
         <CollectionView

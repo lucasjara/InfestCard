@@ -1,4 +1,6 @@
-﻿using AndroidX.Lifecycle;
+﻿#if ANDROID
+using AndroidX.Lifecycle;
+#endif
 using InfestCard.Configuration;
 using InfestCard.Data;
 using InfestCard.Data.Repositories;
@@ -44,6 +46,7 @@ namespace InfestCard
             builder.Services.AddTransient<ScannerViewModel>();
             builder.Services.AddTransient<ScannerPage>();
             builder.Services.AddSingleton<QrCodePage>();
+            builder.Services.AddSingleton<ICardShareService, CardShareService>();
             builder.Services.AddSingleton<AppShell>();
 
 #if DEBUG

@@ -15,13 +15,13 @@
         </ResourceDictionary>
     </ContentPage.Resources>
     <ScrollView>
-        <VerticalStackLayout Padding="20" Spacing="18">
+        <VerticalStackLayout Padding="20" Spacing="18" >
             <Border
             BackgroundColor="{StaticResource SurfaceColor}"
             Stroke="{Binding Card.Category, Converter={StaticResource CardCategoryBorderConverter}}"
             StrokeThickness="2"
             StrokeShape="RoundRectangle 16"
-            Padding="16">
+            Padding="16" x:Name="ShareableCard">
                 <VerticalStackLayout Spacing="14">
                     <Border
                         Stroke="{Binding Card.Category, Converter={StaticResource CardCategoryBorderConverter}}"
@@ -54,28 +54,28 @@
                         Text="{Binding Card.Description}"
                         Style="{StaticResource BodyText}" />
                     <Grid ColumnDefinitions="*,Auto" Margin="0,10,0,0">
-
                         <VerticalStackLayout Grid.Column="0" Spacing="5">
                             <Label
-            Text="NIVEL"
-            Style="{StaticResource SecondaryText}"
-            HorizontalTextAlignment="Center" />
-
+                                Text="NIVEL"
+                                Style="{StaticResource SecondaryText}"
+                                HorizontalTextAlignment="Center" />
                             <Label
-            Text="{Binding LevelIndicators}"
-            TextColor="{StaticResource AccentColor}"
-            FontSize="20"
-            HorizontalTextAlignment="Center" />
+                                Text="{Binding LevelIndicators}"
+                                TextColor="{StaticResource AccentColor}"
+                                FontSize="20"
+                                HorizontalTextAlignment="Center" />
                         </VerticalStackLayout>
-
                         <VerticalStackLayout Grid.Column="1" Spacing="5">
-                            <Label Text="CANTIDAD" Style="{StaticResource SecondaryText}" HorizontalTextAlignment="Center" />
-                            <Label Text="{Binding Card.Quantity, StringFormat='x{0}'}"
-                                   TextColor="{StaticResource AccentColor}"
-                                   FontSize="20"
-                                   HorizontalTextAlignment="Center" />
+                            <Label 
+                                Text="CANTIDAD" 
+                                Style="{StaticResource SecondaryText}" 
+                                HorizontalTextAlignment="Center" />
+                            <Label 
+                                Text="{Binding Card.Quantity, StringFormat='x{0}'}"
+                                TextColor="{StaticResource AccentColor}"
+                                FontSize="20"
+                                HorizontalTextAlignment="Center" />
                         </VerticalStackLayout>
-
                     </Grid>
                 </VerticalStackLayout>
             </Border>
@@ -90,7 +90,7 @@
                     BorderColor="{Binding Card.Category, Converter={StaticResource CardCategoryBorderConverter}}"
                     BorderWidth="2"
                     TextColor="{Binding Card.Category, Converter={StaticResource CardCategoryBorderConverter}}"
-                    Command="{Binding ShareCommand}" />
+                    Clicked="ShareButton_Clicked"  />
                 <Button
                     Grid.Column="1"
                     ImageSource="qr_code.png"
@@ -108,11 +108,11 @@
                     FontSize="12"
                     Padding="5,12"
                     CornerRadius="10"
-                     BackgroundColor="{StaticResource SurfaceColor}"
-        BorderColor="{Binding Card.Category, Converter={StaticResource CardCategoryBorderConverter}}"
-        BorderWidth="2"
-        TextColor="{Binding Card.Category, Converter={StaticResource CardCategoryBorderConverter}}"
-                    Command="{Binding DeleteCommand}" />
+                    BackgroundColor="{StaticResource SurfaceColor}"
+                    BorderColor="{Binding Card.Category, Converter={StaticResource CardCategoryBorderConverter}}"
+                    BorderWidth="2"
+                    TextColor="{Binding Card.Category, Converter={StaticResource CardCategoryBorderConverter}}"
+                                Command="{Binding DeleteCommand}" />
             </Grid>
         </VerticalStackLayout>
     </ScrollView>

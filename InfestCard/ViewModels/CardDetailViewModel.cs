@@ -9,15 +9,18 @@ public sealed partial class CardDetailViewModel : BaseViewModel
 {
     private readonly ICardStorageService cardStorageService;
     private readonly IAppNavigationService appNavigationService;
+    private readonly ICardShareService cardShareService;
 
     public Card? Card { get; private set; }
 
     public CardDetailViewModel(
-        ICardStorageService cardStorageService,
-        IAppNavigationService appNavigationService)
+    ICardStorageService cardStorageService,
+    IAppNavigationService appNavigationService,
+    ICardShareService cardShareService)
     {
         this.cardStorageService = cardStorageService;
         this.appNavigationService = appNavigationService;
+        this.cardShareService = cardShareService;
     }
 
     public string LevelIndicators => Card is null || Card.Level <= 0
@@ -65,6 +68,29 @@ public sealed partial class CardDetailViewModel : BaseViewModel
     }
 
     [RelayCommand]
+    private async Task ShareCardAsync(byte[] imageBytes)
+    {
+        if (Card is null || imageBytes is null || imageBytes.Length == 0)
+            return;
+
+        try
+        {
+            await cardShareService.ShareAsync(
+                imageBytes,
+                $"Compartir {Card.Name}");
+        }
+        catch (Exception exception)
+        {
+            System.Diagnostics.Debug.WriteLine(exception);
+
+            await Shell.Current.DisplayAlert(
+                "Error",
+                "No se pudo compartir la carta.",
+                "Aceptar");
+        }
+    }
+
+    [RelayCommand]
     private async Task DeleteAsync()
     {
         if (Card is null)
@@ -95,6 +121,7 @@ public sealed partial class CardDetailViewModel : BaseViewModel
                 "Aceptar");
         }
     }
+
     [RelayCommand]
     private async Task GenerateQrAsync()
     {

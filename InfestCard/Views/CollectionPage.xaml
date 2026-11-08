@@ -14,6 +14,8 @@
         <ResourceDictionary>
             <converters:CardNameFontSizeConverter
                 x:Key="CardNameFontSizeConverter" />
+            <converters:CardCategoryBorderConverter
+                x:Key="CardCategoryBorderConverter" />
         </ResourceDictionary>
     </ContentPage.Resources>
     
@@ -53,19 +55,23 @@
             </CollectionView.EmptyView>
             <CollectionView.ItemTemplate>
                 <DataTemplate x:DataType="models:Card">
-                    <Border Style="{StaticResource NeonCard}" HeightRequest="220">
-                        <VerticalStackLayout Spacing="8">
+                    <Border
+                        Stroke="{Binding Category, Converter={StaticResource CardCategoryBorderConverter}}"
+                        StrokeThickness="2"
+                        StrokeShape="RoundRectangle 12"
+                        HeightRequest="220">
+                        <VerticalStackLayout VerticalOptions="Center" Spacing="8">
                             <Image
                                 Source="{Binding LocalImagePath, FallbackValue=card_placeholder.svg, TargetNullValue=card_placeholder.svg}"
                                 HeightRequest="100"
                                 Aspect="AspectFit" />
                             <Label
-                Text="{Binding Name}"
-                Style="{StaticResource BodyText}"
-                FontSize="{Binding Name, Converter={StaticResource CardNameFontSizeConverter}}"
-                LineBreakMode="TailTruncation"
-                MaxLines="2"
-                HorizontalTextAlignment="Center" />
+                                Text="{Binding Name}"
+                                Style="{StaticResource BodyText}"
+                                FontSize="{Binding Name, Converter={StaticResource CardNameFontSizeConverter}}"
+                                LineBreakMode="TailTruncation"
+                                MaxLines="2"
+                                HorizontalTextAlignment="Center" />
                             <Label HorizontalTextAlignment="Center" Text="{Binding Quantity, StringFormat='Cantidad: {0}'}" Style="{StaticResource SecondaryText}" />
                         </VerticalStackLayout>
                     </Border>

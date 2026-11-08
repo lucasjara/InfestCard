@@ -4,12 +4,24 @@
              xmlns:vm="clr-namespace:InfestCard.ViewModels"
              x:Class="InfestCard.Views.CardDetailPage"
              x:DataType="vm:CardDetailViewModel"
+             xmlns:converters="clr-namespace:InfestCard.Converters"
              Title="Detalle de carta"
              Shell.NavBarIsVisible="False"
              BackgroundColor="{StaticResource BackgroundColor}">
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <converters:CardCategoryBorderConverter
+            x:Key="CardCategoryBorderConverter" />
+        </ResourceDictionary>
+    </ContentPage.Resources>
     <ScrollView>
         <VerticalStackLayout Padding="20" Spacing="18">
-            <Border Style="{StaticResource NeonCard}" Padding="16">
+            <Border
+            BackgroundColor="{StaticResource SurfaceColor}"
+            Stroke="{Binding Card.Category, Converter={StaticResource CardCategoryBorderConverter}}"
+            StrokeThickness="2"
+            StrokeShape="RoundRectangle 16"
+            Padding="16">
                 <VerticalStackLayout Spacing="14">
                     <Image
                         Source="{Binding ImageSource}"
@@ -22,10 +34,15 @@
                         SemanticProperties.HeadingLevel="Level1" />
                     <Label
                         Text="{Binding CategoryDisplayName}"
+                        TextColor="{Binding Card.Category, Converter={StaticResource CardCategoryBorderConverter}}"
                         Style="{StaticResource BrandTitle}"
                         FontSize="16"
                         HorizontalTextAlignment="Center" />
-                    <BoxView Style="{StaticResource AccentDivider}" />
+                    <BoxView
+                        HeightRequest="2"
+                        WidthRequest="120"
+                        HorizontalOptions="Center"
+                        BackgroundColor="{Binding Card.Category, Converter={StaticResource CardCategoryBorderConverter}}" />
                     <Label
                         Text="{Binding Card.Description}"
                         Style="{StaticResource BodyText}" />

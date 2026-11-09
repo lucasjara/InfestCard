@@ -47,7 +47,7 @@ public sealed class CardApiService(ApiOptions options) : ICardApiService
             Name = card.Name,
             Description = card.Description,
             Category = card.Category,
-            Level = card.Level,
+            Level = Math.Clamp(card.Level, 0, 10),
             Image = card.Image,
             ImageUrl = ResolveImageUrl(card.ImageUrl),
             CreatedAt = card.CreatedAt,

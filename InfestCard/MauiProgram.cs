@@ -1,4 +1,6 @@
-﻿using Microsoft.Extensions.Logging;
+﻿#if ANDROID
+using AndroidX.Lifecycle;
+#endif
 using InfestCard.Configuration;
 using InfestCard.Data;
 using InfestCard.Data.Repositories;
@@ -6,6 +8,7 @@ using InfestCard.Services.Implementations;
 using InfestCard.Services.Interfaces;
 using InfestCard.ViewModels;
 using InfestCard.Views;
+using Microsoft.Extensions.Logging;
 using ZXing.Net.Maui.Controls;
 
 namespace InfestCard
@@ -42,10 +45,12 @@ namespace InfestCard
             builder.Services.AddTransient<CardDetailPage>();
             builder.Services.AddTransient<ScannerViewModel>();
             builder.Services.AddTransient<ScannerPage>();
+            builder.Services.AddSingleton<QrCodePage>();
+            builder.Services.AddSingleton<ICardShareService, CardShareService>();
             builder.Services.AddSingleton<AppShell>();
 
 #if DEBUG
-    		builder.Logging.AddDebug();
+            builder.Logging.AddDebug();
 #endif
 
             return builder.Build();

@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:zxing="clr-namespace:ZXing.Net.Maui.Controls;assembly=ZXing.Net.MAUI.Controls"
+    x:Class="InfestCard.Views.QrCodePage"
+    Title="Código QR"
+    Shell.NavBarIsVisible="False"
+    BackgroundColor="{StaticResource BackgroundColor}">
+
+    <VerticalStackLayout
+        Padding="24"
+        Spacing="24"
+        VerticalOptions="Center">
+
+        <Label
+            Text="COMPARTE TU CARTA"
+            FontSize="22"
+            FontAttributes="Bold"
+            HorizontalOptions="Center"
+            TextColor="White" />
+
+        <Label
+            Text="Escanea este código QR para agregar la carta a otra colección."
+            FontSize="14"
+            HorizontalTextAlignment="Center"
+            TextColor="Gray" />
+
+        <Border
+            Padding="16"
+            BackgroundColor="White"
+            Stroke="{StaticResource AccentColor}"
+            StrokeThickness="2"
+            StrokeShape="RoundRectangle 16"
+            HorizontalOptions="Center">
+
+            <zxing:BarcodeGeneratorView
+                x:Name="QrGenerator"
+                HeightRequest="260"
+                WidthRequest="260"
+                Format="QrCode"
+                ForegroundColor="Black"
+                BackgroundColor="White" />
+        </Border>
+
+        <Label
+            x:Name="CardNameLabel"
+            FontSize="18"
+            FontAttributes="Bold"
+            HorizontalOptions="Center"
+            TextColor="White" />
+
+    </VerticalStackLayout>
+</ContentPage>

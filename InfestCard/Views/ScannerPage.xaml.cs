@@ -1,3 +1,4 @@
+
 using InfestCard.ViewModels;
 #if ANDROID
 using Java.Util;
@@ -16,6 +17,7 @@ public partial class ScannerPage : ContentPage
     {
         InitializeComponent();
         BindingContext = viewModel;
+
         BarcodeReader.Options = new BarcodeReaderOptions
         {
             Formats = BarcodeFormat.QrCode,
@@ -26,31 +28,94 @@ public partial class ScannerPage : ContentPage
         };
     }
 
-    private async void OnBarcodesDetected(object? sender, BarcodeDetectionEventArgs eventArgs)
+    private async void OnBarcodesDetected(
+        object? sender,
+        BarcodeDetectionEventArgs eventArgs)
     {
-        var resultCount = eventArgs.Results.Count();
-        System.Diagnostics.Debug.WriteLine($"[INFESTCard][QR] Resultados detectados: {resultCount}");
-
         var value = eventArgs.Results.FirstOrDefault()?.Value;
+
         if (string.IsNullOrWhiteSpace(value))
-        {
-            System.Diagnostics.Debug.WriteLine("[INFESTCard][QR] El resultado no contiene texto.");
             return;
-        }
 
         System.Diagnostics.Debug.WriteLine(
-            $"[INFESTCard][QR] Contenido detectado. Longitud: {value.Length}. " +
-            $"Inicio: {value[..Math.Min(value.Length, 120)]}");
+            $"[INFESTCard][QR] Contenido detectado. Longitud: {value.Length}");
 
         await MainThread.InvokeOnMainThreadAsync(async () =>
         {
             await ViewModel.ProcessCodeCommand.ExecuteAsync(value);
         });
     }
+
     private void OnZoomChanged(object sender, ValueChangedEventArgs e)
     {
         BarcodeReader.ZoomFactor = (float)e.NewValue;
     }
+
+    private async void OnSelectImageClicked(object sender, EventArgs e)
+    {
+        try
+        {
+            // Evitar procesamientos simultáneos.
+            if (ViewModel.IsBusy)
+                return;
+
+            // Pausar la cámara mientras se selecciona la imagen.
+            BarcodeReader.IsDetecting = false;
+
+            var photo = await MediaPicker.Default.PickPhotoAsync();
+
+            if (photo == null)
+                return;
+
+            using var stream = await photo.OpenReadAsync();
+
+            var results = await ZXing.Net.Maui.BarcodeReader.DecodeAsync(
+                stream,
+                new BarcodeReaderOptions
+                {
+                    Formats = BarcodeFormat.QrCode,
+                    AutoRotate = true,
+                    TryHarder = true,
+                    TryInverted = true,
+                    Multiple = false
+                });
+
+            var qr = results?.FirstOrDefault();
+
+            if (qr == null || string.IsNullOrWhiteSpace(qr.Value))
+            {
+                await DisplayAlert(
+                    "QR no encontrado",
+                    "La imagen seleccionada no contiene un código QR válido.",
+                    "Aceptar");
+
+                return;
+            }
+
+            System.Diagnostics.Debug.WriteLine(
+                "[INFESTCard][QR] Código detectado desde galería.");
+
+            // Reutilizar exactamente la misma lógica de la cámara.
+            await ViewModel.ProcessCodeCommand.ExecuteAsync(qr.Value);
+        }
+        catch (Exception ex)
+        {
+            System.Diagnostics.Debug.WriteLine(
+                $"[INFESTCard][QR] Error al procesar imagen: {ex}");
+
+            await DisplayAlert(
+                "Error",
+                "No fue posible procesar la imagen seleccionada.",
+                "Aceptar");
+        }
+        finally
+        {
+            // Reactivar la cámara si la página sigue visible.
+            if (IsVisible && ViewModel.IsDetecting)
+                BarcodeReader.IsDetecting = true;
+        }
+    }
+
     protected override async void OnAppearing()
     {
         base.OnAppearing();
@@ -66,6 +131,7 @@ public partial class ScannerPage : ContentPage
 
         base.OnDisappearing();
     }
+
     private void RestartScanner()
     {
         ScannerContainer.Children.Clear();
@@ -77,6 +143,7 @@ public partial class ScannerPage : ContentPage
         };
 
         scanner.BarcodesDetected += OnBarcodesDetected;
+
         var frame = new Border
         {
             Margin = new Thickness(8),

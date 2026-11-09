@@ -9,4 +9,5 @@ public interface ICardStorageService
     Task<Card?> GetCardByIdAsync(string id, CancellationToken cancellationToken = default);
 
     Task SaveCardAsync(Card card, CancellationToken cancellationToken = default);
+    Task DeleteCardAsync(string id, CancellationToken cancellationToken = default);
 }

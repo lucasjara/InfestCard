@@ -4,17 +4,36 @@
              xmlns:vm="clr-namespace:InfestCard.ViewModels"
              x:Class="InfestCard.Views.CardDetailPage"
              x:DataType="vm:CardDetailViewModel"
+             xmlns:converters="clr-namespace:InfestCard.Converters"
              Title="Detalle de carta"
              Shell.NavBarIsVisible="False"
              BackgroundColor="{StaticResource BackgroundColor}">
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <converters:CardCategoryBorderConverter
+            x:Key="CardCategoryBorderConverter" />
+        </ResourceDictionary>
+    </ContentPage.Resources>
     <ScrollView>
-        <VerticalStackLayout Padding="20" Spacing="18">
-            <Border Style="{StaticResource NeonCard}" Padding="16">
+        <VerticalStackLayout Padding="20" Spacing="18" >
+            <Border
+            BackgroundColor="{StaticResource SurfaceColor}"
+            Stroke="{Binding Card.Category, Converter={StaticResource CardCategoryBorderConverter}}"
+            StrokeThickness="2"
+            StrokeShape="RoundRectangle 16"
+            Padding="16" x:Name="ShareableCard">
                 <VerticalStackLayout Spacing="14">
-                    <Image
-                        Source="{Binding ImageSource}"
-                        HeightRequest="260"
-                        Aspect="AspectFit" />
+                    <Border
+                        Stroke="{Binding Card.Category, Converter={StaticResource CardCategoryBorderConverter}}"
+                        StrokeThickness="2"
+                        StrokeShape="RoundRectangle 12"
+                        Padding="0">
+                        <Image
+                            Source="{Binding ImageSource}"
+                            Aspect="AspectFit"
+                            HorizontalOptions="Center"
+                            VerticalOptions="Center" />
+                    </Border>
                     <Label
                         Text="{Binding Card.Name}"
                         Style="{StaticResource PageTitle}"
@@ -22,31 +41,79 @@
                         SemanticProperties.HeadingLevel="Level1" />
                     <Label
                         Text="{Binding CategoryDisplayName}"
+                        TextColor="{Binding Card.Category, Converter={StaticResource CardCategoryBorderConverter}}"
                         Style="{StaticResource BrandTitle}"
                         FontSize="16"
                         HorizontalTextAlignment="Center" />
-                    <BoxView Style="{StaticResource AccentDivider}" />
+                    <BoxView
+                        HeightRequest="2"
+                        WidthRequest="120"
+                        HorizontalOptions="Center"
+                        BackgroundColor="{Binding Card.Category, Converter={StaticResource CardCategoryBorderConverter}}" />
                     <Label
                         Text="{Binding Card.Description}"
                         Style="{StaticResource BodyText}" />
-                    <Grid ColumnDefinitions="*,*" RowDefinitions="Auto,Auto" RowSpacing="10">
-                        <!--<Label Text="ID" Style="{StaticResource SecondaryText}" />
-                        <Label Grid.Column="1" Text="{Binding Card.Id}" Style="{StaticResource BodyText}" HorizontalTextAlignment="End" />
-                        -->
-                        <Label Grid.Row="1" Text="Cantidad" Style="{StaticResource SecondaryText}" />
-                        <Label Grid.Row="1" Grid.Column="1" Text="{Binding Card.Quantity}" Style="{StaticResource BodyText}" HorizontalTextAlignment="End" />
+                    <Grid ColumnDefinitions="*,Auto" Margin="0,10,0,0">
+                        <VerticalStackLayout Grid.Column="0" Spacing="5">
+                            <Label
+                                Text="NIVEL"
+                                Style="{StaticResource SecondaryText}"
+                                HorizontalTextAlignment="Center" />
+                            <Label
+                                Text="{Binding LevelIndicators}"
+                                TextColor="{StaticResource AccentColor}"
+                                FontSize="20"
+                                HorizontalTextAlignment="Center" />
+                        </VerticalStackLayout>
+                        <VerticalStackLayout Grid.Column="1" Spacing="5">
+                            <Label 
+                                Text="CANTIDAD" 
+                                Style="{StaticResource SecondaryText}" 
+                                HorizontalTextAlignment="Center" />
+                            <Label 
+                                Text="{Binding Card.Quantity, StringFormat='x{0}'}"
+                                TextColor="{StaticResource AccentColor}"
+                                FontSize="20"
+                                HorizontalTextAlignment="Center" />
+                        </VerticalStackLayout>
                     </Grid>
-                    <Label
-                        Text="NIVEL"
-                        Style="{StaticResource SecondaryText}"
-                        HorizontalTextAlignment="Center" />
-                    <Label
-                        Text="{Binding LevelIndicators}"
-                        TextColor="{StaticResource AccentColor}"
-                        FontSize="20"
-                        HorizontalTextAlignment="Center" />
                 </VerticalStackLayout>
             </Border>
+            <Grid ColumnDefinitions="*,*,*" ColumnSpacing="10" Margin="0,4,0,10">
+                <Button
+                    Grid.Column="0"
+                    ImageSource="share.png"
+                    FontSize="12"
+                    Padding="5,12"
+                    CornerRadius="10"
+                    BackgroundColor="{StaticResource SurfaceColor}"
+                    BorderColor="{Binding Card.Category, Converter={StaticResource CardCategoryBorderConverter}}"
+                    BorderWidth="2"
+                    TextColor="{Binding Card.Category, Converter={StaticResource CardCategoryBorderConverter}}"
+                    Clicked="ShareButton_Clicked"  />
+                <Button
+                    Grid.Column="1"
+                    ImageSource="qr_code.png"
+                    FontSize="12"
+                    Padding="5,12"
+                    CornerRadius="10"
+                    BackgroundColor="{StaticResource SurfaceColor}"
+                    BorderColor="{Binding Card.Category, Converter={StaticResource CardCategoryBorderConverter}}"
+                    BorderWidth="2"
+                    TextColor="{Binding Card.Category, Converter={StaticResource CardCategoryBorderConverter}}"
+                    Command="{Binding GenerateQrCommand}" />
+                <Button
+                    Grid.Column="2"
+                    ImageSource="delete.png"
+                    FontSize="12"
+                    Padding="5,12"
+                    CornerRadius="10"
+                    BackgroundColor="{StaticResource SurfaceColor}"
+                    BorderColor="{Binding Card.Category, Converter={StaticResource CardCategoryBorderConverter}}"
+                    BorderWidth="2"
+                    TextColor="{Binding Card.Category, Converter={StaticResource CardCategoryBorderConverter}}"
+                                Command="{Binding DeleteCommand}" />
+            </Grid>
         </VerticalStackLayout>
     </ScrollView>
 </ContentPage>

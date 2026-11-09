@@ -14,6 +14,8 @@
         <ResourceDictionary>
             <converters:CardNameFontSizeConverter
                 x:Key="CardNameFontSizeConverter" />
+            <converters:CardCategoryBorderConverter
+                x:Key="CardCategoryBorderConverter" />
         </ResourceDictionary>
     </ContentPage.Resources>
     
@@ -30,9 +32,12 @@
             </VerticalStackLayout>
             <Button
                 Grid.Column="1"
-                Text="Escanear"
                 Command="{Binding NavigateToScannerCommand}"
-                VerticalOptions="Center" />
+                VerticalOptions="Center"
+                ImageSource="qr_code.png"
+                WidthRequest="42"
+                HeightRequest="42"
+                Padding="8" />
         </Grid>
 
         <CollectionView
@@ -53,20 +58,55 @@
             </CollectionView.EmptyView>
             <CollectionView.ItemTemplate>
                 <DataTemplate x:DataType="models:Card">
-                    <Border Style="{StaticResource NeonCard}" HeightRequest="220">
-                        <VerticalStackLayout Spacing="8">
-                            <Image
-                                Source="{Binding LocalImagePath, FallbackValue=card_placeholder.svg, TargetNullValue=card_placeholder.svg}"
-                                HeightRequest="100"
-                                Aspect="AspectFit" />
+                    <Border
+                            Stroke="{Binding Category, Converter={StaticResource CardCategoryBorderConverter}}"
+                            StrokeThickness="2"
+                            StrokeShape="RoundRectangle 12"
+                            HeightRequest="210">
+                        <VerticalStackLayout VerticalOptions="Center" Spacing="8">
+                            <Grid
+                                WidthRequest="120"
+                                HeightRequest="125"
+                                HorizontalOptions="Center"
+                                Padding="0,10,10,0">
+                                <Border
+                                    Grid.Row="0"
+                                    Margin="0,0,0,0"
+                                    Stroke="{Binding Category, Converter={StaticResource CardCategoryBorderConverter}}"
+                                    StrokeThickness="2"
+                                    StrokeShape="RoundRectangle 8">
+                                    <Image
+                                        Source="{Binding LocalImagePath, FallbackValue=card_placeholder.svg, TargetNullValue=card_placeholder.svg}"
+                                        Aspect="AspectFill"
+                                        HorizontalOptions="Fill"
+                                        VerticalOptions="Fill" />
+                                </Border>
+                                <Border
+                                    HorizontalOptions="End"
+                                    VerticalOptions="Start"
+                                    Margin="0,-10,-8,0"
+                                    BackgroundColor="#A855F7"
+                                    Stroke="#FFFFFF"
+                                    StrokeThickness="1.5"
+                                    StrokeShape="RoundRectangle 10"
+                                    Padding="8,5"
+                                    ZIndex="1">
+                                    <Label
+                                        Text="{Binding Quantity, StringFormat='×{0}'}"
+                                        TextColor="White"
+                                        FontSize="12"
+                                        FontAttributes="Bold"
+                                        HorizontalTextAlignment="Center"
+                                        VerticalTextAlignment="Center" />
+                                </Border>
+                            </Grid>
                             <Label
-                Text="{Binding Name}"
-                Style="{StaticResource BodyText}"
-                FontSize="{Binding Name, Converter={StaticResource CardNameFontSizeConverter}}"
-                LineBreakMode="TailTruncation"
-                MaxLines="2"
-                HorizontalTextAlignment="Center" />
-                            <Label HorizontalTextAlignment="Center" Text="{Binding Quantity, StringFormat='Cantidad: {0}'}" Style="{StaticResource SecondaryText}" />
+                                Text="{Binding Name}"
+                                Style="{StaticResource BodyText}"
+                                FontSize="{Binding Name, Converter={StaticResource CardNameFontSizeConverter}}"
+                                LineBreakMode="TailTruncation"
+                                MaxLines="2"
+                                HorizontalTextAlignment="Center" />
                         </VerticalStackLayout>
                     </Border>
                 </DataTemplate>

@@ -7,6 +7,7 @@
              xmlns:components="clr-namespace:InfestCard.Views.Components"
              x:Class="InfestCard.Views.CollectionPage"
              x:DataType="vm:CollectionViewModel"
+             x:Name="RootPage"
              Title="Colección"
              Shell.NavBarIsVisible="False"
              BackgroundColor="{StaticResource BackgroundColor}">
@@ -18,99 +19,164 @@
                 x:Key="CardCategoryBorderConverter" />
         </ResourceDictionary>
     </ContentPage.Resources>
-    
-    <Grid Padding="20" RowDefinitions="Auto,*" RowSpacing="16">
-        <Grid Grid.Row="0" ColumnDefinitions="*,Auto" ColumnSpacing="12">
+
+    <Grid Padding="20"
+      RowDefinitions="Auto,Auto,*"
+      RowSpacing="16">
+
+        <!-- ENCABEZADO -->
+        <Grid Grid.Row="0"
+          ColumnDefinitions="*,Auto"
+          ColumnSpacing="12">
+
             <VerticalStackLayout Spacing="4">
                 <Label
-                    Text="MI COLECCIÓN"
-                    Style="{StaticResource BrandTitle}"
-                    SemanticProperties.HeadingLevel="Level1" />
+                Text="MI COLECCIÓN"
+                Style="{StaticResource BrandTitle}" />
+
                 <Label
-                    Text="Tus cartas INFESTCard"
-                    Style="{StaticResource SecondaryText}" />
+                Text="Tus cartas INFESTCard"
+                Style="{StaticResource SecondaryText}" />
             </VerticalStackLayout>
+
             <Button
-                Grid.Column="1"
-                Command="{Binding NavigateToScannerCommand}"
-                VerticalOptions="Center"
-                ImageSource="qr_code.png"
-                WidthRequest="42"
-                HeightRequest="42"
-                Padding="8" />
+            Grid.Column="1"
+            Command="{Binding NavigateToScannerCommand}"
+            ImageSource="qr_code.png"
+            WidthRequest="42"
+            HeightRequest="42"
+            Padding="8"
+            VerticalOptions="Center" />
         </Grid>
 
+        <!-- FILTROS -->
+        <ScrollView Grid.Row="1"
+                Orientation="Horizontal"
+                HorizontalScrollBarVisibility="Never">
+
+            <HorizontalStackLayout Spacing="8">
+
+                <!-- TODAS -->
+                <Button
+                ImageSource="filter_all.png"
+                Command="{Binding SelectTypeCommand}"
+                CommandParameter="{x:Null}"
+                BackgroundColor="#A855F7"
+                TextColor="White"
+                BorderColor="#A855F7"
+                BorderWidth="1"
+                HeightRequest="42"
+                CornerRadius="20"
+                Padding="18,8"
+                FontSize="13" />
+
+                <!-- TIPOS DISPONIBLES -->
+                <HorizontalStackLayout
+                Spacing="8"
+                BindableLayout.ItemsSource="{Binding AvailableTypes}">
+
+                    <BindableLayout.ItemTemplate>
+                        <DataTemplate x:DataType="models:CardTypeFilter">
+                            <Button
+                                ImageSource="{Binding Icon}"
+                                Command="{Binding
+                                    Source={x:Reference RootPage},
+                                    Path=BindingContext.SelectTypeCommand}"
+                                CommandParameter="{Binding Type}"
+                                BackgroundColor="#252536"
+                                BorderColor="#A855F7"
+                                BorderWidth="1"
+                                WidthRequest="44"
+                                HeightRequest="42"
+                                CornerRadius="12"
+                                Padding="9"
+                                SemanticProperties.Description="{Binding Label}" />
+                        </DataTemplate>
+                    </BindableLayout.ItemTemplate>
+
+                </HorizontalStackLayout>
+
+            </HorizontalStackLayout>
+        </ScrollView>
+
+        <!-- COLECCIÓN -->
         <CollectionView
-            x:Name="CardsView"
-            Grid.Row="1"
-            ItemsSource="{Binding Cards}"
-            SelectionMode="Single"
-            SelectionChanged="OnCardSelected">
+        x:Name="CardsView"
+        Grid.Row="2"
+        ItemsSource="{Binding FilteredCards}"
+        SelectionMode="Single"
+        SelectionChanged="OnCardSelected">
+
             <CollectionView.ItemsLayout>
                 <GridItemsLayout
-                    Orientation="Vertical"
-                    Span="2"
-                    HorizontalItemSpacing="12"
-                    VerticalItemSpacing="12" />
+                Orientation="Vertical"
+                Span="2"
+                HorizontalItemSpacing="12"
+                VerticalItemSpacing="12" />
             </CollectionView.ItemsLayout>
+
             <CollectionView.EmptyView>
                 <components:EmptyCollectionView />
             </CollectionView.EmptyView>
+
+            <!-- CONSERVA AQUÍ TU DATATEMPLATE ORIGINAL -->
             <CollectionView.ItemTemplate>
                 <DataTemplate x:DataType="models:Card">
                     <Border
-                            Stroke="{Binding Category, Converter={StaticResource CardCategoryBorderConverter}}"
-                            StrokeThickness="2"
-                            StrokeShape="RoundRectangle 12"
-                            HeightRequest="210">
+            Stroke="{Binding Category, Converter={StaticResource CardCategoryBorderConverter}}"
+            StrokeThickness="2"
+            StrokeShape="RoundRectangle 12"
+            HeightRequest="210">
                         <VerticalStackLayout VerticalOptions="Center" Spacing="8">
                             <Grid
-                                WidthRequest="120"
-                                HeightRequest="125"
-                                HorizontalOptions="Center"
-                                Padding="0,10,10,0">
+                WidthRequest="120"
+                HeightRequest="125"
+                HorizontalOptions="Center"
+                Padding="0,10,10,0">
                                 <Border
-                                    Grid.Row="0"
-                                    Margin="0,0,0,0"
-                                    Stroke="{Binding Category, Converter={StaticResource CardCategoryBorderConverter}}"
-                                    StrokeThickness="2"
-                                    StrokeShape="RoundRectangle 8">
+                Grid.Row="0"
+                Margin="0,0,0,0"
+                Stroke="{Binding Category, Converter={StaticResource CardCategoryBorderConverter}}"
+                StrokeThickness="2"
+                StrokeShape="RoundRectangle 8">
                                     <Image
-                                        Source="{Binding LocalImagePath, FallbackValue=card_placeholder.svg, TargetNullValue=card_placeholder.svg}"
-                                        Aspect="AspectFill"
-                                        HorizontalOptions="Fill"
-                                        VerticalOptions="Fill" />
+        Source="{Binding LocalImagePath, FallbackValue=card_placeholder.svg, TargetNullValue=card_placeholder.svg}"
+        Aspect="AspectFill"
+        HorizontalOptions="Fill"
+        VerticalOptions="Fill" />
                                 </Border>
                                 <Border
-                                    HorizontalOptions="End"
-                                    VerticalOptions="Start"
-                                    Margin="0,-10,-8,0"
-                                    BackgroundColor="#A855F7"
-                                    Stroke="#FFFFFF"
-                                    StrokeThickness="1.5"
-                                    StrokeShape="RoundRectangle 10"
-                                    Padding="8,5"
-                                    ZIndex="1">
+    HorizontalOptions="End"
+    VerticalOptions="Start"
+    Margin="0,-10,-8,0"
+    BackgroundColor="#A855F7"
+    Stroke="#FFFFFF"
+    StrokeThickness="1.5"
+    StrokeShape="RoundRectangle 10"
+    Padding="8,5"
+    ZIndex="1">
                                     <Label
-                                        Text="{Binding Quantity, StringFormat='×{0}'}"
-                                        TextColor="White"
-                                        FontSize="12"
-                                        FontAttributes="Bold"
-                                        HorizontalTextAlignment="Center"
-                                        VerticalTextAlignment="Center" />
+        Text="{Binding Quantity, StringFormat='×{0}'}"
+        TextColor="White"
+        FontSize="12"
+        FontAttributes="Bold"
+        HorizontalTextAlignment="Center"
+        VerticalTextAlignment="Center" />
                                 </Border>
                             </Grid>
                             <Label
-                                Text="{Binding Name}"
-                                Style="{StaticResource BodyText}"
-                                FontSize="{Binding Name, Converter={StaticResource CardNameFontSizeConverter}}"
-                                LineBreakMode="TailTruncation"
-                                MaxLines="2"
-                                HorizontalTextAlignment="Center" />
+Text="{Binding Name}"
+Style="{StaticResource BodyText}"
+FontSize="{Binding Name, Converter={StaticResource CardNameFontSizeConverter}}"
+LineBreakMode="TailTruncation"
+MaxLines="2"
+HorizontalTextAlignment="Center" />
                         </VerticalStackLayout>
                     </Border>
                 </DataTemplate>
             </CollectionView.ItemTemplate>
+
         </CollectionView>
+
     </Grid>
 </ContentPage>

@@ -2,118 +2,173 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:vm="clr-namespace:InfestCard.ViewModels"
+             xmlns:converters="clr-namespace:InfestCard.Converters"
              x:Class="InfestCard.Views.CardDetailPage"
              x:DataType="vm:CardDetailViewModel"
-             xmlns:converters="clr-namespace:InfestCard.Converters"
              Title="Detalle de carta"
-             Shell.NavBarIsVisible="False"
              BackgroundColor="{StaticResource BackgroundColor}">
+
     <ContentPage.Resources>
         <ResourceDictionary>
             <converters:CardCategoryBorderConverter
-            x:Key="CardCategoryBorderConverter" />
+                x:Key="CardCategoryBorderConverter" />
         </ResourceDictionary>
     </ContentPage.Resources>
+
     <ScrollView>
-        <VerticalStackLayout Padding="20" Spacing="18" >
-            <Border
-            BackgroundColor="{StaticResource SurfaceColor}"
-            Stroke="{Binding Card.Category, Converter={StaticResource CardCategoryBorderConverter}}"
-            StrokeThickness="2"
-            StrokeShape="RoundRectangle 16"
-            Padding="16" x:Name="ShareableCard">
+        <VerticalStackLayout Padding="20" Spacing="18">
+
+            <!-- Tarjeta principal -->
+            <Border x:Name="ShareableCard"
+                    Opacity="0"
+                    TranslationY="24"
+                    BackgroundColor="{StaticResource SurfaceColor}"
+                    Stroke="{Binding Card.Category, Converter={StaticResource CardCategoryBorderConverter}}"
+                    StrokeThickness="2"
+                    StrokeShape="RoundRectangle 16"
+                    Padding="16">
+
                 <VerticalStackLayout Spacing="14">
-                    <Border
-                        Stroke="{Binding Card.Category, Converter={StaticResource CardCategoryBorderConverter}}"
-                        StrokeThickness="2"
-                        StrokeShape="RoundRectangle 12"
-                        Padding="0">
-                        <Image
-                            Source="{Binding ImageSource}"
-                            Aspect="AspectFit"
-                            HorizontalOptions="Center"
-                            VerticalOptions="Center" />
+
+                    <!-- Imagen -->
+                    <Border Stroke="{Binding Card.Category, Converter={StaticResource CardCategoryBorderConverter}}"
+                            StrokeThickness="2"
+                            StrokeShape="RoundRectangle 12"
+                            Padding="0">
+
+                        <Image x:Name="CardImage"
+                               Source="{Binding ImageSource}"
+                               Aspect="AspectFit"
+                               HorizontalOptions="Center"
+                               VerticalOptions="Center"
+                               Opacity="0"
+                               Scale="0.90" />
                     </Border>
-                    <Label
-                        Text="{Binding Card.Name}"
-                        Style="{StaticResource PageTitle}"
-                        HorizontalTextAlignment="Center"
-                        SemanticProperties.HeadingLevel="Level1" />
-                    <Label
-                        Text="{Binding CategoryDisplayName}"
-                        TextColor="{Binding Card.Category, Converter={StaticResource CardCategoryBorderConverter}}"
-                        Style="{StaticResource BrandTitle}"
-                        FontSize="16"
-                        HorizontalTextAlignment="Center" />
-                    <BoxView
-                        HeightRequest="2"
-                        WidthRequest="120"
-                        HorizontalOptions="Center"
-                        BackgroundColor="{Binding Card.Category, Converter={StaticResource CardCategoryBorderConverter}}" />
-                    <Label
-                        Text="{Binding Card.Description}"
-                        Style="{StaticResource BodyText}" />
-                    <Grid ColumnDefinitions="*,Auto" Margin="0,10,0,0">
+
+                    <!-- Nombre -->
+                    <Label x:Name="CardNameLabel"
+                           Text="{Binding Card.Name}"
+                           Style="{StaticResource PageTitle}"
+                           HorizontalTextAlignment="Center"
+                           SemanticProperties.HeadingLevel="Level1"
+                           Opacity="0"
+                           TranslationY="10" />
+
+                    <!-- Categoría -->
+                    <Label x:Name="CategoryLabel"
+                           Text="{Binding CategoryDisplayName}"
+                           TextColor="{Binding Card.Category, Converter={StaticResource CardCategoryBorderConverter}}"
+                           Style="{StaticResource BrandTitle}"
+                           FontSize="16"
+                           HorizontalTextAlignment="Center"
+                           Opacity="0"
+                           TranslationY="10" />
+
+                    <BoxView x:Name="CategoryDivider"
+                             HeightRequest="2"
+                             WidthRequest="120"
+                             HorizontalOptions="Center"
+                             BackgroundColor="{Binding Card.Category, Converter={StaticResource CardCategoryBorderConverter}}"
+                             Opacity="0" />
+
+                    <!-- Descripción -->
+                    <Label x:Name="DescriptionLabel"
+                           Text="{Binding Card.Description}"
+                           Style="{StaticResource BodyText}"
+                           Opacity="0"
+                           TranslationY="8" />
+
+                    <!-- Estadísticas -->
+                    <Grid x:Name="StatsGrid"
+                          ColumnDefinitions="*,Auto"
+                          Margin="0,10,0,0"
+                          Opacity="0"
+                          TranslationY="8">
+
                         <VerticalStackLayout Grid.Column="0" Spacing="5">
-                            <Label
-                                Text="NIVEL"
-                                Style="{StaticResource SecondaryText}"
-                                HorizontalTextAlignment="Center" />
-                            <Label
-                                Text="{Binding LevelIndicators}"
-                                TextColor="{StaticResource AccentColor}"
-                                FontSize="20"
-                                HorizontalTextAlignment="Center" />
+                            <Label Text="NIVEL"
+                                   Style="{StaticResource SecondaryText}"
+                                   HorizontalTextAlignment="Center" />
+
+                            <Label Text="{Binding LevelIndicators}"
+                                   TextColor="{StaticResource AccentColor}"
+                                   FontSize="20"
+                                   HorizontalTextAlignment="Center" />
                         </VerticalStackLayout>
+
                         <VerticalStackLayout Grid.Column="1" Spacing="5">
-                            <Label 
-                                Text="CANTIDAD" 
-                                Style="{StaticResource SecondaryText}" 
-                                HorizontalTextAlignment="Center" />
-                            <Label 
-                                Text="{Binding Card.Quantity, StringFormat='x{0}'}"
-                                TextColor="{StaticResource AccentColor}"
-                                FontSize="20"
-                                HorizontalTextAlignment="Center" />
+                            <Label Text="CANTIDAD"
+                                   Style="{StaticResource SecondaryText}"
+                                   HorizontalTextAlignment="Center" />
+
+                            <Label Text="{Binding Card.Quantity, StringFormat='x{0}'}"
+                                   TextColor="{StaticResource AccentColor}"
+                                   FontSize="20"
+                                   HorizontalTextAlignment="Center" />
                         </VerticalStackLayout>
                     </Grid>
+
                 </VerticalStackLayout>
             </Border>
-            <Grid ColumnDefinitions="*,*,*" ColumnSpacing="10" Margin="0,4,0,10">
-                <Button
-                    Grid.Column="0"
-                    ImageSource="share.png"
-                    FontSize="12"
-                    Padding="5,12"
-                    CornerRadius="10"
-                    BackgroundColor="{StaticResource SurfaceColor}"
-                    BorderColor="{Binding Card.Category, Converter={StaticResource CardCategoryBorderConverter}}"
-                    BorderWidth="2"
-                    TextColor="{Binding Card.Category, Converter={StaticResource CardCategoryBorderConverter}}"
-                    Clicked="ShareButton_Clicked"  />
-                <Button
-                    Grid.Column="1"
-                    ImageSource="qr_code.png"
-                    FontSize="12"
-                    Padding="5,12"
-                    CornerRadius="10"
-                    BackgroundColor="{StaticResource SurfaceColor}"
-                    BorderColor="{Binding Card.Category, Converter={StaticResource CardCategoryBorderConverter}}"
-                    BorderWidth="2"
-                    TextColor="{Binding Card.Category, Converter={StaticResource CardCategoryBorderConverter}}"
-                    Command="{Binding GenerateQrCommand}" />
-                <Button
-                    Grid.Column="2"
-                    ImageSource="delete.png"
-                    FontSize="12"
-                    Padding="5,12"
-                    CornerRadius="10"
-                    BackgroundColor="{StaticResource SurfaceColor}"
-                    BorderColor="{Binding Card.Category, Converter={StaticResource CardCategoryBorderConverter}}"
-                    BorderWidth="2"
-                    TextColor="{Binding Card.Category, Converter={StaticResource CardCategoryBorderConverter}}"
-                                Command="{Binding DeleteCommand}" />
+
+            <!-- Acciones -->
+            <Grid x:Name="ActionsGrid"
+                  ColumnDefinitions="*,*,*"
+                  ColumnSpacing="10"
+                  Margin="0,4,0,10"
+                  Opacity="0"
+                  TranslationY="12">
+
+                <Button x:Name="ShareButton"
+                        Grid.Column="0"
+                        ImageSource="share.png"
+                        FontSize="12"
+                        Padding="5,12"
+                        CornerRadius="10"
+                        BackgroundColor="{StaticResource SurfaceColor}"
+                        BorderColor="{Binding Card.Category, Converter={StaticResource CardCategoryBorderConverter}}"
+                        BorderWidth="2"
+                        TextColor="{Binding Card.Category, Converter={StaticResource CardCategoryBorderConverter}}"
+                        Opacity="0"
+                        TranslationY="8"
+                        Clicked="ShareButton_Clicked"
+                        Pressed="ActionButton_Pressed"
+                        Released="ActionButton_Released" />
+
+                <Button x:Name="QrButton"
+                        Grid.Column="1"
+                        ImageSource="qr_code.png"
+                        FontSize="12"
+                        Padding="5,12"
+                        CornerRadius="10"
+                        BackgroundColor="{StaticResource SurfaceColor}"
+                        BorderColor="{Binding Card.Category, Converter={StaticResource CardCategoryBorderConverter}}"
+                        BorderWidth="2"
+                        TextColor="{Binding Card.Category, Converter={StaticResource CardCategoryBorderConverter}}"
+                        Command="{Binding GenerateQrCommand}"
+                        Opacity="0"
+                        TranslationY="8"
+                        Pressed="ActionButton_Pressed"
+                        Released="ActionButton_Released" />
+
+                <Button x:Name="DeleteButton"
+                        Grid.Column="2"
+                        ImageSource="delete.png"
+                        FontSize="12"
+                        Padding="5,12"
+                        CornerRadius="10"
+                        BackgroundColor="{StaticResource SurfaceColor}"
+                        BorderColor="{Binding Card.Category, Converter={StaticResource CardCategoryBorderConverter}}"
+                        BorderWidth="2"
+                        TextColor="{Binding Card.Category, Converter={StaticResource CardCategoryBorderConverter}}"
+                        Command="{Binding DeleteCommand}"
+                        Opacity="0"
+                        TranslationY="8"
+                        Pressed="ActionButton_Pressed"
+                        Released="ActionButton_Released" />
+
             </Grid>
+
         </VerticalStackLayout>
     </ScrollView>
 </ContentPage>

@@ -1,3 +1,4 @@
+
 using System.Collections.ObjectModel;
 using CommunityToolkit.Mvvm.Input;
 using InfestCard.Models;
@@ -10,7 +11,7 @@ public partial class CollectionViewModel : BaseViewModel
     private readonly ICardStorageService cardStorageService;
     private readonly IAppNavigationService appNavigationService;
 
-    private string? selectedType;
+    private string? selectedType = null;
 
     public IAsyncRelayCommand RefreshCommand { get; }
 
@@ -19,13 +20,21 @@ public partial class CollectionViewModel : BaseViewModel
 
     public ObservableCollection<CardTypeFilter> AvailableTypes { get; } = [];
 
+    // Todos está seleccionado cuando no hay un tipo específico.
+    public bool IsAllSelected => SelectedType == null;
+
     public string? SelectedType
     {
         get => selectedType;
         set
         {
             if (SetProperty(ref selectedType, value))
+            {
+                OnPropertyChanged(nameof(IsAllSelected));
+
+                UpdateSelectedFilter();
                 ApplyFilters();
+            }
         }
     }
 
@@ -48,9 +57,10 @@ public partial class CollectionViewModel : BaseViewModel
         appNavigationService.NavigateToScannerAsync();
 
     [RelayCommand]
-    private Task SelectCardAsync(Card? card) => card is null
-        ? Task.CompletedTask
-        : appNavigationService.NavigateToCardDetailAsync(card);
+    private Task SelectCardAsync(Card? card) =>
+        card is null
+            ? Task.CompletedTask
+            : appNavigationService.NavigateToCardDetailAsync(card);
 
     [RelayCommand]
     private void SelectType(string? type)
@@ -76,6 +86,7 @@ public partial class CollectionViewModel : BaseViewModel
                 Cards.Add(card);
 
             UpdateAvailableTypes();
+            UpdateSelectedFilter();
             ApplyFilters();
 
             OnPropertyChanged(nameof(IsEmpty));
@@ -138,25 +149,31 @@ public partial class CollectionViewModel : BaseViewModel
             AvailableTypes.Add(filter);
         }
 
+        // Si la categoría seleccionada ya no existe, volver a Todos.
         if (SelectedType != null &&
             !AvailableTypes.Any(x =>
-                string.Equals(x.Type, SelectedType,
+                string.Equals(
+                    x.Type,
+                    SelectedType,
                     StringComparison.OrdinalIgnoreCase)))
         {
             SelectedType = null;
         }
     }
 
-    private static string GetTypeLabel(string? type)
+    private void UpdateSelectedFilter()
     {
-        return type?.ToLowerInvariant() switch
+        foreach (var filter in AvailableTypes)
         {
-            "pokemon" => "Pokémon",
-            "personal" => "Personal",
-            "default" => "Predeterminadas",
-            _ => type ?? string.Empty
-        };
+            filter.IsSelected =
+                SelectedType != null &&
+                string.Equals(
+                    filter.Type,
+                    SelectedType,
+                    StringComparison.OrdinalIgnoreCase);
+        }
     }
+
     private void ApplyFilters()
     {
         var filtered = Cards.Where(card =>
@@ -164,8 +181,7 @@ public partial class CollectionViewModel : BaseViewModel
             string.Equals(
                 card.Type,
                 SelectedType,
-                StringComparison.OrdinalIgnoreCase
-            ));
+                StringComparison.OrdinalIgnoreCase));
 
         FilteredCards.Clear();
 

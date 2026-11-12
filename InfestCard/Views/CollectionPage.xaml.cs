@@ -39,7 +39,7 @@ public partial class CollectionPage : ContentPage
             System.Diagnostics.Debug.WriteLine(
                 $"[INFESTCard][CollectionPage] Error al refrescar la colección: {ex.Message}");
 
-            await DisplayAlert(
+            await DisplayAlertAsync(
                 "Error",
                 "No se pudo actualizar la colección. Por favor, inténtalo de nuevo más tarde.",
                 "OK");
@@ -50,13 +50,13 @@ public partial class CollectionPage : ContentPage
     private async Task AnimatePageEntranceAsync()
     {
         var headerAnimation = Task.WhenAll(
-            HeaderView.FadeTo(1, 300, Easing.CubicOut),
-            HeaderView.TranslateTo(0, 0, 300, Easing.CubicOut)
+            HeaderView.FadeToAsync(1, 300, Easing.CubicOut),
+            HeaderView.TranslateToAsync(0, 0, 300, Easing.CubicOut)
         );
 
         var filtersAnimation = Task.WhenAll(
-            FiltersView.FadeTo(1, 280, Easing.CubicOut),
-            FiltersView.TranslateTo(0, 0, 280, Easing.CubicOut)
+            FiltersView.FadeToAsync(1, 280, Easing.CubicOut),
+            FiltersView.TranslateToAsync(0, 0, 280, Easing.CubicOut)
         );
 
         var scannerAnimation = AnimateScannerButtonAsync();
@@ -73,7 +73,7 @@ public partial class CollectionPage : ContentPage
     {
         await Task.Delay(100);
 
-        await ScannerButton.ScaleTo(
+        await ScannerButton.ScaleToAsync(
             1,
             280,
             Easing.SpringOut
@@ -98,8 +98,8 @@ public partial class CollectionPage : ContentPage
         await Task.Delay(animationOrder * 45);
 
         await Task.WhenAll(
-            cardView.FadeTo(1, 250, Easing.CubicOut),
-            cardView.TranslateTo(0, 0, 250, Easing.CubicOut)
+            cardView.FadeToAsync(1, 250, Easing.CubicOut),
+            cardView.TranslateToAsync(0, 0, 250, Easing.CubicOut)
         );
     }
 

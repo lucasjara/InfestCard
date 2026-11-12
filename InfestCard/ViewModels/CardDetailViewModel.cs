@@ -144,7 +144,7 @@ public sealed partial class CardDetailViewModel : BaseViewModel
     private static Task ShowAlertAsync(string title, string message)
     {
         return Application.Current!.Windows[0].Page!
-            .DisplayAlert(title, message, "Aceptar");
+            .DisplayAlertAsync(title, message, "Aceptar");
     }
 
     private static Task<bool> ShowConfirmationAsync(
@@ -154,6 +154,6 @@ public sealed partial class CardDetailViewModel : BaseViewModel
         string cancel)
     {
         return Application.Current!.Windows[0].Page!
-            .DisplayAlert(title, message, accept, cancel);
+            .DisplayAlertAsync(title, message, accept, cancel);
     }
 }

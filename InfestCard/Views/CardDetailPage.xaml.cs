@@ -32,17 +32,17 @@ public partial class CardDetailPage : ContentPage
     {
         // 1. Tarjeta e imagen simultáneamente.
         await Task.WhenAll(
-            ShareableCard.FadeTo(1, 180, Easing.CubicOut),
-            ShareableCard.TranslateTo(0, 0, 180, Easing.CubicOut),
-            CardImage.FadeTo(1, 200, Easing.CubicOut),
-            CardImage.ScaleTo(1, 220, Easing.CubicOut)
+            ShareableCard.FadeToAsync(1, 180, Easing.CubicOut),
+            ShareableCard.TranslateToAsync(0, 0, 180, Easing.CubicOut),
+            CardImage.FadeToAsync(1, 200, Easing.CubicOut),
+            CardImage.ScaleToAsync(1, 220, Easing.CubicOut)
         );
 
         // 2. Información simultánea.
         await Task.WhenAll(
             FadeUpAsync(CardNameLabel, 120),
             FadeUpAsync(CategoryLabel, 120),
-            CategoryDivider.FadeTo(1, 120, Easing.CubicOut),
+            CategoryDivider.FadeToAsync(1, 120, Easing.CubicOut),
             FadeUpAsync(DescriptionLabel, 140),
             FadeUpAsync(StatsGrid, 140)
         );
@@ -62,8 +62,8 @@ public partial class CardDetailPage : ContentPage
         uint duration)
     {
         await Task.WhenAll(
-            element.FadeTo(1, duration, Easing.CubicOut),
-            element.TranslateTo(0, 0, duration, Easing.CubicOut)
+            element.FadeToAsync(1, duration, Easing.CubicOut),
+            element.TranslateToAsync(0, 0, duration, Easing.CubicOut)
         );
     }
 
@@ -75,7 +75,7 @@ public partial class CardDetailPage : ContentPage
         if (sender is not Button button)
             return;
 
-        await button.ScaleTo(0.94, 70, Easing.CubicOut);
+        await button.ScaleToAsync(0.94, 70, Easing.CubicOut);
     }
 
     private async void ActionButton_Released(
@@ -85,7 +85,7 @@ public partial class CardDetailPage : ContentPage
         if (sender is not Button button)
             return;
 
-        await button.ScaleTo(1, 110, Easing.CubicOut);
+        await button.ScaleToAsync(1, 110, Easing.CubicOut);
     }
 
     // Compartir la carta como imagen.
@@ -119,7 +119,7 @@ public partial class CardDetailPage : ContentPage
         {
             System.Diagnostics.Debug.WriteLine(ex);
 
-            await DisplayAlert(
+            await DisplayAlertAsync(
                 "Error",
                 "No se pudo compartir la carta.",
                 "Aceptar");

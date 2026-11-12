@@ -2,6 +2,7 @@ using InfestCard.ViewModels;
 using Microsoft.Maui.Controls.Shapes;
 using ZXing.Net.Maui;
 using ZXing.Net.Maui.Controls;
+using System.Linq;
 
 namespace InfestCard.Views;
 
@@ -56,10 +57,10 @@ public partial class ScannerPage : ContentPage
     private async Task PlayEntranceAnimationAsync()
     {
         await Task.WhenAll(
-            HeaderView.FadeTo(1, 250, Easing.CubicOut),
-            HeaderView.TranslateTo(0, 0, 250, Easing.CubicOut),
-            ControlsView.FadeTo(1, 300, Easing.CubicOut),
-            ControlsView.TranslateTo(0, 0, 300, Easing.CubicOut)
+            HeaderView.FadeToAsync(1, 250, Easing.CubicOut),
+            HeaderView.TranslateToAsync(0, 0, 250, Easing.CubicOut),
+            ControlsView.FadeToAsync(1, 300, Easing.CubicOut),
+            ControlsView.TranslateToAsync(0, 0, 300, Easing.CubicOut)
         );
     }
 
@@ -185,7 +186,7 @@ public partial class ScannerPage : ContentPage
 
         while (!cancellationToken.IsCancellationRequested)
         {
-            await ScannerFrame.ScaleTo(
+            await ScannerFrame.ScaleToAsync(
                 1.025,
                 700,
                 Easing.SinInOut);
@@ -193,7 +194,7 @@ public partial class ScannerPage : ContentPage
             if (cancellationToken.IsCancellationRequested)
                 break;
 
-            await ScannerFrame.ScaleTo(
+            await ScannerFrame.ScaleToAsync(
                 1,
                 700,
                 Easing.SinInOut);
@@ -209,7 +210,7 @@ public partial class ScannerPage : ContentPage
 
         while (!cancellationToken.IsCancellationRequested)
         {
-            await ScanLine.TranslateTo(
+            await ScanLine.TranslateToAsync(
                 0,
                 105,
                 1300,
@@ -218,7 +219,7 @@ public partial class ScannerPage : ContentPage
             if (cancellationToken.IsCancellationRequested)
                 break;
 
-            await ScanLine.TranslateTo(
+            await ScanLine.TranslateToAsync(
                 0,
                 -105,
                 1300,
@@ -293,7 +294,9 @@ public partial class ScannerPage : ContentPage
 
         try
         {
-            var photo = await MediaPicker.Default.PickPhotoAsync();
+            var photos = await MediaPicker.Default.PickPhotosAsync();
+
+            var photo = photos?.FirstOrDefault();
 
             if (photo is null)
                 return;
@@ -315,7 +318,7 @@ public partial class ScannerPage : ContentPage
 
             if (qr is null || string.IsNullOrWhiteSpace(qr.Value))
             {
-                await DisplayAlert(
+                await DisplayAlertAsync(
                     "QR no encontrado",
                     "La imagen seleccionada no contiene un código QR válido.",
                     "Aceptar");
@@ -333,7 +336,7 @@ public partial class ScannerPage : ContentPage
             System.Diagnostics.Debug.WriteLine(
                 $"[INFESTCard][QR] Error al procesar imagen: {ex}");
 
-            await DisplayAlert(
+            await DisplayAlertAsync(
                 "Error",
                 "No fue posible procesar la imagen seleccionada.",
                 "Aceptar");

@@ -2,44 +2,67 @@ using InfestCard.Models;
 using InfestCard.Services.Interfaces;
 using InfestCard.Views;
 
-public sealed class AppNavigationService(IServiceProvider serviceProvider) : IAppNavigationService
+public sealed class AppNavigationService(IServiceProvider serviceProvider)
+    : IAppNavigationService
 {
-    public Task NavigateToScannerAsync(CancellationToken cancellationToken = default)
+    private INavigation Navigation =>
+        Application.Current!.Windows[0].Page!.Navigation;
+
+    private Task PushAsync(Page page)
     {
-        cancellationToken.ThrowIfCancellationRequested();
-        var scannerPage = serviceProvider.GetRequiredService<ScannerPage>();
-        return Shell.Current.Navigation.PushAsync(scannerPage);
+        NavigationPage.SetHasNavigationBar(page, false);
+        return Navigation.PushAsync(page, true);
     }
 
-    public Task CloseScannerAsync(CancellationToken cancellationToken = default)
+    public Task NavigateToScannerAsync(
+        CancellationToken cancellationToken = default)
     {
         cancellationToken.ThrowIfCancellationRequested();
-        return Shell.Current.Navigation.PopAsync();
+
+        var page = serviceProvider.GetRequiredService<ScannerPage>();
+
+        return PushAsync(page);
     }
 
-    public Task NavigateToCardDetailAsync(Card card, CancellationToken cancellationToken = default)
+    public Task CloseScannerAsync(
+        CancellationToken cancellationToken = default)
+    {
+        cancellationToken.ThrowIfCancellationRequested();
+
+        return Navigation.PopAsync(true);
+    }
+
+    public Task NavigateToCardDetailAsync(
+        Card card,
+        CancellationToken cancellationToken = default)
     {
         ArgumentNullException.ThrowIfNull(card);
         cancellationToken.ThrowIfCancellationRequested();
 
-        var detailPage = serviceProvider.GetRequiredService<CardDetailPage>();
-        detailPage.ViewModel.Load(card);
-        return Shell.Current.Navigation.PushAsync(detailPage);
+        var page = serviceProvider.GetRequiredService<CardDetailPage>();
+        page.ViewModel.Load(card);
+
+        return PushAsync(page);
     }
 
-    public Task NavigateBackToCollectionAsync(CancellationToken cancellationToken = default)
+    public Task NavigateBackToCollectionAsync(
+        CancellationToken cancellationToken = default)
     {
         cancellationToken.ThrowIfCancellationRequested();
-        return Shell.Current.Navigation.PopAsync();
+
+        return Navigation.PopAsync(true);
     }
-    public Task NavigateToQrAsync(Card card,CancellationToken cancellationToken = default)
+
+    public Task NavigateToQrAsync(
+        Card card,
+        CancellationToken cancellationToken = default)
     {
         ArgumentNullException.ThrowIfNull(card);
         cancellationToken.ThrowIfCancellationRequested();
 
-        var qrPage = serviceProvider.GetRequiredService<QrCodePage>();
-        qrPage.Load(card);
+        var page = serviceProvider.GetRequiredService<QrCodePage>();
+        page.Load(card);
 
-        return Shell.Current.Navigation.PushAsync(qrPage);
+        return PushAsync(page);
     }
 }

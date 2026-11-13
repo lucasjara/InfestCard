@@ -14,18 +14,19 @@ public sealed partial class CardDetailViewModel : BaseViewModel
     public Card? Card { get; private set; }
 
     public CardDetailViewModel(
-    ICardStorageService cardStorageService,
-    IAppNavigationService appNavigationService,
-    ICardShareService cardShareService)
+        ICardStorageService cardStorageService,
+        IAppNavigationService appNavigationService,
+        ICardShareService cardShareService)
     {
         this.cardStorageService = cardStorageService;
         this.appNavigationService = appNavigationService;
         this.cardShareService = cardShareService;
     }
 
-    public string LevelIndicators => Card is null || Card.Level <= 0
-        ? string.Empty
-        : string.Join(" ", Enumerable.Repeat("◆", Math.Min(Card.Level, 10)));
+    public string LevelIndicators =>
+        Card is null || Card.Level <= 0
+            ? string.Empty
+            : string.Join(" ", Enumerable.Repeat("◆", Math.Min(Card.Level, 10)));
 
     public string ImageSource =>
         Card?.LocalImagePath ?? Card?.ImageUrl ?? "card_placeholder.svg";
@@ -83,10 +84,9 @@ public sealed partial class CardDetailViewModel : BaseViewModel
         {
             System.Diagnostics.Debug.WriteLine(exception);
 
-            await Shell.Current.DisplayAlert(
+            await ShowAlertAsync(
                 "Error",
-                "No se pudo compartir la carta.",
-                "Aceptar");
+                "No se pudo compartir la carta.");
         }
     }
 
@@ -96,7 +96,7 @@ public sealed partial class CardDetailViewModel : BaseViewModel
         if (Card is null)
             return;
 
-        bool confirm = await Shell.Current.DisplayAlert(
+        bool confirm = await ShowConfirmationAsync(
             "Eliminar carta",
             $"¿Estás seguro de eliminar '{Card.Name}' de tu colección?",
             "Eliminar",
@@ -115,10 +115,9 @@ public sealed partial class CardDetailViewModel : BaseViewModel
         {
             System.Diagnostics.Debug.WriteLine(exception);
 
-            await Shell.Current.DisplayAlert(
+            await ShowAlertAsync(
                 "Error",
-                "No se pudo eliminar la carta.",
-                "Aceptar");
+                "No se pudo eliminar la carta.");
         }
     }
 
@@ -136,10 +135,25 @@ public sealed partial class CardDetailViewModel : BaseViewModel
         {
             System.Diagnostics.Debug.WriteLine(exception);
 
-            await Shell.Current.DisplayAlert(
+            await ShowAlertAsync(
                 "Error",
-                "No se pudo generar el código QR.",
-                "Aceptar");
+                "No se pudo generar el código QR.");
         }
+    }
+
+    private static Task ShowAlertAsync(string title, string message)
+    {
+        return Application.Current!.Windows[0].Page!
+            .DisplayAlertAsync(title, message, "Aceptar");
+    }
+
+    private static Task<bool> ShowConfirmationAsync(
+        string title,
+        string message,
+        string accept,
+        string cancel)
+    {
+        return Application.Current!.Windows[0].Page!
+            .DisplayAlertAsync(title, message, accept, cancel);
     }
 }

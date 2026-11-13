@@ -18,6 +18,7 @@ namespace InfestCard
         public static MauiApp CreateMauiApp()
         {
             var builder = MauiApp.CreateBuilder();
+
             builder
                 .UseMauiApp<App>()
                 .UseBarcodeReader()
@@ -27,27 +28,51 @@ namespace InfestCard
                     fonts.AddFont("OpenSans-Semibold.ttf", "OpenSansSemibold");
                 });
 
+            // Main
             builder.Services.AddSingleton<MainViewModel>();
             builder.Services.AddSingleton<MainPage>();
+
+            // Database
             builder.Services.AddSingleton<AppDatabase>();
             builder.Services.AddSingleton<ICardRepository, CardRepository>();
             builder.Services.AddSingleton<ICardStorageService, CardStorageService>();
-            builder.Services.AddSingleton(new ApiOptions { BaseUrl = string.Empty });
-            builder.Services.AddSingleton<ICardApiService, CardApiService>();
+
+            // API
+            builder.Services.AddSingleton(new ApiOptions
+            {
+                BaseUrl = string.Empty
+            });
+
             builder.Services.AddSingleton(new HttpClient());
+            builder.Services.AddSingleton<ICardApiService, CardApiService>();
+
+            // Images
             builder.Services.AddSingleton<ICardImageService, CardImageService>();
+
+            // Camera and QR
             builder.Services.AddSingleton<ICameraPermissionService, CameraPermissionService>();
             builder.Services.AddTransient<IQrScannerService, QrScannerService>();
+
+            // Navigation
             builder.Services.AddSingleton<IAppNavigationService, AppNavigationService>();
+
+            // Collection
             builder.Services.AddSingleton<CollectionViewModel>();
             builder.Services.AddSingleton<CollectionPage>();
+
+            // Card detail
             builder.Services.AddTransient<CardDetailViewModel>();
             builder.Services.AddTransient<CardDetailPage>();
+
+            // Scanner
             builder.Services.AddTransient<ScannerViewModel>();
             builder.Services.AddTransient<ScannerPage>();
-            builder.Services.AddSingleton<QrCodePage>();
+
+            // QR Code
+            builder.Services.AddTransient<QrCodePage>();
+
+            // Sharing
             builder.Services.AddSingleton<ICardShareService, CardShareService>();
-            builder.Services.AddSingleton<AppShell>();
 
 #if DEBUG
             builder.Logging.AddDebug();

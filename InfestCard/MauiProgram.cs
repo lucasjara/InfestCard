@@ -11,6 +11,7 @@ using InfestCard.ViewModels;
 using InfestCard.ViewModels.Events;
 using InfestCard.Views;
 using InfestCard.Views.Events;
+using InfestCard.Views.Home;
 using Microsoft.Extensions.Logging;
 using ZXing.Net.Maui.Controls;
 
@@ -88,6 +89,9 @@ namespace InfestCard
 
             // Sharing
             builder.Services.AddSingleton<ICardShareService, CardShareService>();
+            // Home Page
+            builder.Services.AddTransient<HomeViewModel>();
+            builder.Services.AddSingleton<HomePage>();
 
 #if DEBUG
             builder.Logging.AddDebug();

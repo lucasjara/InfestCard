@@ -1,58 +1,25 @@
-﻿/*
-using InfestCard.Views;
+﻿using InfestCard.Views;
+using InfestCard.Views.Home;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace InfestCard
+namespace InfestCard;
+
+public partial class App : Application
 {
-    public partial class App : Application
+    private readonly HomePage _homePage;
+
+    public App(IServiceProvider services)
     {
-        private readonly CollectionPage collectionPage;
+        InitializeComponent();
 
-        public App(IServiceProvider services)
-        {
-            InitializeComponent();
-
-            collectionPage = services.GetRequiredService<CollectionPage>();
-        }
-
-        protected override Window CreateWindow(IActivationState? activationState)
-        {
-            NavigationPage.SetHasNavigationBar(collectionPage, false);
-
-            return new Window(new NavigationPage(collectionPage));
-        }
+        _homePage = services.GetRequiredService<HomePage>();
     }
-}
-*/
-using InfestCard.Views.Events;
 
-namespace InfestCard
-{
-    public partial class App : Application
+    protected override Window CreateWindow(
+        IActivationState? activationState)
     {
-        private readonly ExplorerMapPage _explorerMapPage;
+        NavigationPage.SetHasNavigationBar(_homePage, false);
 
-        public App(ExplorerMapPage explorerMapPage)
-        {
-            InitializeComponent();
-
-            _explorerMapPage = explorerMapPage;
-        }
-
-        protected override Window CreateWindow(
-            IActivationState? activationState)
-        {
-            NavigationPage.SetHasNavigationBar(
-                _explorerMapPage,
-                false);
-
-            var navigationPage = new NavigationPage(_explorerMapPage)
-            {
-                BarBackgroundColor = Color.FromArgb("#09090F"),
-                BarTextColor = Colors.White
-            };
-
-            return new Window(navigationPage);
-        }
+        return new Window(new NavigationPage(_homePage));
     }
 }

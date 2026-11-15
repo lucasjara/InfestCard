@@ -1,0 +1,196 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="InfestCard.Views.Home.HomePage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    Title="INFEST"
+    BackgroundColor="#09060F"
+    NavigationPage.HasNavigationBar="False"
+    >
+    <Grid RowDefinitions="*">
+        <ScrollView>
+            <VerticalStackLayout
+                Padding="18,20,18,30"
+                Spacing="22">
+
+                <!-- INTRODUCTION -->
+                <VerticalStackLayout Spacing="5">
+                    <Label
+                        Text="EXPLORA INFEST"
+                        FontSize="20"
+                        FontAttributes="Bold"
+                        TextColor="White"/>
+
+                    <Label
+                        Text="Selecciona una experiencia para comenzar."
+                        FontSize="13"
+                        TextColor="#A1A1AA"/>
+                </VerticalStackLayout>
+
+                <!-- MODULE 01: CARDS -->
+                <Border
+                    HeightRequest="150"
+                    BackgroundColor="#171020"
+                    Stroke="#7134B5"
+                    StrokeThickness="1.5"
+                    StrokeShape="RoundRectangle 20"
+                    Padding="0">
+
+                    <Grid ColumnDefinitions="0.95*,1.75*">
+
+                        <Image
+                            Grid.Column="0"
+                            Source="home_cards.png"
+                            Aspect="AspectFill"/>
+
+                        <BoxView
+                            Grid.ColumnSpan="2"
+                            BackgroundColor="#100817"
+                            Opacity="0.25"/>
+
+                        <VerticalStackLayout
+                            Grid.Column="1"
+                            Padding="5,15,14,15"
+                            Spacing="9"
+                            VerticalOptions="Center">
+
+                            <Label
+                                Text="Colección de Cartas"
+                                FontSize="20"
+                                FontAttributes="Bold"
+                                TextColor="White"/>
+
+                            <Label
+                                Text="Escanea, colecciona y comparte tus cartas."
+                                FontSize="12"
+                                TextColor="#D4C8E2"
+                                MaxLines="3"/>
+
+                        </VerticalStackLayout>
+
+                    </Grid>
+                    <Border.GestureRecognizers>
+                        <TapGestureRecognizer
+                            Command="{Binding NavigateToCardsCommand}" />
+                    </Border.GestureRecognizers>
+                </Border>
+
+                <!-- MODULE 02: EVENT GUIDE -->
+                <Border
+                    HeightRequest="150"
+                    BackgroundColor="#171020"
+                    Stroke="#7134B5"
+                    StrokeThickness="1.5"
+                    StrokeShape="RoundRectangle 20"
+                    Padding="0">
+
+                    <Grid ColumnDefinitions="0.95*,1.75*">
+
+                        <Image
+                            Grid.Column="0"
+                            Source="home_guide.png"
+                            Aspect="AspectFill"/>
+
+                        <BoxView
+                            Grid.ColumnSpan="2"
+                            BackgroundColor="#100817"
+                            Opacity="0.25"/>
+
+                        <VerticalStackLayout
+                            Grid.Column="1"
+                            Padding="5,15,14,15"
+                            Spacing="9"
+                            VerticalOptions="Center">
+
+
+                            <Label
+                                Text="Guía del Evento"
+                                FontSize="20"
+                                FontAttributes="Bold"
+                                TextColor="White"/>
+
+                            <Label
+                                Text="Descubre stands, actividades, torneos y todo lo que ocurre en INFEST."
+                                FontSize="12"
+                                TextColor="#D4C8E2"
+                                MaxLines="3"/>
+
+                        </VerticalStackLayout>
+                    </Grid>
+                    <Border.GestureRecognizers>
+                        <TapGestureRecognizer
+                            Command="{Binding NavigateToGuideCommand}" />
+                    </Border.GestureRecognizers>
+                </Border>
+
+                <!-- MODULE 03: PASSPORT -->
+                <Border
+                    HeightRequest="150"
+                    BackgroundColor="#171020"
+                    Stroke="#7134B5"
+                    StrokeThickness="1.5"
+                    StrokeShape="RoundRectangle 20"
+                    Padding="0">
+
+                    <Grid ColumnDefinitions="0.95*,1.75*">
+
+                        <Image
+                            Grid.Column="0"
+                            Source="home_passport.png"
+                            Aspect="AspectFill"/>
+
+                        <BoxView
+                            Grid.ColumnSpan="2"
+                            BackgroundColor="#100817"
+                            Opacity="0.25"/>
+
+                        <VerticalStackLayout
+                            Grid.Column="1"
+                            Padding="5,15,14,15"
+                            Spacing="9"
+                            VerticalOptions="Center">
+
+                            <Label
+                                Text="Pasaporte INFEST"
+                                FontSize="20"
+                                FontAttributes="Bold"
+                                TextColor="White"/>
+
+                            <Label
+                                Text="Completa desafíos, escanea códigos y desbloquea recompensas."
+                                FontSize="12"
+                                TextColor="#D4C8E2"
+                                MaxLines="3"/>
+                        </VerticalStackLayout>
+
+                    </Grid>
+                    <Border.GestureRecognizers>
+                        <TapGestureRecognizer
+                            Command="{Binding NavigateToPassportCommand}" />
+                    </Border.GestureRecognizers>
+                </Border>
+
+                <!-- FOOTER -->
+                <VerticalStackLayout
+                    Padding="0,12,0,5"
+                    Spacing="8"
+                    HorizontalOptions="Center">
+
+                    <BoxView
+                        WidthRequest="110"
+                        HeightRequest="2"
+                        Color="#A855F7"/>
+
+                    <Label
+                        Text="INFEST CHILE"
+                        FontSize="13"
+                        CharacterSpacing="4"
+                        FontAttributes="Bold"
+                        TextColor="#D4C8E2"
+                        HorizontalTextAlignment="Center"/>
+                </VerticalStackLayout>
+
+            </VerticalStackLayout>
+        </ScrollView>
+    </Grid>
+</ContentPage>

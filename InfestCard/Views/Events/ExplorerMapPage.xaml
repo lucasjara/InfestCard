@@ -39,11 +39,11 @@
                 HorizontalOptions="Fill">
 
                 <Image
-                    Source="event_guide_background.png"
+                    Source="event_guide_background2.png"
                     Aspect="AspectFill"
                     HorizontalOptions="Fill"
                     VerticalOptions="Fill"
-                    HeightRequest="380"/>
+                    HeightRequest="320"/>
 
             </Border>
 
@@ -68,7 +68,19 @@
                     BorderWidth="1.5"
                     CornerRadius="14"
                     FontSize="14"
-                    FontAttributes="Bold"/>
+                    FontAttributes="Bold">
+                    <VisualStateManager.VisualStateGroups>
+                        <VisualStateGroup x:Name="CommonStates">
+                            <VisualState x:Name="Normal" />
+                            <VisualState x:Name="Pressed">
+                                <VisualState.Setters>
+                                    <Setter Property="BackgroundColor" Value="#54218A" />
+                                    <Setter Property="BorderColor" Value="#C084FC" />
+                                </VisualState.Setters>
+                            </VisualState>
+                        </VisualStateGroup>
+                    </VisualStateManager.VisualStateGroups>
+                </Button>
 
                 <!-- Actividades -->
                 <Button
@@ -84,7 +96,19 @@
                     BorderWidth="1.5"
                     CornerRadius="14"
                     FontSize="14"
-                    FontAttributes="Bold"/>
+                    FontAttributes="Bold">
+                    <VisualStateManager.VisualStateGroups>
+                        <VisualStateGroup x:Name="CommonStates">
+                            <VisualState x:Name="Normal" />
+                            <VisualState x:Name="Pressed">
+                                <VisualState.Setters>
+                                    <Setter Property="BackgroundColor" Value="#54218A" />
+                                    <Setter Property="BorderColor" Value="#C084FC" />
+                                </VisualState.Setters>
+                            </VisualState>
+                        </VisualStateGroup>
+                    </VisualStateManager.VisualStateGroups>
+                </Button>
 
                 <!-- Talleres -->
                 <Button
@@ -100,7 +124,19 @@
                     BorderWidth="1.5"
                     CornerRadius="14"
                     FontSize="14"
-                    FontAttributes="Bold"/>
+                    FontAttributes="Bold">
+                    <VisualStateManager.VisualStateGroups>
+                        <VisualStateGroup x:Name="CommonStates">
+                            <VisualState x:Name="Normal" />
+                            <VisualState x:Name="Pressed">
+                                <VisualState.Setters>
+                                    <Setter Property="BackgroundColor" Value="#54218A" />
+                                    <Setter Property="BorderColor" Value="#C084FC" />
+                                </VisualState.Setters>
+                            </VisualState>
+                        </VisualStateGroup>
+                    </VisualStateManager.VisualStateGroups>
+                </Button>
 
                 <!-- Torneos -->
                 <Button
@@ -116,7 +152,19 @@
                     BorderWidth="1.5"
                     CornerRadius="14"
                     FontSize="14"
-                    FontAttributes="Bold"/>
+                    FontAttributes="Bold">
+                    <VisualStateManager.VisualStateGroups>
+                        <VisualStateGroup x:Name="CommonStates">
+                            <VisualState x:Name="Normal" />
+                            <VisualState x:Name="Pressed">
+                                <VisualState.Setters>
+                                    <Setter Property="BackgroundColor" Value="#54218A" />
+                                    <Setter Property="BorderColor" Value="#C084FC" />
+                                </VisualState.Setters>
+                            </VisualState>
+                        </VisualStateGroup>
+                    </VisualStateManager.VisualStateGroups>
+                </Button>
 
                 <!-- Cosplay -->
                 <Button
@@ -132,7 +180,19 @@
                     BorderWidth="1.5"
                     CornerRadius="14"
                     FontSize="14"
-                    FontAttributes="Bold"/>
+                    FontAttributes="Bold">
+                    <VisualStateManager.VisualStateGroups>
+                        <VisualStateGroup x:Name="CommonStates">
+                            <VisualState x:Name="Normal" />
+                            <VisualState x:Name="Pressed">
+                                <VisualState.Setters>
+                                    <Setter Property="BackgroundColor" Value="#54218A" />
+                                    <Setter Property="BorderColor" Value="#C084FC" />
+                                </VisualState.Setters>
+                            </VisualState>
+                        </VisualStateGroup>
+                    </VisualStateManager.VisualStateGroups>
+                </Button>
 
                 <!-- Experiencias -->
                 <Button
@@ -148,7 +208,19 @@
                     BorderWidth="1.5"
                     CornerRadius="14"
                     FontSize="14"
-                    FontAttributes="Bold"/>
+                    FontAttributes="Bold">
+                    <VisualStateManager.VisualStateGroups>
+                        <VisualStateGroup x:Name="CommonStates">
+                            <VisualState x:Name="Normal" />
+                            <VisualState x:Name="Pressed">
+                                <VisualState.Setters>
+                                    <Setter Property="BackgroundColor" Value="#54218A" />
+                                    <Setter Property="BorderColor" Value="#C084FC" />
+                                </VisualState.Setters>
+                            </VisualState>
+                        </VisualStateGroup>
+                    </VisualStateManager.VisualStateGroups>
+                </Button>
 
                 <!-- Sponsors -->
                 <Button
@@ -164,7 +236,19 @@
                     BorderWidth="1.5"
                     CornerRadius="14"
                     FontSize="14"
-                    FontAttributes="Bold"/>
+                    FontAttributes="Bold">
+                    <VisualStateManager.VisualStateGroups>
+                        <VisualStateGroup x:Name="CommonStates">
+                            <VisualState x:Name="Normal" />
+                            <VisualState x:Name="Pressed">
+                                <VisualState.Setters>
+                                    <Setter Property="BackgroundColor" Value="#54218A" />
+                                    <Setter Property="BorderColor" Value="#C084FC" />
+                                </VisualState.Setters>
+                            </VisualState>
+                        </VisualStateGroup>
+                    </VisualStateManager.VisualStateGroups>
+                </Button>
 
                 <!-- Servicios -->
                 <Button
@@ -180,7 +264,19 @@
                     BorderWidth="1.5"
                     CornerRadius="14"
                     FontSize="14"
-                    FontAttributes="Bold"/>
+                    FontAttributes="Bold">
+                    <VisualStateManager.VisualStateGroups>
+                        <VisualStateGroup x:Name="CommonStates">
+                            <VisualState x:Name="Normal" />
+                            <VisualState x:Name="Pressed">
+                                <VisualState.Setters>
+                                    <Setter Property="BackgroundColor" Value="#54218A" />
+                                    <Setter Property="BorderColor" Value="#C084FC" />
+                                </VisualState.Setters>
+                            </VisualState>
+                        </VisualStateGroup>
+                    </VisualStateManager.VisualStateGroups>
+                </Button>
 
                 <!-- Información -->
                 <Button
@@ -197,7 +293,19 @@
                     BorderWidth="1.5"
                     CornerRadius="14"
                     FontSize="14"
-                    FontAttributes="Bold"/>
+                    FontAttributes="Bold">
+                    <VisualStateManager.VisualStateGroups>
+                        <VisualStateGroup x:Name="CommonStates">
+                            <VisualState x:Name="Normal" />
+                            <VisualState x:Name="Pressed">
+                                <VisualState.Setters>
+                                    <Setter Property="BackgroundColor" Value="#54218A" />
+                                    <Setter Property="BorderColor" Value="#C084FC" />
+                                </VisualState.Setters>
+                            </VisualState>
+                        </VisualStateGroup>
+                    </VisualStateManager.VisualStateGroups>
+                </Button>
 
             </Grid>
 

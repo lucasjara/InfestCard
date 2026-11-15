@@ -6,20 +6,29 @@ namespace InfestCard;
 
 public partial class App : Application
 {
+    private readonly CollectionPage _CollectionPage;
     private readonly HomePage _homePage;
+    private readonly Page _startPage;
+
 
     public App(IServiceProvider services)
     {
         InitializeComponent();
-
-        _homePage = services.GetRequiredService<HomePage>();
+        #if DEBUG
+                _startPage = services.GetRequiredService<HomePage>();
+        #else
+                _CollectionPage = services.GetRequiredService<CollectionPage>();
+        #endif
     }
 
-    protected override Window CreateWindow(
-        IActivationState? activationState)
+    protected override Window CreateWindow(IActivationState? activationState)
     {
-        NavigationPage.SetHasNavigationBar(_homePage, false);
-
-        return new Window(new NavigationPage(_homePage));
+    #if DEBUG
+            NavigationPage.SetHasNavigationBar(_startPage, false);
+            return new Window(new NavigationPage(_startPage));
+    #else
+            NavigationPage.SetHasNavigationBar(_CollectionPage, false);
+            return new Window(new NavigationPage(_CollectionPage));
+    #endif
     }
 }

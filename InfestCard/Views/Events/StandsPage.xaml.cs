@@ -8,7 +8,7 @@ public partial class StandsPage : ContentPage
     public StandsPage(StandsViewModel viewModel)
     {
         InitializeComponent();
-
+        NavigationPage.SetHasNavigationBar(this, false);
         BindingContext = viewModel;
     }
 }

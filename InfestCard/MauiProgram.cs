@@ -1,13 +1,16 @@
 ﻿#if ANDROID
 using AndroidX.Lifecycle;
 #endif
+
 using InfestCard.Configuration;
 using InfestCard.Data;
 using InfestCard.Data.Repositories;
 using InfestCard.Services.Implementations;
 using InfestCard.Services.Interfaces;
 using InfestCard.ViewModels;
+using InfestCard.ViewModels.Events;
 using InfestCard.Views;
+using InfestCard.Views.Events;
 using Microsoft.Extensions.Logging;
 using ZXing.Net.Maui.Controls;
 
@@ -55,6 +58,15 @@ namespace InfestCard
 
             // Navigation
             builder.Services.AddSingleton<IAppNavigationService, AppNavigationService>();
+
+            // Event guide navigation
+            builder.Services.AddSingleton<
+                IGuideNavigationService,
+                GuideNavigationService>();
+
+            // Event guide main page
+            builder.Services.AddTransient<ExplorerMapViewModel>();
+            builder.Services.AddTransient<ExplorerMapPage>();
 
             // Collection
             builder.Services.AddSingleton<CollectionViewModel>();

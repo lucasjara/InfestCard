@@ -84,6 +84,9 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <Compile Update="Views\Events\StandsPage.xaml.cs">
+	    <DependentUpon>StandsPage.xaml</DependentUpon>
+	  </Compile>
 	  <Compile Update="Views\Events\GuideModulePage.xaml.cs">
 	    <DependentUpon>GuideModulePage.xaml</DependentUpon>
 	  </Compile>
@@ -100,6 +103,9 @@
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="Views\Components\EmptyCollectionView.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Views\Events\StandsPage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="Views\Events\GuideModulePage.xaml">

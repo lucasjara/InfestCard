@@ -59,14 +59,17 @@ namespace InfestCard
             // Navigation
             builder.Services.AddSingleton<IAppNavigationService, AppNavigationService>();
 
-            // Event guide navigation
+            // Event guide
             builder.Services.AddSingleton<
                 IGuideNavigationService,
                 GuideNavigationService>();
 
-            // Event guide main page
             builder.Services.AddTransient<ExplorerMapViewModel>();
             builder.Services.AddTransient<ExplorerMapPage>();
+
+            // Stands
+            builder.Services.AddTransient<StandsViewModel>();
+            builder.Services.AddTransient<StandsPage>();
 
             // Collection
             builder.Services.AddSingleton<CollectionViewModel>();

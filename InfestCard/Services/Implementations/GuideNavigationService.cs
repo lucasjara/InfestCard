@@ -1,22 +1,36 @@
 ﻿using InfestCard.Services.Interfaces;
 using InfestCard.Views.Events;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace InfestCard.Services.Implementations;
 
 public class GuideNavigationService : IGuideNavigationService
 {
+    private readonly IServiceProvider _services;
+
+    public GuideNavigationService(IServiceProvider services)
+    {
+        _services = services;
+    }
+
     public async Task NavigateToModuleAsync(string moduleName)
     {
-        var rootPage = Application.Current?
+        var navigation = Application.Current?
             .Windows
             .FirstOrDefault()?
-            .Page;
+            .Page?
+            .Navigation;
 
-        if (rootPage is null)
+        if (navigation is null)
             return;
 
-        var page = new GuideModulePage(moduleName);
+        Page page = moduleName switch
+        {
+            "Stands" => _services.GetRequiredService<StandsPage>(),
 
-        await rootPage.Navigation.PushAsync(page);
+            _ => new GuideModulePage(moduleName)
+        };
+
+        await navigation.PushAsync(page);
     }
 }

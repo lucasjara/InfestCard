@@ -15,6 +15,8 @@ public class StatusToTextConverter : IValueConverter
                 "cancelled" => "Cancelado",
                 "completed" => "Finalizado",
                 "in_progress" => "En curso",
+                "upcoming" => "Próximo",
+                "finished" => "Finalizado",
                 _ => status
             };
         }

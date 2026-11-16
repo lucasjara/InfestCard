@@ -80,6 +80,10 @@ namespace InfestCard
             builder.Services.AddTransient<WorkshopsViewModel>();
             builder.Services.AddTransient<WorkshopsPage>();
 
+            // Tournaments
+            builder.Services.AddTransient<TournamentsViewModel>();
+            builder.Services.AddTransient<TournamentsPage>();
+
             // Collection
             builder.Services.AddSingleton<CollectionViewModel>();
             builder.Services.AddSingleton<CollectionPage>();

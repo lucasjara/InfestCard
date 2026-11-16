@@ -7,7 +7,6 @@ public partial class ExplorerMapPage : ContentPage
     public ExplorerMapPage(ExplorerMapViewModel viewModel)
     {
         InitializeComponent();
-
         BindingContext = viewModel;
     }
 }

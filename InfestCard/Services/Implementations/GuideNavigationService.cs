@@ -27,10 +27,11 @@ public class GuideNavigationService : IGuideNavigationService
         Page page = moduleName switch
         {
             "Stands" => _services.GetRequiredService<StandsPage>(),
+            "Activities" => _services.GetRequiredService<ActivitiesPage>(),
 
             _ => new GuideModulePage(moduleName)
         };
-
+        NavigationPage.SetHasNavigationBar(page, false);
         await navigation.PushAsync(page);
     }
 }

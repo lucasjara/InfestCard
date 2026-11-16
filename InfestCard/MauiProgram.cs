@@ -72,6 +72,10 @@ namespace InfestCard
             builder.Services.AddTransient<StandsViewModel>();
             builder.Services.AddTransient<StandsPage>();
 
+            // Activities
+            builder.Services.AddTransient<ActivitiesViewModel>();
+            builder.Services.AddTransient<ActivitiesPage>();
+
             // Collection
             builder.Services.AddSingleton<CollectionViewModel>();
             builder.Services.AddSingleton<CollectionPage>();

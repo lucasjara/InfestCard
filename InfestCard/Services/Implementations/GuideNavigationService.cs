@@ -28,6 +28,7 @@ public class GuideNavigationService : IGuideNavigationService
         {
             "Stands" => _services.GetRequiredService<StandsPage>(),
             "Activities" => _services.GetRequiredService<ActivitiesPage>(),
+            "workshops" => _services.GetRequiredService<WorkshopsPage>(),
 
             _ => new GuideModulePage(moduleName)
         };

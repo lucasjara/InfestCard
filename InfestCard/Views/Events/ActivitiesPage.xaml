@@ -112,9 +112,19 @@
                                     StrokeThickness="1"
                                     StrokeShape="RoundRectangle 12"
                                     VerticalOptions="Center"
-                                    Padding="10,8">
+                                    Padding="8,8">
 
-                                    <VerticalStackLayout Spacing="2" HorizontalOptions="Center">
+                                    <VerticalStackLayout Spacing="6" HorizontalOptions="Center">
+                                        <Border
+                                            StrokeShape="RoundRectangle 8"
+                                            StrokeThickness="0"
+                                            HeightRequest="54"
+                                            WidthRequest="94"
+                                            HorizontalOptions="Center">
+                                            <Image
+                                                Source="{Binding Image}"
+                                                Aspect="AspectFill"/>
+                                        </Border>
                                         <Label
                                             Text="{Binding TimeRange}"
                                             FontSize="12"

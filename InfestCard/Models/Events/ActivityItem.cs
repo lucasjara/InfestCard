@@ -16,6 +16,8 @@ public class ActivityItem
 
     public string Icon { get; set; } = "🎭";
 
+    public string Image { get; set; } = "event_guide_background.png";
+
     public DateTime StartAt { get; set; }
 
     public DateTime EndAt { get; set; }

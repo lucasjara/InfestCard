@@ -31,6 +31,7 @@ public class GuideNavigationService : IGuideNavigationService
             "workshops" => _services.GetRequiredService<WorkshopsPage>(),
             "tournaments" => _services.GetRequiredService<TournamentsPage>(),
             "cosplay" => _services.GetRequiredService<CosplayPage>(),
+            "experiences" => _services.GetRequiredService<ExperiencesPage>(),
 
             _ => new GuideModulePage(moduleName)
         };

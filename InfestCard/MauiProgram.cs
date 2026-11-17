@@ -88,6 +88,10 @@ namespace InfestCard
             builder.Services.AddTransient<CosplayViewModel>();
             builder.Services.AddTransient<CosplayPage>();
 
+            // Experiences
+            builder.Services.AddTransient<ExperiencesViewModel>();
+            builder.Services.AddTransient<ExperiencesPage>();
+
             // Collection
             builder.Services.AddSingleton<CollectionViewModel>();
             builder.Services.AddSingleton<CollectionPage>();

@@ -172,7 +172,7 @@
                     Grid.Column="0"
                     Text="🎭  Cosplay"
                     Command="{Binding NavigateToModuleCommand}"
-                    CommandParameter="Cosplay"
+                    CommandParameter="cosplay"
                     HeightRequest="64"
                     BackgroundColor="#21152F"
                     TextColor="#FFFFFF"

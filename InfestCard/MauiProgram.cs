@@ -84,6 +84,10 @@ namespace InfestCard
             builder.Services.AddTransient<TournamentsViewModel>();
             builder.Services.AddTransient<TournamentsPage>();
 
+            // Cosplay
+            builder.Services.AddTransient<CosplayViewModel>();
+            builder.Services.AddTransient<CosplayPage>();
+
             // Collection
             builder.Services.AddSingleton<CollectionViewModel>();
             builder.Services.AddSingleton<CollectionPage>();

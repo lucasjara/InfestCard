@@ -228,7 +228,7 @@
                     Grid.Column="0"
                     Text="★  Sponsors"
                     Command="{Binding NavigateToModuleCommand}"
-                    CommandParameter="Sponsors"
+                    CommandParameter="sponsors"
                     HeightRequest="64"
                     BackgroundColor="#21152F"
                     TextColor="#FFFFFF"

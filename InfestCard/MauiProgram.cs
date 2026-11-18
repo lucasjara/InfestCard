@@ -95,6 +95,10 @@ namespace InfestCard
             // Sponsors
             builder.Services.AddTransient<SponsorsViewModel>();
             builder.Services.AddTransient<SponsorsPage>();
+            
+            // Services
+            builder.Services.AddTransient<ServicesViewModel>();
+            builder.Services.AddTransient<ServicesPage>();
 
             // Collection
             builder.Services.AddSingleton<CollectionViewModel>();

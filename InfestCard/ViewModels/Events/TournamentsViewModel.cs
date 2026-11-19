@@ -1,40 +1,12 @@
-using System.Collections.ObjectModel;
-using CommunityToolkit.Mvvm.ComponentModel;
 using InfestCard.Models.Events;
 
 namespace InfestCard.ViewModels.Events;
 
-public partial class TournamentsViewModel : ObservableObject
+public partial class TournamentsViewModel : BaseListViewModel<TournamentItem>
 {
-    private readonly List<TournamentItem> _allTournaments = [];
-
-    [ObservableProperty]
-    private ObservableCollection<TournamentItem> tournaments = [];
-
-    [ObservableProperty]
-    private string searchText = string.Empty;
-
-    [ObservableProperty]
-    private string selectedCategory = "Todos";
-
-    [ObservableProperty]
-    private bool hasResults;
-
-    [ObservableProperty]
-    private bool hasNoResults;
-
-    public ObservableCollection<string> Categories { get; } =
-    [
-        "Todos",
-        "Fighting",
-        "TCG",
-        "Shooter",
-        "MOBA",
-        "Sports"
-    ];
-
     public TournamentsViewModel()
     {
+        InitializeCategories("Fighting", "TCG", "Shooter", "MOBA", "Sports");
         LoadDefaultTournaments();
         ApplyFilters();
     }
@@ -43,7 +15,7 @@ public partial class TournamentsViewModel : ObservableObject
     {
         var baseDate = DateTime.Today.AddDays(1);
 
-        _allTournaments.AddRange(
+        AllItems.AddRange(
         [
             new TournamentItem
             {
@@ -118,49 +90,17 @@ public partial class TournamentsViewModel : ObservableObject
         ]);
     }
 
-    partial void OnSearchTextChanged(string value)
-    {
-        ApplyFilters();
-    }
+    protected override bool MatchesCategory(TournamentItem item, string category)
+        => item.Category == category;
 
-    partial void OnSelectedCategoryChanged(string value)
-    {
-        ApplyFilters();
-    }
+    protected override bool MatchesSearch(TournamentItem item, string search)
+        => item.Name.Contains(search, StringComparison.OrdinalIgnoreCase) ||
+           item.Game.Contains(search, StringComparison.OrdinalIgnoreCase) ||
+           item.Category.Contains(search, StringComparison.OrdinalIgnoreCase) ||
+           item.Description.Contains(search, StringComparison.OrdinalIgnoreCase) ||
+           item.Format.Contains(search, StringComparison.OrdinalIgnoreCase) ||
+           item.Location.Contains(search, StringComparison.OrdinalIgnoreCase);
 
-    public void SelectCategory(string category)
-    {
-        SelectedCategory = category;
-    }
-
-    private void ApplyFilters()
-    {
-        var filtered = _allTournaments.Where(tournament =>
-        {
-            bool matchesCategory =
-                SelectedCategory == "Todos" ||
-                tournament.Category == SelectedCategory;
-
-            bool matchesSearch =
-                string.IsNullOrWhiteSpace(SearchText) ||
-                tournament.Name.Contains(SearchText, StringComparison.OrdinalIgnoreCase) ||
-                tournament.Game.Contains(SearchText, StringComparison.OrdinalIgnoreCase) ||
-                tournament.Category.Contains(SearchText, StringComparison.OrdinalIgnoreCase) ||
-                tournament.Description.Contains(SearchText, StringComparison.OrdinalIgnoreCase) ||
-                tournament.Format.Contains(SearchText, StringComparison.OrdinalIgnoreCase) ||
-                tournament.Location.Contains(SearchText, StringComparison.OrdinalIgnoreCase);
-
-            return matchesCategory && matchesSearch;
-        })
-        .OrderBy(t => t.StartAt)
-        .ToList();
-
-        Tournaments.Clear();
-
-        foreach (var tournament in filtered)
-            Tournaments.Add(tournament);
-
-        HasResults = Tournaments.Count > 0;
-        HasNoResults = !HasResults;
-    }
+    protected override IEnumerable<TournamentItem> Order(IEnumerable<TournamentItem> items)
+        => items.OrderBy(tournament => tournament.StartAt);
 }

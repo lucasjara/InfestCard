@@ -77,7 +77,7 @@
         <!-- SERVICES LIST -->
         <Grid Grid.Row="2">
             <CollectionView
-                ItemsSource="{Binding Services}"
+                ItemsSource="{Binding Items}"
                 IsVisible="{Binding HasResults}"
                 SelectionMode="None">
                 <CollectionView.ItemsLayout>

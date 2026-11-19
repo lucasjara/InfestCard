@@ -80,7 +80,7 @@
         <!-- ACTIVITIES LIST -->
         <Grid Grid.Row="2">
             <CollectionView
-                ItemsSource="{Binding Activities}"
+                ItemsSource="{Binding Items}"
                 IsVisible="{Binding HasResults}"
                 SelectionMode="None">
                 <CollectionView.ItemsLayout>

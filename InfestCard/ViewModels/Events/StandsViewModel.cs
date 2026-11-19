@@ -1,45 +1,19 @@
-﻿using System.Collections.ObjectModel;
-using CommunityToolkit.Mvvm.ComponentModel;
-using InfestCard.Models.Events;
+﻿using InfestCard.Models.Events;
 
 namespace InfestCard.ViewModels.Events;
 
-public partial class StandsViewModel : ObservableObject
+public partial class StandsViewModel : BaseListViewModel<StandItem>
 {
-    private readonly List<StandItem> _allStands = [];
-
-    [ObservableProperty]
-    private ObservableCollection<StandItem> stands = [];
-
-    [ObservableProperty]
-    private string searchText = string.Empty;
-
-    [ObservableProperty]
-    private string selectedCategory = "Todos";
-
-    [ObservableProperty]
-    private bool hasResults;
-    [ObservableProperty]
-    private bool hasNoResults;
-
-    public ObservableCollection<string> Categories { get; } =
-    [
-        "Todos",
-        "Gaming",
-        "Tecnología",
-        "Comida",
-        "Comercio"
-    ];
-
     public StandsViewModel()
     {
+        InitializeCategories("Gaming", "Tecnología", "Comida", "Comercio");
         LoadDefaultStands();
         ApplyFilters();
     }
 
     private void LoadDefaultStands()
     {
-        _allStands.AddRange(
+        AllItems.AddRange(
         [
             new StandItem
             {
@@ -98,45 +72,12 @@ public partial class StandsViewModel : ObservableObject
         ]);
     }
 
-    partial void OnSearchTextChanged(string value)
-    {
-        ApplyFilters();
-    }
+    protected override bool MatchesCategory(StandItem item, string category)
+        => item.Category == category;
 
-    partial void OnSelectedCategoryChanged(string value)
-    {
-        ApplyFilters();
-    }
-
-    public void SelectCategory(string category)
-    {
-        SelectedCategory = category;
-    }
-
-    private void ApplyFilters()
-    {
-        var filtered = _allStands.Where(stand =>
-        {
-            bool matchesCategory =
-                SelectedCategory == "Todos" ||
-                stand.Category == SelectedCategory;
-
-            bool matchesSearch =
-                string.IsNullOrWhiteSpace(SearchText) ||
-                stand.Name.Contains(SearchText, StringComparison.OrdinalIgnoreCase) ||
-                stand.Category.Contains(SearchText, StringComparison.OrdinalIgnoreCase) ||
-                stand.Description.Contains(SearchText, StringComparison.OrdinalIgnoreCase) ||
-                stand.Location.Contains(SearchText, StringComparison.OrdinalIgnoreCase);
-
-            return matchesCategory && matchesSearch;
-        }).ToList();
-
-        Stands.Clear();
-
-        foreach (var stand in filtered)
-            Stands.Add(stand);
-
-        HasResults = Stands.Count > 0;
-        HasNoResults = !HasResults;
-    }
+    protected override bool MatchesSearch(StandItem item, string search)
+        => item.Name.Contains(search, StringComparison.OrdinalIgnoreCase) ||
+           item.Category.Contains(search, StringComparison.OrdinalIgnoreCase) ||
+           item.Description.Contains(search, StringComparison.OrdinalIgnoreCase) ||
+           item.Location.Contains(search, StringComparison.OrdinalIgnoreCase);
 }

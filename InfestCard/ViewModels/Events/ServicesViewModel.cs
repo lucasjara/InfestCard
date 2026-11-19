@@ -1,50 +1,20 @@
 using InfestCard.Models.Events;
-using CommunityToolkit.Mvvm.ComponentModel;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
 
 namespace InfestCard.ViewModels.Events;
 
-public partial class ServicesViewModel : ObservableObject
+public partial class ServicesViewModel : BaseListViewModel<ServiceItem>
 {
-    private readonly List<ServiceItem> _allServices = new();
-
-    [ObservableProperty]
-    private ObservableCollection<ServiceItem> services = new();
-
-    [ObservableProperty]
-    private string searchText = string.Empty;
-
-    [ObservableProperty]
-    private string selectedCategory = "Todos";
-
-    [ObservableProperty]
-    private bool hasResults;
-
-    [ObservableProperty]
-    private bool hasNoResults;
-
-    public ObservableCollection<string> Categories { get; } = new()
-    {
-        "Todos",
-        "Salud",
-        "Información",
-        "Accesibilidad",
-        "Seguridad",
-        "Comida"
-    };
-
     public ServicesViewModel()
     {
+        InitializeCategories("Salud", "Información", "Accesibilidad", "Seguridad", "Comida");
         LoadDefaultServices();
         ApplyFilters();
     }
 
     private void LoadDefaultServices()
     {
-        _allServices.AddRange(new[]
-        {
+        AllItems.AddRange(
+        [
             new ServiceItem
             {
                 Id = 1,
@@ -97,50 +67,18 @@ public partial class ServicesViewModel : ObservableObject
                 Icon = "🧥",
                 SortOrder = 4
             }
-        });
+        ]);
     }
 
-    partial void OnSearchTextChanged(string value)
-    {
-        ApplyFilters();
-    }
+    protected override bool MatchesCategory(ServiceItem item, string category)
+        => item.Category == category;
 
-    partial void OnSelectedCategoryChanged(string value)
-    {
-        ApplyFilters();
-    }
+    protected override bool MatchesSearch(ServiceItem item, string search)
+        => item.Name.Contains(search, StringComparison.OrdinalIgnoreCase) ||
+           item.Category.Contains(search, StringComparison.OrdinalIgnoreCase) ||
+           item.Description.Contains(search, StringComparison.OrdinalIgnoreCase) ||
+           item.Location.Contains(search, StringComparison.OrdinalIgnoreCase);
 
-    public void SelectCategory(string category)
-    {
-        SelectedCategory = category;
-    }
-
-    private void ApplyFilters()
-    {
-        var filtered = _allServices.Where(service =>
-        {
-            bool matchesCategory =
-                SelectedCategory == "Todos" ||
-                service.Category == SelectedCategory;
-
-            bool matchesSearch =
-                string.IsNullOrWhiteSpace(SearchText) ||
-                service.Name.Contains(SearchText, StringComparison.OrdinalIgnoreCase) ||
-                service.Category.Contains(SearchText, StringComparison.OrdinalIgnoreCase) ||
-                service.Description.Contains(SearchText, StringComparison.OrdinalIgnoreCase) ||
-                service.Location.Contains(SearchText, StringComparison.OrdinalIgnoreCase);
-
-            return matchesCategory && matchesSearch;
-        })
-        .OrderBy(s => s.SortOrder)
-        .ToList();
-
-        Services.Clear();
-
-        foreach (var service in filtered)
-            Services.Add(service);
-
-        HasResults = Services.Count > 0;
-        HasNoResults = !HasResults;
-    }
+    protected override IEnumerable<ServiceItem> Order(IEnumerable<ServiceItem> items)
+        => items.OrderBy(service => service.SortOrder);
 }

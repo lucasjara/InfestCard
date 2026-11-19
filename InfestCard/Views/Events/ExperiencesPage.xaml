@@ -77,7 +77,7 @@
         <!-- EXPERIENCES LIST -->
         <Grid Grid.Row="2">
             <CollectionView
-                ItemsSource="{Binding Experiences}"
+                ItemsSource="{Binding Items}"
                 IsVisible="{Binding HasResults}"
                 SelectionMode="None">
                 <CollectionView.ItemsLayout>

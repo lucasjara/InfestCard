@@ -1,50 +1,20 @@
 using InfestCard.Models.Events;
-using CommunityToolkit.Mvvm.ComponentModel;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
 
 namespace InfestCard.ViewModels.Events;
 
-public partial class SponsorsViewModel : ObservableObject
+public partial class SponsorsViewModel : BaseListViewModel<SponsorItem>
 {
-    private readonly List<SponsorItem> _allSponsors = new();
-
-    [ObservableProperty]
-    private ObservableCollection<SponsorItem> sponsors = new();
-
-    [ObservableProperty]
-    private string searchText = string.Empty;
-
-    [ObservableProperty]
-    private string selectedCategory = "Todos";
-
-    [ObservableProperty]
-    private bool hasResults;
-
-    [ObservableProperty]
-    private bool hasNoResults;
-
-    public ObservableCollection<string> Categories { get; } = new()
-    {
-        "Todos",
-        "Oro",
-        "Plata",
-        "Bronce",
-        "Media",
-        "Local"
-    };
-
     public SponsorsViewModel()
     {
+        InitializeCategories("Oro", "Plata", "Bronce", "Media", "Local");
         LoadDefaultSponsors();
         ApplyFilters();
     }
 
     private void LoadDefaultSponsors()
     {
-        _allSponsors.AddRange(new[]
-        {
+        AllItems.AddRange(
+        [
             new SponsorItem
             {
                 Id = 1,
@@ -93,50 +63,18 @@ public partial class SponsorsViewModel : ObservableObject
                 Icon = "🎛️",
                 SortOrder = 4
             }
-        });
+        ]);
     }
 
-    partial void OnSearchTextChanged(string value)
-    {
-        ApplyFilters();
-    }
+    protected override bool MatchesCategory(SponsorItem item, string category)
+        => item.Category == category;
 
-    partial void OnSelectedCategoryChanged(string value)
-    {
-        ApplyFilters();
-    }
+    protected override bool MatchesSearch(SponsorItem item, string search)
+        => item.Name.Contains(search, StringComparison.OrdinalIgnoreCase) ||
+           item.Category.Contains(search, StringComparison.OrdinalIgnoreCase) ||
+           item.Description.Contains(search, StringComparison.OrdinalIgnoreCase) ||
+           item.Location.Contains(search, StringComparison.OrdinalIgnoreCase);
 
-    public void SelectCategory(string category)
-    {
-        SelectedCategory = category;
-    }
-
-    private void ApplyFilters()
-    {
-        var filtered = _allSponsors.Where(sponsor =>
-        {
-            bool matchesCategory =
-                SelectedCategory == "Todos" ||
-                sponsor.Category == SelectedCategory;
-
-            bool matchesSearch =
-                string.IsNullOrWhiteSpace(SearchText) ||
-                sponsor.Name.Contains(SearchText, StringComparison.OrdinalIgnoreCase) ||
-                sponsor.Category.Contains(SearchText, StringComparison.OrdinalIgnoreCase) ||
-                sponsor.Description.Contains(SearchText, StringComparison.OrdinalIgnoreCase) ||
-                sponsor.Location.Contains(SearchText, StringComparison.OrdinalIgnoreCase);
-
-            return matchesCategory && matchesSearch;
-        })
-        .OrderBy(s => s.SortOrder)
-        .ToList();
-
-        Sponsors.Clear();
-
-        foreach (var sponsor in filtered)
-            Sponsors.Add(sponsor);
-
-        HasResults = Sponsors.Count > 0;
-        HasNoResults = !HasResults;
-    }
+    protected override IEnumerable<SponsorItem> Order(IEnumerable<SponsorItem> items)
+        => items.OrderBy(sponsor => sponsor.SortOrder);
 }

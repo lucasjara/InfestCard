@@ -78,7 +78,7 @@
         <!-- SPONSORS LIST -->
         <Grid Grid.Row="2">
             <CollectionView
-                ItemsSource="{Binding Sponsors}"
+                ItemsSource="{Binding Items}"
                 IsVisible="{Binding HasResults}"
                 SelectionMode="None">
                 <CollectionView.ItemsLayout>

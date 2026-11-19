@@ -1,40 +1,12 @@
-using System.Collections.ObjectModel;
-using CommunityToolkit.Mvvm.ComponentModel;
 using InfestCard.Models.Events;
 
 namespace InfestCard.ViewModels.Events;
 
-public partial class WorkshopsViewModel : ObservableObject
+public partial class WorkshopsViewModel : BaseListViewModel<WorkshopItem>
 {
-    private readonly List<WorkshopItem> _allWorkshops = [];
-
-    [ObservableProperty]
-    private ObservableCollection<WorkshopItem> workshops = [];
-
-    [ObservableProperty]
-    private string searchText = string.Empty;
-
-    [ObservableProperty]
-    private string selectedCategory = "Todos";
-
-    [ObservableProperty]
-    private bool hasResults;
-
-    [ObservableProperty]
-    private bool hasNoResults;
-
-    public ObservableCollection<string> Categories { get; } =
-    [
-        "Todos",
-        "Arte",
-        "Tecnología",
-        "Cosplay",
-        "Gaming",
-        "Manualidades"
-    ];
-
     public WorkshopsViewModel()
     {
+        InitializeCategories("Arte", "Tecnología", "Cosplay", "Gaming", "Manualidades");
         LoadDefaultWorkshops();
         ApplyFilters();
     }
@@ -43,7 +15,7 @@ public partial class WorkshopsViewModel : ObservableObject
     {
         var baseDate = DateTime.Today.AddDays(1);
 
-        _allWorkshops.AddRange(
+        AllItems.AddRange(
         [
             new WorkshopItem
             {
@@ -123,49 +95,17 @@ public partial class WorkshopsViewModel : ObservableObject
         ]);
     }
 
-    partial void OnSearchTextChanged(string value)
-    {
-        ApplyFilters();
-    }
+    protected override bool MatchesCategory(WorkshopItem item, string category)
+        => item.Category == category;
 
-    partial void OnSelectedCategoryChanged(string value)
-    {
-        ApplyFilters();
-    }
+    protected override bool MatchesSearch(WorkshopItem item, string search)
+        => item.Title.Contains(search, StringComparison.OrdinalIgnoreCase) ||
+           item.Instructor.Contains(search, StringComparison.OrdinalIgnoreCase) ||
+           item.Category.Contains(search, StringComparison.OrdinalIgnoreCase) ||
+           item.Description.Contains(search, StringComparison.OrdinalIgnoreCase) ||
+           item.Requirements.Contains(search, StringComparison.OrdinalIgnoreCase) ||
+           item.Location.Contains(search, StringComparison.OrdinalIgnoreCase);
 
-    public void SelectCategory(string category)
-    {
-        SelectedCategory = category;
-    }
-
-    private void ApplyFilters()
-    {
-        var filtered = _allWorkshops.Where(workshop =>
-        {
-            bool matchesCategory =
-                SelectedCategory == "Todos" ||
-                workshop.Category == SelectedCategory;
-
-            bool matchesSearch =
-                string.IsNullOrWhiteSpace(SearchText) ||
-                workshop.Title.Contains(SearchText, StringComparison.OrdinalIgnoreCase) ||
-                workshop.Instructor.Contains(SearchText, StringComparison.OrdinalIgnoreCase) ||
-                workshop.Category.Contains(SearchText, StringComparison.OrdinalIgnoreCase) ||
-                workshop.Description.Contains(SearchText, StringComparison.OrdinalIgnoreCase) ||
-                workshop.Requirements.Contains(SearchText, StringComparison.OrdinalIgnoreCase) ||
-                workshop.Location.Contains(SearchText, StringComparison.OrdinalIgnoreCase);
-
-            return matchesCategory && matchesSearch;
-        })
-        .OrderBy(w => w.StartAt)
-        .ToList();
-
-        Workshops.Clear();
-
-        foreach (var workshop in filtered)
-            Workshops.Add(workshop);
-
-        HasResults = Workshops.Count > 0;
-        HasNoResults = !HasResults;
-    }
+    protected override IEnumerable<WorkshopItem> Order(IEnumerable<WorkshopItem> items)
+        => items.OrderBy(workshop => workshop.StartAt);
 }

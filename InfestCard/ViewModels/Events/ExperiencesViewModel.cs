@@ -1,49 +1,20 @@
 using InfestCard.Models.Events;
-using CommunityToolkit.Mvvm.ComponentModel;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
 
 namespace InfestCard.ViewModels.Events;
 
-public partial class ExperiencesViewModel : ObservableObject
+public partial class ExperiencesViewModel : BaseListViewModel<ExperienceItem>
 {
-    private readonly List<ExperienceItem> _allExperiences = new();
-
-    [ObservableProperty]
-    private ObservableCollection<ExperienceItem> experiences = new();
-
-    [ObservableProperty]
-    private string searchText = string.Empty;
-
-    [ObservableProperty]
-    private string selectedCategory = "Todos";
-
-    [ObservableProperty]
-    private bool hasResults;
-
-    [ObservableProperty]
-    private bool hasNoResults;
-
-    public ObservableCollection<string> Categories { get; } = new()
-    {
-        "Todos",
-        "Inmersiva",
-        "VR",
-        "Gaming",
-        "Realidad Aumentada"
-    };
-
     public ExperiencesViewModel()
     {
+        InitializeCategories("Inmersiva", "VR", "Gaming", "Realidad Aumentada");
         LoadDefaultExperiences();
         ApplyFilters();
     }
 
     private void LoadDefaultExperiences()
     {
-        _allExperiences.AddRange(new[]
-        {
+        AllItems.AddRange(
+        [
             new ExperienceItem
             {
                 Id = 1,
@@ -80,48 +51,15 @@ public partial class ExperiencesViewModel : ObservableObject
                 Location = "Zona D · Sala 1",
                 Icon = "🍿"
             }
-        });
+        ]);
     }
 
-    partial void OnSearchTextChanged(string value)
-    {
-        ApplyFilters();
-    }
+    protected override bool MatchesCategory(ExperienceItem item, string category)
+        => item.Category == category;
 
-    partial void OnSelectedCategoryChanged(string value)
-    {
-        ApplyFilters();
-    }
-
-    public void SelectCategory(string category)
-    {
-        SelectedCategory = category;
-    }
-
-    private void ApplyFilters()
-    {
-        var filtered = _allExperiences.Where(exp =>
-        {
-            bool matchesCategory =
-                SelectedCategory == "Todos" ||
-                exp.Category == SelectedCategory;
-
-            bool matchesSearch =
-                string.IsNullOrWhiteSpace(SearchText) ||
-                exp.Name.Contains(SearchText, StringComparison.OrdinalIgnoreCase) ||
-                exp.Category.Contains(SearchText, StringComparison.OrdinalIgnoreCase) ||
-                exp.Description.Contains(SearchText, StringComparison.OrdinalIgnoreCase) ||
-                exp.Location.Contains(SearchText, StringComparison.OrdinalIgnoreCase);
-
-            return matchesCategory && matchesSearch;
-        }).ToList();
-
-        Experiences.Clear();
-
-        foreach (var exp in filtered)
-            Experiences.Add(exp);
-
-        HasResults = Experiences.Count > 0;
-        HasNoResults = !HasResults;
-    }
+    protected override bool MatchesSearch(ExperienceItem item, string search)
+        => item.Name.Contains(search, StringComparison.OrdinalIgnoreCase) ||
+           item.Category.Contains(search, StringComparison.OrdinalIgnoreCase) ||
+           item.Description.Contains(search, StringComparison.OrdinalIgnoreCase) ||
+           item.Location.Contains(search, StringComparison.OrdinalIgnoreCase);
 }

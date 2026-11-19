@@ -79,7 +79,7 @@
         <!-- STANDS LIST -->
         <Grid Grid.Row="2">
             <CollectionView
-                ItemsSource="{Binding Stands}"
+                ItemsSource="{Binding Items}"
                 IsVisible="{Binding HasResults}"
                 SelectionMode="None">
                 <CollectionView.ItemsLayout>

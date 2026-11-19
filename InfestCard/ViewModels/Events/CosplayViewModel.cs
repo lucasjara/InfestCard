@@ -1,39 +1,12 @@
-using System.Collections.ObjectModel;
-using CommunityToolkit.Mvvm.ComponentModel;
 using InfestCard.Models.Events;
 
 namespace InfestCard.ViewModels.Events;
 
-public partial class CosplayViewModel : ObservableObject
+public partial class CosplayViewModel : BaseListViewModel<CosplayItem>
 {
-    private readonly List<CosplayItem> _allActivities = [];
-
-    [ObservableProperty]
-    private ObservableCollection<CosplayItem> activities = [];
-
-    [ObservableProperty]
-    private string searchText = string.Empty;
-
-    [ObservableProperty]
-    private string selectedCategory = "Todos";
-
-    [ObservableProperty]
-    private bool hasResults;
-
-    [ObservableProperty]
-    private bool hasNoResults;
-
-    public ObservableCollection<string> Categories { get; } =
-    [
-        "Todos",
-        "Concurso",
-        "Desfile",
-        "Exhibición",
-        "Performance"
-    ];
-
     public CosplayViewModel()
     {
+        InitializeCategories("Concurso", "Desfile", "Exhibición", "Performance");
         LoadDefaultActivities();
         ApplyFilters();
     }
@@ -42,7 +15,7 @@ public partial class CosplayViewModel : ObservableObject
     {
         var baseDate = DateTime.Today.AddDays(1);
 
-        _allActivities.AddRange(
+        AllItems.AddRange(
         [
             new CosplayItem
             {
@@ -110,49 +83,17 @@ public partial class CosplayViewModel : ObservableObject
         ]);
     }
 
-    partial void OnSearchTextChanged(string value)
-    {
-        ApplyFilters();
-    }
+    protected override bool MatchesCategory(CosplayItem item, string category)
+        => item.Category == category;
 
-    partial void OnSelectedCategoryChanged(string value)
-    {
-        ApplyFilters();
-    }
+    protected override bool MatchesSearch(CosplayItem item, string search)
+        => item.Title.Contains(search, StringComparison.OrdinalIgnoreCase) ||
+           item.Category.Contains(search, StringComparison.OrdinalIgnoreCase) ||
+           item.Description.Contains(search, StringComparison.OrdinalIgnoreCase) ||
+           item.Rules.Contains(search, StringComparison.OrdinalIgnoreCase) ||
+           item.Participants.Contains(search, StringComparison.OrdinalIgnoreCase) ||
+           item.Location.Contains(search, StringComparison.OrdinalIgnoreCase);
 
-    public void SelectCategory(string category)
-    {
-        SelectedCategory = category;
-    }
-
-    private void ApplyFilters()
-    {
-        var filtered = _allActivities.Where(item =>
-        {
-            bool matchesCategory =
-                SelectedCategory == "Todos" ||
-                item.Category == SelectedCategory;
-
-            bool matchesSearch =
-                string.IsNullOrWhiteSpace(SearchText) ||
-                item.Title.Contains(SearchText, StringComparison.OrdinalIgnoreCase) ||
-                item.Category.Contains(SearchText, StringComparison.OrdinalIgnoreCase) ||
-                item.Description.Contains(SearchText, StringComparison.OrdinalIgnoreCase) ||
-                item.Rules.Contains(SearchText, StringComparison.OrdinalIgnoreCase) ||
-                item.Participants.Contains(SearchText, StringComparison.OrdinalIgnoreCase) ||
-                item.Location.Contains(SearchText, StringComparison.OrdinalIgnoreCase);
-
-            return matchesCategory && matchesSearch;
-        })
-        .OrderBy(a => a.StartAt)
-        .ToList();
-
-        Activities.Clear();
-
-        foreach (var item in filtered)
-            Activities.Add(item);
-
-        HasResults = Activities.Count > 0;
-        HasNoResults = !HasResults;
-    }
+    protected override IEnumerable<CosplayItem> Order(IEnumerable<CosplayItem> items)
+        => items.OrderBy(item => item.StartAt);
 }

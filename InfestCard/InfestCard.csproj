@@ -99,6 +99,9 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <MauiXaml Update="Views\Authentication\WelcomePage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
 	  <MauiXaml Update="Views\HomePage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
@@ -126,6 +129,12 @@
 	  <MauiXaml Update="Views\Cards\ScannerPage.xaml">
 		<Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
+	</ItemGroup>
+
+	<ItemGroup>
+	  <Folder Include="Services\Implementations\Authentication\" />
+	  <Folder Include="Services\Interfaces\Authentication\" />
+	  <Folder Include="ViewModels\Authentication\" />
 	</ItemGroup>
 
 </Project>

@@ -12,6 +12,7 @@ using InfestCard.ViewModels.Events;
 using InfestCard.Views;
 using InfestCard.Views.Events;
 using InfestCard.Views.Home;
+using InfestCard.Views.Authentication;
 using Microsoft.Extensions.Logging;
 using ZXing.Net.Maui.Controls;
 
@@ -124,6 +125,9 @@ namespace InfestCard
             // Home Page
             builder.Services.AddTransient<HomeViewModel>();
             builder.Services.AddSingleton<HomePage>();
+            // Authentication
+            //builder.Services.AddTransient<WelcomeViewModel>();
+            builder.Services.AddTransient<WelcomePage>();
 
 #if DEBUG
             builder.Logging.AddDebug();

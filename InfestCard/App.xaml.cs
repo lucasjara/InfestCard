@@ -1,4 +1,5 @@
 ﻿using InfestCard.Views;
+using InfestCard.Views.Authentication;
 using InfestCard.Views.Home;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -14,11 +15,14 @@ public partial class App : Application
     public App(IServiceProvider services)
     {
         InitializeComponent();
+        /*
         #if DEBUG
                 _startPage = services.GetRequiredService<HomePage>();
         #else
                 _CollectionPage = services.GetRequiredService<CollectionPage>();
         #endif
+        */
+        _startPage = services.GetRequiredService<WelcomePage>();
     }
 
     protected override Window CreateWindow(IActivationState? activationState)

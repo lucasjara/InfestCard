@@ -60,11 +60,11 @@ public partial class SponsorsViewModel : ObservableObject
             new SponsorItem
             {
                 Id = 2,
-                Name = "GamingPeru",
-                Slug = "gamingperu",
+                Name = "GamingChile",
+                Slug = "gamingchile",
                 Category = "Plata",
                 Description = "Comunidad de gaming y esports.",
-                Website = "https://gamingperu.cl",
+                Website = "https://gamingchile.cl",
                 Location = "Zona B · Stand 03",
                 Icon = "🎮",
                 SortOrder = 2

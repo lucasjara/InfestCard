@@ -26,14 +26,15 @@ public class GuideNavigationService : IGuideNavigationService
 
         Page page = moduleName switch
         {
-            "Stands" => _services.GetRequiredService<StandsPage>(),
-            "Activities" => _services.GetRequiredService<ActivitiesPage>(),
+            "stands" => _services.GetRequiredService<StandsPage>(),
+            "activities" => _services.GetRequiredService<ActivitiesPage>(),
             "workshops" => _services.GetRequiredService<WorkshopsPage>(),
             "tournaments" => _services.GetRequiredService<TournamentsPage>(),
             "cosplay" => _services.GetRequiredService<CosplayPage>(),
             "experiences" => _services.GetRequiredService<ExperiencesPage>(),
             "sponsors" => _services.GetRequiredService<SponsorsPage>(),
             "services" => _services.GetRequiredService<ServicesPage>(),
+            "information" => _services.GetRequiredService<InformationPage>(),
 
             _ => new GuideModulePage(moduleName)
         };

@@ -100,6 +100,10 @@ namespace InfestCard
             builder.Services.AddTransient<ServicesViewModel>();
             builder.Services.AddTransient<ServicesPage>();
 
+            // Information
+            builder.Services.AddTransient<InformationViewModel>();
+            builder.Services.AddTransient<InformationPage>();
+
             // Collection
             builder.Services.AddSingleton<CollectionViewModel>();
             builder.Services.AddSingleton<CollectionPage>();

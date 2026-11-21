@@ -8,7 +8,7 @@ public abstract partial class BaseListViewModel<T> : BaseViewModel
 {
     protected const string AllCategory = "Todos";
 
-    protected readonly List<T> AllItems = [];
+    public readonly List<T> AllItems = [];
 
     [ObservableProperty]
     private ObservableCollection<T> items = [];
@@ -54,7 +54,7 @@ public abstract partial class BaseListViewModel<T> : BaseViewModel
 
     protected virtual IEnumerable<T> Order(IEnumerable<T> items) => items;
 
-    protected void ApplyFilters()
+    public void ApplyFilters()
     {
         var filtered = AllItems
             .Where(item =>

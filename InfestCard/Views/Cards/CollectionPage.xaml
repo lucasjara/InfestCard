@@ -14,17 +14,19 @@
 
     <ContentPage.Resources>
         <ResourceDictionary>
+
             <converters:CardNameFontSizeConverter
                 x:Key="CardNameFontSizeConverter" />
 
             <converters:CardCategoryBorderConverter
                 x:Key="CardCategoryBorderConverter" />
+
         </ResourceDictionary>
     </ContentPage.Resources>
 
     <Grid Padding="20"
           RowDefinitions="Auto,Auto,*"
-          RowSpacing="16">
+          RowSpacing="14">
 
         <!-- ENCABEZADO -->
         <Grid x:Name="HeaderView"
@@ -35,6 +37,7 @@
               TranslationY="12">
 
             <VerticalStackLayout Spacing="4">
+
                 <Label
                     Text="MI COLECCIÓN"
                     Style="{StaticResource BrandTitle}" />
@@ -42,8 +45,10 @@
                 <Label
                     Text="Tus cartas INFESTCard"
                     Style="{StaticResource SecondaryText}" />
+
             </VerticalStackLayout>
 
+            <!-- ESCÁNER -->
             <Button
                 x:Name="ScannerButton"
                 Grid.Column="1"
@@ -54,83 +59,85 @@
                 Padding="8"
                 VerticalOptions="Center"
                 Scale="0.85" />
+
         </Grid>
 
         <!-- FILTROS -->
-        <ScrollView
-            x:Name="FiltersView"
+        <VerticalStackLayout
             Grid.Row="1"
-            Orientation="Horizontal"
-            HorizontalScrollBarVisibility="Never"
-            Opacity="0"
-            TranslationX="12">
+            Spacing="8">
 
-            <HorizontalStackLayout Spacing="8">
+            <Grid ColumnDefinitions="*,Auto"
+                  ColumnSpacing="8">
 
-                <!-- TODAS -->
-                <Button
-                    ImageSource="filter_all.png"
-                    Command="{Binding SelectTypeCommand}"
-                    CommandParameter="{x:Null}"
+                <!-- ABRIR SELECTOR -->
+                <Border
                     BackgroundColor="#252536"
-                    TextColor="White"
-                    BorderColor="#A855F7"
-                    BorderWidth="1"
-                    HeightRequest="42"
-                    CornerRadius="20"
-                    Padding="18,8"
-                    FontSize="13">
+                    Stroke="#A855F7"
+                    StrokeThickness="1"
+                    StrokeShape="RoundRectangle 12"
+                    HeightRequest="48">
 
-                    <Button.Triggers>
-                        <DataTrigger
-                            TargetType="Button"
-                            Binding="{Binding Source={x:Reference RootPage}, Path=BindingContext.IsAllSelected}"
-                            Value="True">
+                    <Grid ColumnDefinitions="Auto,*,Auto"
+                          Padding="12,0"
+                          ColumnSpacing="10">
 
-                            <Setter Property="BackgroundColor"
-                                    Value="#A855F7" />
-                        </DataTrigger>
-                    </Button.Triggers>
-                </Button>
+                        <Image
+                            Source="filter_icon.png"
+                            WidthRequest="20"
+                            HeightRequest="20"
+                            VerticalOptions="Center" />
 
-                <!-- TIPOS DISPONIBLES -->
-                <HorizontalStackLayout
-                    Spacing="8"
-                    BindableLayout.ItemsSource="{Binding AvailableTypes}">
+                        <VerticalStackLayout
+                            Grid.Column="1"
+                            VerticalOptions="Center"
+                            Spacing="1">
 
-                    <BindableLayout.ItemTemplate>
-                        <DataTemplate x:DataType="models:CardTypeFilter">
+                            <Label
+                                Text="Filtrar cartas"
+                                TextColor="White"
+                                FontSize="13"
+                                FontAttributes="Bold" />
 
-                            <Button
-                                ImageSource="{Binding Icon}"
-                                Command="{Binding Source={x:Reference RootPage}, Path=BindingContext.SelectTypeCommand}"
-                                CommandParameter="{Binding Type}"
-                                BackgroundColor="#252536"
-                                BorderColor="#A855F7"
-                                BorderWidth="1"
-                                WidthRequest="44"
-                                HeightRequest="42"
-                                CornerRadius="12"
-                                Padding="9"
-                                SemanticProperties.Description="{Binding Label}">
+                            <Label
+                                Text="{Binding SelectedTypeLabel}"
+                                TextColor="#C084FC"
+                                FontSize="10"
+                                LineBreakMode="TailTruncation" />
 
-                                <Button.Triggers>
-                                    <DataTrigger
-                                        TargetType="Button"
-                                        Binding="{Binding IsSelected}"
-                                        Value="True">
+                        </VerticalStackLayout>
 
-                                        <Setter Property="BackgroundColor"
-                                                Value="#A855F7" />
-                                    </DataTrigger>
-                                </Button.Triggers>
+                        <Image
+                            Grid.Column="2"
+                            Source="chevron_down.svg"
+                            WidthRequest="16"
+                            HeightRequest="16"
+                            VerticalOptions="Center" />
 
-                            </Button>
-                        </DataTemplate>
-                    </BindableLayout.ItemTemplate>
-                </HorizontalStackLayout>
-            </HorizontalStackLayout>
-        </ScrollView>
+                        <Grid.GestureRecognizers>
+                            <TapGestureRecognizer
+                                Tapped="OnOpenFiltersTapped" />
+                        </Grid.GestureRecognizers>
+
+                    </Grid>
+                </Border>
+
+                <!-- LIMPIAR -->
+                <Button
+                    Grid.Column="1"
+                    Text=""
+                    ImageSource="filter_all.png"
+                    Command="{Binding ClearFiltersCommand}"
+                    BackgroundColor="Transparent"
+                    TextColor="#C084FC"
+                    FontSize="12"
+                    Padding="8,0"
+                    HeightRequest="48"
+                    VerticalOptions="Center" />
+
+            </Grid>
+
+        </VerticalStackLayout>
 
         <!-- COLECCIÓN -->
         <CollectionView
@@ -141,19 +148,23 @@
             SelectionChanged="OnCardSelected">
 
             <CollectionView.ItemsLayout>
+
                 <GridItemsLayout
                     Orientation="Vertical"
                     Span="2"
                     HorizontalItemSpacing="12"
                     VerticalItemSpacing="12" />
+
             </CollectionView.ItemsLayout>
 
+            <!-- SIN RESULTADOS -->
             <CollectionView.EmptyView>
                 <components:EmptyCollectionView />
             </CollectionView.EmptyView>
 
             <!-- CARTAS -->
             <CollectionView.ItemTemplate>
+
                 <DataTemplate x:DataType="models:Card">
 
                     <Border
@@ -169,6 +180,7 @@
                             VerticalOptions="Center"
                             Spacing="8">
 
+                            <!-- IMAGEN -->
                             <Grid
                                 WidthRequest="120"
                                 HeightRequest="125"
@@ -176,16 +188,18 @@
                                 Padding="0,10,10,0">
 
                                 <Border
-                                    Grid.Row="0"
                                     Stroke="{Binding Category, Converter={StaticResource CardCategoryBorderConverter}}"
                                     StrokeThickness="2"
-                                    StrokeShape="RoundRectangle 8">
+                                    StrokeShape="RoundRectangle 8"
+                                    BackgroundColor="#151520"
+                                    Padding="4">
 
                                     <Image
                                         Source="{Binding LocalImagePath, FallbackValue=card_placeholder.svg, TargetNullValue=card_placeholder.svg}"
-                                        Aspect="AspectFill"
+                                        Aspect="AspectFit"
                                         HorizontalOptions="Fill"
                                         VerticalOptions="Fill" />
+
                                 </Border>
 
                                 <!-- CANTIDAD -->
@@ -207,7 +221,9 @@
                                         FontAttributes="Bold"
                                         HorizontalTextAlignment="Center"
                                         VerticalTextAlignment="Center" />
+
                                 </Border>
+
                             </Grid>
 
                             <!-- NOMBRE -->
@@ -220,9 +236,15 @@
                                 HorizontalTextAlignment="Center" />
 
                         </VerticalStackLayout>
+
                     </Border>
+
                 </DataTemplate>
+
             </CollectionView.ItemTemplate>
+
         </CollectionView>
+
     </Grid>
+
 </ContentPage>

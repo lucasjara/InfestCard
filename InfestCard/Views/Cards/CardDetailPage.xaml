@@ -121,7 +121,7 @@
 
                 <Button x:Name="ShareButton"
                         Grid.Column="0"
-                        ImageSource="share.png"
+                        ImageSource="share.svg"
                         FontSize="12"
                         Padding="5,12"
                         CornerRadius="10"
@@ -137,7 +137,7 @@
 
                 <Button x:Name="QrButton"
                         Grid.Column="1"
-                        ImageSource="qr_code.png"
+                        ImageSource="qr_code.svg"
                         FontSize="12"
                         Padding="5,12"
                         CornerRadius="10"
@@ -153,7 +153,7 @@
 
                 <Button x:Name="DeleteButton"
                         Grid.Column="2"
-                        ImageSource="delete.png"
+                        ImageSource="delete.svg"
                         FontSize="12"
                         Padding="5,12"
                         CornerRadius="10"

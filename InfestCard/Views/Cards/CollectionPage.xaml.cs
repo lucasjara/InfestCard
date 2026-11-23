@@ -1,6 +1,7 @@
+
 using System.Runtime.CompilerServices;
-using InfestCard.ViewModels;
 using InfestCard.Models;
+using InfestCard.ViewModels;
 
 namespace InfestCard.Views;
 
@@ -46,7 +47,6 @@ public partial class CollectionPage : ContentPage
         }
     }
 
-    // Animación de entrada de la pantalla
     private async Task AnimatePageEntranceAsync()
     {
         var headerAnimation = Task.WhenAll(
@@ -54,21 +54,14 @@ public partial class CollectionPage : ContentPage
             HeaderView.TranslateToAsync(0, 0, 300, Easing.CubicOut)
         );
 
-        var filtersAnimation = Task.WhenAll(
-            FiltersView.FadeToAsync(1, 280, Easing.CubicOut),
-            FiltersView.TranslateToAsync(0, 0, 280, Easing.CubicOut)
-        );
-
         var scannerAnimation = AnimateScannerButtonAsync();
 
         await Task.WhenAll(
             headerAnimation,
-            filtersAnimation,
             scannerAnimation
         );
     }
 
-    // Animación del botón QR
     private async Task AnimateScannerButtonAsync()
     {
         await Task.Delay(100);
@@ -80,19 +73,16 @@ public partial class CollectionPage : ContentPage
         );
     }
 
-    // Animación escalonada de las cartas
     private async void OnCardLoaded(object? sender, EventArgs e)
     {
         if (sender is not Border cardView)
             return;
 
-        // Evita repetir la animación sobre una vista reciclada
         if (animatedCards.TryGetValue(cardView, out _))
             return;
 
         animatedCards.Add(cardView, new object());
 
-        // Separación entre las animaciones
         int animationOrder = cardAnimationIndex++ % 6;
 
         await Task.Delay(animationOrder * 45);
@@ -114,4 +104,32 @@ public partial class CollectionPage : ContentPage
 
         await ViewModel.SelectCardCommand.ExecuteAsync(card);
     }
+
+    private async void OnOpenFiltersTapped(
+        object? sender,
+        TappedEventArgs eventArgs)
+    {
+        try
+        {
+            var filtersPage = new CollectionFiltersPage(ViewModel);
+            NavigationPage.SetHasNavigationBar(filtersPage, false);
+            await Navigation.PushModalAsync(
+                new NavigationPage(filtersPage)
+                {
+                    BarBackgroundColor = Color.FromArgb("#151520"),
+                    BarTextColor = Colors.White
+                });
+        }
+        catch (Exception ex)
+        {
+            System.Diagnostics.Debug.WriteLine(
+                $"[INFESTCard][CollectionPage] Error al abrir filtros: {ex.Message}");
+
+            await DisplayAlertAsync(
+                "Error",
+                "No se pudo abrir el selector de filtros.",
+                "OK");
+        }
+    }
+
 }

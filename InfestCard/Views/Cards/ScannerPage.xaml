@@ -61,7 +61,7 @@
                     ValueChanged="OnZoomChanged" />
 
             <Button Text="SELECCIONAR DESDE GALERÍA"
-                    ImageSource="gallery.png"
+                    ImageSource="gallery.svg"
                     ContentLayout="Left,10"
                     Clicked="OnSelectImageClicked"
                     BackgroundColor="{StaticResource SurfaceColor}"

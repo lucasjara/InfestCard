@@ -64,41 +64,41 @@
 
             <!-- Google Login -->
             <Border
-    BackgroundColor="White"
-    Stroke="Transparent"
-    HeightRequest="54"
-    Padding="16,0"
-    StrokeShape="RoundRectangle 14">
+                BackgroundColor="White"
+                Stroke="Transparent"
+                HeightRequest="54"
+                Padding="16,0"
+                StrokeShape="RoundRectangle 14">
 
                 <Border.GestureRecognizers>
                     <TapGestureRecognizer Tapped="OnGoogleLoginClicked"/>
                 </Border.GestureRecognizers>
 
                 <HorizontalStackLayout
-        HorizontalOptions="Center"
-        VerticalOptions="Center"
-        Spacing="10">
+                    HorizontalOptions="Center"
+                    VerticalOptions="Center"
+                    Spacing="10">
 
                     <Border
-            WidthRequest="30"
-            HeightRequest="30"
-            Padding="4"
-            Stroke="#DADADA"
-            StrokeThickness="1"
-            StrokeShape="RoundRectangle 8"
-            VerticalOptions="Center">
+                        WidthRequest="30"
+                        HeightRequest="30"
+                        Padding="4"
+                        Stroke="#DADADA"
+                        StrokeThickness="1"
+                        StrokeShape="RoundRectangle 8"
+                        VerticalOptions="Center">
 
                         <Image
-                Source="google_icon.png"
-                Aspect="AspectFit"/>
+                            Source="google_icon.png"
+                            Aspect="AspectFit"/>
                     </Border>
 
                     <Label
-            Text="Continuar con Google"
-            FontSize="16"
-            FontAttributes="Bold"
-            TextColor="#171717"
-            VerticalOptions="Center"/>
+                        Text="Continuar con Google"
+                        FontSize="16"
+                        FontAttributes="Bold"
+                        TextColor="#171717"
+                        VerticalOptions="Center"/>
                 </HorizontalStackLayout>
             </Border>
 

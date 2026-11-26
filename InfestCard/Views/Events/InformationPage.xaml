@@ -1,0 +1,266 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="InfestCard.Views.Events.InformationPage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:vm="clr-namespace:InfestCard.ViewModels.Events"
+    x:DataType="vm:InformationViewModel"
+    BackgroundColor="#09090F"
+    NavigationPage.HasNavigationBar="False">
+
+    <ScrollView>
+        <VerticalStackLayout
+            Padding="20,22,20,28"
+            Spacing="16">
+
+            <!-- HEADER -->
+            <VerticalStackLayout
+                Spacing="4">
+
+                <Label
+                    Text="GUÍA DEL EVENTO"
+                    FontSize="11"
+                    CharacterSpacing="3"
+                    FontAttributes="Bold"
+                    TextColor="#A855F7"/>
+
+                <Label
+                    Text="Información"
+                    FontSize="30"
+                    FontAttributes="Bold"
+                    TextColor="White"/>
+
+                <Label
+                    Text="Datos generales de esta edición."
+                    FontSize="13"
+                    TextColor="#A1A1AA"/>
+
+            </VerticalStackLayout>
+
+            <!-- COVER -->
+            <Border
+                Stroke="#54218A"
+                StrokeThickness="1.5"
+                BackgroundColor="#171321"
+                StrokeShape="RoundRectangle 18"
+                HeightRequest="200"
+                HorizontalOptions="Fill">
+
+                <Grid>
+                    <Image
+                        Source="{Binding Information.CoverImage}"
+                        Aspect="AspectFill"
+                        HorizontalOptions="Fill"
+                        VerticalOptions="Fill"
+                        HeightRequest="200"/>
+
+                    <VerticalStackLayout
+                        VerticalOptions="End"
+                        Padding="16"
+                        Spacing="2">
+
+                        <Label
+                            Text="{Binding Information.Name}"
+                            FontSize="22"
+                            FontAttributes="Bold"
+                            TextColor="White"/>
+
+                        <Label
+                            Text="{Binding Information.EditionDisplay}"
+                            FontSize="12"
+                            FontAttributes="Bold"
+                            TextColor="#C084FC"/>
+
+                    </VerticalStackLayout>
+                </Grid>
+            </Border>
+
+            <!-- DESCRIPTION -->
+            <Border
+                BackgroundColor="#171721"
+                Stroke="#343044"
+                StrokeThickness="1"
+                Padding="16"
+                StrokeShape="RoundRectangle 16">
+
+                <VerticalStackLayout Spacing="8">
+
+                    <Label
+                        Text="DESCRIPCIÓN"
+                        FontSize="10"
+                        CharacterSpacing="2"
+                        FontAttributes="Bold"
+                        TextColor="#C084FC"/>
+
+                    <Label
+                        Text="{Binding Information.Description}"
+                        FontSize="13"
+                        TextColor="#E4E4E7"
+                        LineBreakMode="WordWrap"/>
+
+                </VerticalStackLayout>
+            </Border>
+
+            <!-- DATES -->
+            <Border
+                BackgroundColor="#171721"
+                Stroke="#343044"
+                StrokeThickness="1"
+                Padding="16"
+                StrokeShape="RoundRectangle 16">
+
+                <Grid
+                    ColumnDefinitions="44,*"
+                    ColumnSpacing="12">
+
+                    <Border
+                        Grid.Column="0"
+                        WidthRequest="44"
+                        HeightRequest="44"
+                        BackgroundColor="#29183D"
+                        Stroke="#7134B5"
+                        StrokeThickness="1"
+                        StrokeShape="RoundRectangle 12"
+                        VerticalOptions="Center">
+
+                        <Label
+                            Text="📅"
+                            FontSize="20"
+                            HorizontalOptions="Center"
+                            VerticalOptions="Center"/>
+                    </Border>
+
+                    <VerticalStackLayout
+                        Grid.Column="1"
+                        Spacing="2"
+                        VerticalOptions="Center">
+
+                        <Label
+                            Text="FECHAS"
+                            FontSize="10"
+                            CharacterSpacing="2"
+                            FontAttributes="Bold"
+                            TextColor="#C084FC"/>
+
+                        <Label
+                            Text="{Binding Information.DateRange}"
+                            FontSize="14"
+                            FontAttributes="Bold"
+                            TextColor="White"/>
+
+                    </VerticalStackLayout>
+                </Grid>
+            </Border>
+
+            <!-- VENUE -->
+            <Border
+                BackgroundColor="#171721"
+                Stroke="#343044"
+                StrokeThickness="1"
+                Padding="16"
+                StrokeShape="RoundRectangle 16">
+
+                <Grid
+                    ColumnDefinitions="44,*"
+                    ColumnSpacing="12">
+
+                    <Border
+                        Grid.Column="0"
+                        WidthRequest="44"
+                        HeightRequest="44"
+                        BackgroundColor="#29183D"
+                        Stroke="#7134B5"
+                        StrokeThickness="1"
+                        StrokeShape="RoundRectangle 12"
+                        VerticalOptions="Center">
+
+                        <Label
+                            Text="⌖"
+                            FontSize="20"
+                            TextColor="#C084FC"
+                            HorizontalOptions="Center"
+                            VerticalOptions="Center"/>
+                    </Border>
+
+                    <VerticalStackLayout
+                        Grid.Column="1"
+                        Spacing="2"
+                        VerticalOptions="Center">
+
+                        <Label
+                            Text="RECINTO"
+                            FontSize="10"
+                            CharacterSpacing="2"
+                            FontAttributes="Bold"
+                            TextColor="#C084FC"/>
+
+                        <Label
+                            Text="{Binding Information.VenueName}"
+                            FontSize="14"
+                            FontAttributes="Bold"
+                            TextColor="White"/>
+
+                        <Label
+                            Text="{Binding Information.VenueAddress}"
+                            FontSize="12"
+                            TextColor="#A1A1AA"
+                            LineBreakMode="WordWrap"/>
+
+                    </VerticalStackLayout>
+                </Grid>
+            </Border>
+
+            <!-- COORDINATES -->
+            <Border
+                BackgroundColor="#171721"
+                Stroke="#343044"
+                StrokeThickness="1"
+                Padding="16"
+                StrokeShape="RoundRectangle 16">
+
+                <Grid
+                    ColumnDefinitions="44,*"
+                    ColumnSpacing="12">
+
+                    <Border
+                        Grid.Column="0"
+                        WidthRequest="44"
+                        HeightRequest="44"
+                        BackgroundColor="#29183D"
+                        Stroke="#7134B5"
+                        StrokeThickness="1"
+                        StrokeShape="RoundRectangle 12"
+                        VerticalOptions="Center">
+
+                        <Label
+                            Text="◎"
+                            FontSize="20"
+                            TextColor="#C084FC"
+                            HorizontalOptions="Center"
+                            VerticalOptions="Center"/>
+                    </Border>
+
+                    <VerticalStackLayout
+                        Grid.Column="1"
+                        Spacing="2"
+                        VerticalOptions="Center">
+
+                        <Label
+                            Text="UBICACIÓN GPS"
+                            FontSize="10"
+                            CharacterSpacing="2"
+                            FontAttributes="Bold"
+                            TextColor="#C084FC"/>
+
+                        <Label
+                            Text="{Binding Information.CoordinatesDisplay}"
+                            FontSize="14"
+                            TextColor="White"/>
+
+                    </VerticalStackLayout>
+                </Grid>
+            </Border>
+
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>

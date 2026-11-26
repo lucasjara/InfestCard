@@ -1,0 +1,234 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="InfestCard.Views.Events.TournamentsPage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:vm="clr-namespace:InfestCard.ViewModels.Events"
+    x:DataType="vm:TournamentsViewModel"
+    BackgroundColor="#09090F"
+    NavigationPage.HasNavigationBar="False">
+
+    <Grid
+        Padding="18,16"
+        RowDefinitions="Auto,Auto,*"
+        RowSpacing="18">
+
+        <!-- HEADER -->
+        <VerticalStackLayout
+            Grid.Row="0"
+            Spacing="4">
+
+            <Label
+                Text="COMPITE EN"
+                FontSize="11"
+                CharacterSpacing="3"
+                FontAttributes="Bold"
+                TextColor="#A855F7"/>
+
+            <Label
+                Text="Torneos"
+                FontSize="30"
+                FontAttributes="Bold"
+                TextColor="White"/>
+
+            <Label
+                Text="Competencias, formatos y horarios"
+                FontSize="13"
+                TextColor="#A1A1AA"/>
+
+        </VerticalStackLayout>
+
+        <!-- FILTER -->
+        <VerticalStackLayout
+            Grid.Row="1"
+            Spacing="12">
+            <Border
+                BackgroundColor="#191923"
+                Stroke="#3B3154"
+                StrokeThickness="1"
+                StrokeShape="RoundRectangle 12"
+                Padding="12,0"
+                HeightRequest="52">
+
+                <Grid ColumnDefinitions="Auto,*,Auto" ColumnSpacing="10">
+                    <Label
+                        Text="⚙"
+                        FontSize="18"
+                        TextColor="#C084FC"
+                        VerticalOptions="Center"/>
+                    <Picker
+                        Grid.Column="1"
+                        Title="Filtrar por categoría"
+                        TitleColor="#A1A1AA"
+                        TextColor="White"
+                        BackgroundColor="Transparent"
+                        ItemsSource="{Binding Categories}"
+                        SelectedItem="{Binding SelectedCategory}"
+                        FontSize="14"
+                        HeightRequest="48"
+                        VerticalOptions="Center"/>
+                    <Label
+                        Grid.Column="2"
+                        Text="⌄"
+                        FontSize="20"
+                        TextColor="#C084FC"
+                        VerticalOptions="Center"/>
+                </Grid>
+            </Border>
+        </VerticalStackLayout>
+
+        <!-- TOURNAMENTS LIST -->
+        <Grid Grid.Row="2">
+            <CollectionView
+                ItemsSource="{Binding Items}"
+                IsVisible="{Binding HasResults}"
+                SelectionMode="None">
+                <CollectionView.ItemsLayout>
+                    <LinearItemsLayout
+                        Orientation="Vertical"
+                        ItemSpacing="12"/>
+                </CollectionView.ItemsLayout>
+                <CollectionView.ItemTemplate>
+                    <DataTemplate>
+
+                        <Border
+                            BackgroundColor="#171721"
+                            Stroke="#343044"
+                            StrokeThickness="1"
+                            Padding="15"
+                            StrokeShape="RoundRectangle 16">
+
+                            <Grid
+                                ColumnDefinitions="110,*"
+                                ColumnSpacing="14"
+                                RowDefinitions="Auto,Auto"
+                                RowSpacing="6">
+
+                                <!-- TIME -->
+                                <Border
+                                    Grid.Row="0" Grid.Column="0" Grid.RowSpan="2"
+                                    BackgroundColor="#29183D"
+                                    Stroke="#7134B5"
+                                    StrokeThickness="1"
+                                    StrokeShape="RoundRectangle 12"
+                                    VerticalOptions="Center"
+                                    Padding="8,8">
+
+                                    <VerticalStackLayout Spacing="6" HorizontalOptions="Center">
+                                        <Border
+                                            StrokeShape="RoundRectangle 8"
+                                            StrokeThickness="0"
+                                            HeightRequest="54"
+                                            WidthRequest="94"
+                                            HorizontalOptions="Center">
+                                            <Image
+                                                Source="{Binding Image}"
+                                                Aspect="AspectFill"/>
+                                        </Border>
+                                        <Label
+                                            Text="{Binding TimeRange}"
+                                            FontSize="12"
+                                            FontAttributes="Bold"
+                                            TextColor="#C084FC"
+                                            LineBreakMode="NoWrap"
+                                            HorizontalTextAlignment="Center"/>
+                                        <Label
+                                            Text="{Binding Status, Converter={StaticResource StatusToTextConverter}}"
+                                            FontSize="10"
+                                            TextColor="#A1A1AA"
+                                            HorizontalTextAlignment="Center"/>
+                                    </VerticalStackLayout>
+                                </Border>
+
+                                <!-- INFORMATION -->
+                                <VerticalStackLayout
+                                    Grid.Row="0" Grid.Column="1"
+                                    Spacing="4"
+                                    VerticalOptions="Center">
+                                    <!-- Primera fila: izquierda y derecha -->
+                                    <Grid ColumnDefinitions="*,Auto">
+                                        <Label
+                                            Grid.Column="0"
+                                            Text="{Binding Category}"
+                                            FontSize="10"
+                                            FontAttributes="Bold"
+                                            TextColor="#C084FC"/>
+                                        <Label
+                                        Grid.Column="1"
+                                        Text="{Binding ParticipantsText}"
+                                        FontSize="11"
+                                        TextColor="#A1A1AA"
+                                        HorizontalOptions="End"/>
+                                    </Grid>
+                                    <Label
+                                        Text="{Binding Name}"
+                                        FontSize="13"
+                                        FontAttributes="Bold"
+                                        TextColor="White"/>
+                                    <Label
+                                        Text="{Binding Game}"
+                                        FontSize="11"
+                                        TextColor="#C084FC"
+                                        FontAttributes="Bold"
+                                        IsVisible="{Binding HasGame}"/>
+                                    <Label
+                                        Text="{Binding Description}"
+                                        FontSize="12"
+                                        TextColor="#A1A1AA"
+                                        MaxLines="2"/>
+                                    <Label
+                                        Text="{Binding Format}"
+                                        FontSize="11"
+                                        TextColor="#71717A"
+                                        IsVisible="{Binding HasFormat}"/>
+                                </VerticalStackLayout>
+
+                                <Grid
+                                    Grid.Row="1" Grid.Column="1"
+                                    ColumnDefinitions="Auto,*,Auto"
+                                    ColumnSpacing="8">
+                                    <Grid ColumnDefinitions="Auto,*" ColumnSpacing="5">
+                                        <Label
+                                            Text="⌖"
+                                            FontSize="13"
+                                            TextColor="#C084FC"/>
+                                        <Label
+                                            Grid.Column="1"
+                                            Text="{Binding Location}"
+                                            FontSize="11"
+                                            TextColor="#C084FC"/>
+                                    </Grid>
+                                </Grid>
+
+                            </Grid>
+                        </Border>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+
+            <!-- EMPTY STATE -->
+            <VerticalStackLayout
+                IsVisible="{Binding HasNoResults}"
+                HorizontalOptions="Center"
+                VerticalOptions="Center"
+                Spacing="10">
+                <Label
+                    Text="🏆"
+                    FontSize="48"
+                    TextColor="#A855F7"
+                    HorizontalTextAlignment="Center"/>
+                <Label
+                    Text="No hay torneos"
+                    FontSize="17"
+                    FontAttributes="Bold"
+                    TextColor="White"
+                    HorizontalTextAlignment="Center"/>
+                <Label
+                    Text="Prueba con otra categoría o búsqueda."
+                    FontSize="12"
+                    TextColor="#A1A1AA"
+                    HorizontalTextAlignment="Center"/>
+            </VerticalStackLayout>
+        </Grid>
+    </Grid>
+</ContentPage>

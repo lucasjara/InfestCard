@@ -1,4 +1,3 @@
-
 using System.Collections.ObjectModel;
 using CommunityToolkit.Mvvm.Input;
 using InfestCard.Models;
@@ -11,7 +10,8 @@ public partial class CollectionViewModel : BaseViewModel
     private readonly ICardStorageService cardStorageService;
     private readonly IAppNavigationService appNavigationService;
 
-    private string? selectedType = null;
+    private readonly HashSet<string> selectedTypes =
+        new(StringComparer.OrdinalIgnoreCase);
 
     public IAsyncRelayCommand RefreshCommand { get; }
 
@@ -20,23 +20,28 @@ public partial class CollectionViewModel : BaseViewModel
 
     public ObservableCollection<CardTypeFilter> AvailableTypes { get; } = [];
 
-    // Todos está seleccionado cuando no hay un tipo específico.
-    public bool IsAllSelected => SelectedType == null;
+    public IReadOnlyCollection<string> SelectedTypes => selectedTypes;
 
-    public string? SelectedType
+    public string SelectedTypeLabel
     {
-        get => selectedType;
-        set
+        get
         {
-            if (SetProperty(ref selectedType, value))
-            {
-                OnPropertyChanged(nameof(IsAllSelected));
+            if (selectedTypes.Count == 0)
+                return "Todas las categorías";
 
-                UpdateSelectedFilter();
-                ApplyFilters();
+            if (selectedTypes.Count == 1)
+            {
+                var selected = AvailableTypes.FirstOrDefault(
+                    x => selectedTypes.Contains(x.Type));
+
+                return selected?.Label ?? "1 categoría seleccionada";
             }
+
+            return $"{selectedTypes.Count} categorías seleccionadas";
         }
     }
+
+    public bool HasActiveFilters => selectedTypes.Count > 0;
 
     public bool IsEmpty => Cards.Count == 0;
 
@@ -63,9 +68,34 @@ public partial class CollectionViewModel : BaseViewModel
             : appNavigationService.NavigateToCardDetailAsync(card);
 
     [RelayCommand]
-    private void SelectType(string? type)
+    private void ClearFilters()
     {
-        SelectedType = type;
+        selectedTypes.Clear();
+
+        UpdateSelectedFilter();
+        ApplyFilters();
+    }
+
+    public void ApplyTypeFilters(IEnumerable<string> types)
+    {
+        selectedTypes.Clear();
+
+        foreach (var type in types.Where(
+                     x => !string.IsNullOrWhiteSpace(x)))
+        {
+            selectedTypes.Add(type);
+        }
+
+        // Evita conservar categorías que ya no existen.
+        selectedTypes.RemoveWhere(type =>
+            !AvailableTypes.Any(x =>
+                string.Equals(
+                    x.Type,
+                    type,
+                    StringComparison.OrdinalIgnoreCase)));
+
+        UpdateSelectedFilter();
+        ApplyFilters();
     }
 
     private async Task LoadAsync()
@@ -117,6 +147,27 @@ public partial class CollectionViewModel : BaseViewModel
         {
             var filter = type.ToLowerInvariant() switch
             {
+                "starwars" => new CardTypeFilter
+                {
+                    Type = type,
+                    Label = "Star Wars",
+                    Icon = "filter_starwars.svg"
+                },
+
+                "minecraft" => new CardTypeFilter
+                {
+                    Type = type,
+                    Label = "Minecraft",
+                    Icon = "filter_minecraft.svg"
+                },
+
+                "dragonball" => new CardTypeFilter
+                {
+                    Type = type,
+                    Label = "Dragon Ball",
+                    Icon = "filter_dragonball.svg"
+                },
+
                 "pokemon" => new CardTypeFilter
                 {
                     Type = type,
@@ -128,14 +179,14 @@ public partial class CollectionViewModel : BaseViewModel
                 {
                     Type = type,
                     Label = "Personal",
-                    Icon = "filter_personal.svg"
+                    Icon = "card_personalizada.svg"
                 },
 
                 "default" => new CardTypeFilter
                 {
                     Type = type,
                     Label = "Predeterminadas",
-                    Icon = "filter_default.svg"
+                    Icon = "card_predefinida.svg"
                 },
 
                 _ => new CardTypeFilter
@@ -149,39 +200,33 @@ public partial class CollectionViewModel : BaseViewModel
             AvailableTypes.Add(filter);
         }
 
-        // Si la categoría seleccionada ya no existe, volver a Todos.
-        if (SelectedType != null &&
+        // Si una categoría desapareció de la colección,
+        // deja de estar seleccionada.
+        selectedTypes.RemoveWhere(type =>
             !AvailableTypes.Any(x =>
                 string.Equals(
                     x.Type,
-                    SelectedType,
-                    StringComparison.OrdinalIgnoreCase)))
-        {
-            SelectedType = null;
-        }
+                    type,
+                    StringComparison.OrdinalIgnoreCase)));
     }
 
     private void UpdateSelectedFilter()
     {
         foreach (var filter in AvailableTypes)
         {
-            filter.IsSelected =
-                SelectedType != null &&
-                string.Equals(
-                    filter.Type,
-                    SelectedType,
-                    StringComparison.OrdinalIgnoreCase);
+            filter.IsSelected = selectedTypes.Contains(filter.Type);
         }
+
+        OnPropertyChanged(nameof(SelectedTypes));
+        OnPropertyChanged(nameof(SelectedTypeLabel));
+        OnPropertyChanged(nameof(HasActiveFilters));
     }
 
     private void ApplyFilters()
     {
         var filtered = Cards.Where(card =>
-            SelectedType == null ||
-            string.Equals(
-                card.Type,
-                SelectedType,
-                StringComparison.OrdinalIgnoreCase));
+            selectedTypes.Count == 0 ||
+            selectedTypes.Contains(card.Type));
 
         FilteredCards.Clear();
 

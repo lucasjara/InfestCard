@@ -1,0 +1,315 @@
+<?xml version="1.0" encoding="utf-8" ?>
+
+<ContentPage
+    x:Class="InfestCard.Views.Events.ExplorerMapPage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:vm="clr-namespace:InfestCard.ViewModels.Events"
+    x:DataType="vm:ExplorerMapViewModel"
+    BackgroundColor="#09090F"
+    Shell.NavBarIsVisible="False">
+
+    <ScrollView>
+        <VerticalStackLayout
+            Padding="20,22,20,28"
+            Spacing="18">
+
+            <!-- HEADER -->
+            <VerticalStackLayout
+                HorizontalOptions="Center"
+                Spacing="3">
+
+                <Label
+                    Text="GUÍA DEL EVENTO"
+                    FontSize="13"
+                    FontAttributes="Bold"
+                    CharacterSpacing="3"
+                    TextColor="#C084FC"
+                    HorizontalTextAlignment="Center"/>
+
+            </VerticalStackLayout>
+
+            <!-- EVENT IMAGE -->
+            <Border
+                Stroke="#54218A"
+                StrokeThickness="1.5"
+                BackgroundColor="#171321"
+                StrokeShape="RoundRectangle 18"
+                HeightRequest="320"
+                HorizontalOptions="Fill">
+
+                <Image
+                    Source="event_guide_background2.png"
+                    Aspect="AspectFill"
+                    HorizontalOptions="Fill"
+                    VerticalOptions="Fill"
+                    HeightRequest="320"/>
+
+            </Border>
+
+            <!-- NAVIGATION -->
+            <Grid
+                ColumnDefinitions="*,*"
+                RowDefinitions="Auto,Auto,Auto,Auto,Auto"
+                ColumnSpacing="12"
+                RowSpacing="12">
+
+                <!-- Stands -->
+                <Button
+                    Grid.Row="0"
+                    Grid.Column="0"
+                    Text="🏪 Stands"
+                    Command="{Binding NavigateToModuleCommand}"
+                    CommandParameter="stands"
+                    HeightRequest="64"
+                    BackgroundColor="#21152F"
+                    TextColor="#FFFFFF"
+                    BorderColor="#7134B5"
+                    BorderWidth="1.5"
+                    CornerRadius="14"
+                    FontSize="14"
+                    FontAttributes="Bold">
+                    <VisualStateManager.VisualStateGroups>
+                        <VisualStateGroup x:Name="CommonStates">
+                            <VisualState x:Name="Normal" />
+                            <VisualState x:Name="Pressed">
+                                <VisualState.Setters>
+                                    <Setter Property="BackgroundColor" Value="#54218A" />
+                                    <Setter Property="BorderColor" Value="#C084FC" />
+                                </VisualState.Setters>
+                            </VisualState>
+                        </VisualStateGroup>
+                    </VisualStateManager.VisualStateGroups>
+                </Button>
+
+                <!-- Actividades -->
+                <Button
+                    Grid.Row="0"
+                    Grid.Column="1"
+                    Text="📅  Actividades"
+                    Command="{Binding NavigateToModuleCommand}"
+                    CommandParameter="activities"
+                    HeightRequest="64"
+                    BackgroundColor="#21152F"
+                    TextColor="#FFFFFF"
+                    BorderColor="#7134B5"
+                    BorderWidth="1.5"
+                    CornerRadius="14"
+                    FontSize="14"
+                    FontAttributes="Bold">
+                    <VisualStateManager.VisualStateGroups>
+                        <VisualStateGroup x:Name="CommonStates">
+                            <VisualState x:Name="Normal" />
+                            <VisualState x:Name="Pressed">
+                                <VisualState.Setters>
+                                    <Setter Property="BackgroundColor" Value="#54218A" />
+                                    <Setter Property="BorderColor" Value="#C084FC" />
+                                </VisualState.Setters>
+                            </VisualState>
+                        </VisualStateGroup>
+                    </VisualStateManager.VisualStateGroups>
+                </Button>
+
+                <!-- Talleres -->
+                <Button
+                    Grid.Row="1"
+                    Grid.Column="0"
+                    Text="⚒  Talleres"
+                    Command="{Binding NavigateToModuleCommand}"
+                    CommandParameter="workshops"
+                    HeightRequest="64"
+                    BackgroundColor="#21152F"
+                    TextColor="#FFFFFF"
+                    BorderColor="#7134B5"
+                    BorderWidth="1.5"
+                    CornerRadius="14"
+                    FontSize="14"
+                    FontAttributes="Bold">
+                    <VisualStateManager.VisualStateGroups>
+                        <VisualStateGroup x:Name="CommonStates">
+                            <VisualState x:Name="Normal" />
+                            <VisualState x:Name="Pressed">
+                                <VisualState.Setters>
+                                    <Setter Property="BackgroundColor" Value="#54218A" />
+                                    <Setter Property="BorderColor" Value="#C084FC" />
+                                </VisualState.Setters>
+                            </VisualState>
+                        </VisualStateGroup>
+                    </VisualStateManager.VisualStateGroups>
+                </Button>
+
+                <!-- Torneos -->
+                <Button
+                    Grid.Row="1"
+                    Grid.Column="1"
+                    Text="🏆  Torneos"
+                    Command="{Binding NavigateToModuleCommand}"
+                    CommandParameter="tournaments"
+                    HeightRequest="64"
+                    BackgroundColor="#21152F"
+                    TextColor="#FFFFFF"
+                    BorderColor="#7134B5"
+                    BorderWidth="1.5"
+                    CornerRadius="14"
+                    FontSize="14"
+                    FontAttributes="Bold">
+                    <VisualStateManager.VisualStateGroups>
+                        <VisualStateGroup x:Name="CommonStates">
+                            <VisualState x:Name="Normal" />
+                            <VisualState x:Name="Pressed">
+                                <VisualState.Setters>
+                                    <Setter Property="BackgroundColor" Value="#54218A" />
+                                    <Setter Property="BorderColor" Value="#C084FC" />
+                                </VisualState.Setters>
+                            </VisualState>
+                        </VisualStateGroup>
+                    </VisualStateManager.VisualStateGroups>
+                </Button>
+
+                <!-- Cosplay -->
+                <Button
+                    Grid.Row="2"
+                    Grid.Column="0"
+                    Text="🎭  Cosplay"
+                    Command="{Binding NavigateToModuleCommand}"
+                    CommandParameter="cosplay"
+                    HeightRequest="64"
+                    BackgroundColor="#21152F"
+                    TextColor="#FFFFFF"
+                    BorderColor="#7134B5"
+                    BorderWidth="1.5"
+                    CornerRadius="14"
+                    FontSize="14"
+                    FontAttributes="Bold">
+                    <VisualStateManager.VisualStateGroups>
+                        <VisualStateGroup x:Name="CommonStates">
+                            <VisualState x:Name="Normal" />
+                            <VisualState x:Name="Pressed">
+                                <VisualState.Setters>
+                                    <Setter Property="BackgroundColor" Value="#54218A" />
+                                    <Setter Property="BorderColor" Value="#C084FC" />
+                                </VisualState.Setters>
+                            </VisualState>
+                        </VisualStateGroup>
+                    </VisualStateManager.VisualStateGroups>
+                </Button>
+
+                <!-- Experiencias -->
+                <Button
+                    Grid.Row="2"
+                    Grid.Column="1"
+                    Text="🎮  Experiencias"
+                    Command="{Binding NavigateToModuleCommand}"
+                    CommandParameter="experiences"
+                    HeightRequest="64"
+                    BackgroundColor="#21152F"
+                    TextColor="#FFFFFF"
+                    BorderColor="#7134B5"
+                    BorderWidth="1.5"
+                    CornerRadius="14"
+                    FontSize="14"
+                    FontAttributes="Bold">
+                    <VisualStateManager.VisualStateGroups>
+                        <VisualStateGroup x:Name="CommonStates">
+                            <VisualState x:Name="Normal" />
+                            <VisualState x:Name="Pressed">
+                                <VisualState.Setters>
+                                    <Setter Property="BackgroundColor" Value="#54218A" />
+                                    <Setter Property="BorderColor" Value="#C084FC" />
+                                </VisualState.Setters>
+                            </VisualState>
+                        </VisualStateGroup>
+                    </VisualStateManager.VisualStateGroups>
+                </Button>
+
+                <!-- Sponsors -->
+                <Button
+                    Grid.Row="3"
+                    Grid.Column="0"
+                    Text="★  Sponsors"
+                    Command="{Binding NavigateToModuleCommand}"
+                    CommandParameter="sponsors"
+                    HeightRequest="64"
+                    BackgroundColor="#21152F"
+                    TextColor="#FFFFFF"
+                    BorderColor="#7134B5"
+                    BorderWidth="1.5"
+                    CornerRadius="14"
+                    FontSize="14"
+                    FontAttributes="Bold">
+                    <VisualStateManager.VisualStateGroups>
+                        <VisualStateGroup x:Name="CommonStates">
+                            <VisualState x:Name="Normal" />
+                            <VisualState x:Name="Pressed">
+                                <VisualState.Setters>
+                                    <Setter Property="BackgroundColor" Value="#54218A" />
+                                    <Setter Property="BorderColor" Value="#C084FC" />
+                                </VisualState.Setters>
+                            </VisualState>
+                        </VisualStateGroup>
+                    </VisualStateManager.VisualStateGroups>
+                </Button>
+
+                <!-- Servicios -->
+                <Button
+                    Grid.Row="3"
+                    Grid.Column="1"
+                    Text="♧  Servicios"
+                    Command="{Binding NavigateToModuleCommand}"
+                    CommandParameter="services"
+                    HeightRequest="64"
+                    BackgroundColor="#21152F"
+                    TextColor="#FFFFFF"
+                    BorderColor="#7134B5"
+                    BorderWidth="1.5"
+                    CornerRadius="14"
+                    FontSize="14"
+                    FontAttributes="Bold">
+                    <VisualStateManager.VisualStateGroups>
+                        <VisualStateGroup x:Name="CommonStates">
+                            <VisualState x:Name="Normal" />
+                            <VisualState x:Name="Pressed">
+                                <VisualState.Setters>
+                                    <Setter Property="BackgroundColor" Value="#54218A" />
+                                    <Setter Property="BorderColor" Value="#C084FC" />
+                                </VisualState.Setters>
+                            </VisualState>
+                        </VisualStateGroup>
+                    </VisualStateManager.VisualStateGroups>
+                </Button>
+
+                <!-- Información -->
+                <Button
+                    Grid.Row="4"
+                    Grid.Column="0"
+                    Grid.ColumnSpan="2"
+                    Text="ⓘ  Información"
+                    Command="{Binding NavigateToModuleCommand}"
+                    CommandParameter="information"
+                    HeightRequest="64"
+                    BackgroundColor="#2A1740"
+                    TextColor="#FFFFFF"
+                    BorderColor="#9333EA"
+                    BorderWidth="1.5"
+                    CornerRadius="14"
+                    FontSize="14"
+                    FontAttributes="Bold">
+                    <VisualStateManager.VisualStateGroups>
+                        <VisualStateGroup x:Name="CommonStates">
+                            <VisualState x:Name="Normal" />
+                            <VisualState x:Name="Pressed">
+                                <VisualState.Setters>
+                                    <Setter Property="BackgroundColor" Value="#54218A" />
+                                    <Setter Property="BorderColor" Value="#C084FC" />
+                                </VisualState.Setters>
+                            </VisualState>
+                        </VisualStateGroup>
+                    </VisualStateManager.VisualStateGroups>
+                </Button>
+
+            </Grid>
+
+        </VerticalStackLayout>
+    </ScrollView>
+
+</ContentPage>

@@ -1,0 +1,166 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:models="clr-namespace:InfestCard.Models"
+             x:Class="InfestCard.Views.CollectionFiltersPage"
+             x:Name="FiltersPage"
+             Title="Filtrar colección"
+             Shell.NavBarIsVisible="False"
+             BackgroundColor="{StaticResource BackgroundColor}">
+
+    <Grid Padding="20"
+          RowDefinitions="Auto,Auto,*,Auto"
+          RowSpacing="18">
+
+        <!-- ENCABEZADO -->
+        <Grid Grid.Row="0"
+              ColumnDefinitions="*,Auto"
+              ColumnSpacing="12">
+
+            <VerticalStackLayout Spacing="4"
+                                 VerticalOptions="Center">
+
+                <Label
+                    Text="FILTRAR COLECCIÓN"
+                    Style="{StaticResource BrandTitle}" />
+
+                <Label
+                    Text="Selecciona una o varias categorías"
+                    Style="{StaticResource SecondaryText}" />
+
+            </VerticalStackLayout>
+
+            <Button
+                Grid.Column="1"
+                Text="✕"
+                FontSize="18"
+                TextColor="White"
+                BackgroundColor="#252536"
+                CornerRadius="12"
+                WidthRequest="42"
+                HeightRequest="42"
+                Padding="0"
+                Clicked="OnCancelClicked"
+                VerticalOptions="Center" />
+
+        </Grid>
+
+        <!-- INFORMACIÓN -->
+        <Grid Grid.Row="1"
+              ColumnDefinitions="*,Auto"
+              VerticalOptions="Center">
+
+            <Label
+                Text="Categorías disponibles"
+                TextColor="White"
+                FontSize="14"
+                FontAttributes="Bold"
+                VerticalOptions="Center" />
+
+            <Button
+                Grid.Column="1"
+                Text="Desmarcar todas"
+                FontSize="11"
+                TextColor="#C084FC"
+                BackgroundColor="Transparent"
+                Padding="4,2"
+                Clicked="OnClearClicked" />
+
+        </Grid>
+
+        <!-- LISTA DE CATEGORÍAS -->
+        <CollectionView
+            Grid.Row="2"
+            ItemsSource="{Binding FilterOptions}"
+            SelectionMode="None">
+
+            <CollectionView.EmptyView>
+                <VerticalStackLayout
+                    Spacing="8"
+                    VerticalOptions="Center"
+                    HorizontalOptions="Center">
+
+                    <Label
+                        Text="No hay categorías disponibles"
+                        TextColor="#A1A1AA"
+                        FontSize="14"
+                        HorizontalTextAlignment="Center" />
+
+                </VerticalStackLayout>
+            </CollectionView.EmptyView>
+
+            <CollectionView.ItemTemplate>
+
+                <DataTemplate x:DataType="models:CardTypeFilter">
+
+                    <Border
+                        BackgroundColor="#252536"
+                        Stroke="#414155"
+                        StrokeThickness="1"
+                        StrokeShape="RoundRectangle 12"
+                        Padding="14"
+                        Margin="0,0,0,10">
+
+                        <Grid ColumnDefinitions="Auto,*,Auto"
+                              ColumnSpacing="12">
+
+                            <Image
+                                Source="{Binding Icon}"
+                                WidthRequest="28"
+                                HeightRequest="28"
+                                VerticalOptions="Center" />
+
+                            <Label
+                                Grid.Column="1"
+                                Text="{Binding Label}"
+                                TextColor="White"
+                                FontSize="14"
+                                FontAttributes="Bold"
+                                VerticalOptions="Center" />
+
+                            <CheckBox
+                                Grid.Column="2"
+                                IsChecked="{Binding IsSelected, Mode=TwoWay}"
+                                Color="#C084FC"
+                                VerticalOptions="Center"
+                                HorizontalOptions="End" />
+
+                        </Grid>
+
+                    </Border>
+
+                </DataTemplate>
+
+            </CollectionView.ItemTemplate>
+
+        </CollectionView>
+
+        <!-- ACCIONES -->
+        <Grid Grid.Row="3"
+              ColumnDefinitions="*,*"
+              ColumnSpacing="12">
+
+            <Button
+                Grid.Column="0"
+                Text="Cancelar"
+                BackgroundColor="#252536"
+                TextColor="White"
+                CornerRadius="12"
+                HeightRequest="50"
+                Clicked="OnCancelClicked" />
+
+            <Button
+                Grid.Column="1"
+                Text="Aplicar filtros"
+                BackgroundColor="#A855F7"
+                TextColor="White"
+                FontAttributes="Bold"
+                CornerRadius="12"
+                HeightRequest="50"
+                Clicked="OnApplyClicked" />
+
+        </Grid>
+
+    </Grid>
+
+</ContentPage>

@@ -84,27 +84,63 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <Compile Update="Views\QrCodePage.xaml.cs">
+	  <Compile Update="Views\HomePage.xaml.cs">
+	    <DependentUpon>HomePage.xaml</DependentUpon>
+	  </Compile>
+	  <Compile Update="Views\Events\StandsPage.xaml.cs">
+	    <DependentUpon>StandsPage.xaml</DependentUpon>
+	  </Compile>
+	  <Compile Update="Views\Events\GuideModulePage.xaml.cs">
+	    <DependentUpon>GuideModulePage.xaml</DependentUpon>
+	  </Compile>
+	  <Compile Update="Views\Cards\QrCodePage.xaml.cs">
 	    <DependentUpon>QrCodePage.xaml</DependentUpon>
 	  </Compile>
 	</ItemGroup>
 
 	<ItemGroup>
-	  <MauiXaml Update="Views\CardDetailPage.xaml">
+	  <MauiXaml Update="Views\Authentication\WelcomePage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
-	  <MauiXaml Update="Views\CollectionPage.xaml">
+	  <MauiXaml Update="Views\Cards\CardShowcasePage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Views\Cards\CollectionFiltersPage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Views\HomePage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Views\Cards\CardDetailPage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Views\Cards\CollectionPage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="Views\Components\EmptyCollectionView.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
-	  <MauiXaml Update="Views\QrCodePage.xaml">
+	  <MauiXaml Update="Views\Events\StandsPage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
-	  <MauiXaml Update="Views\ScannerPage.xaml">
+	  <MauiXaml Update="Views\Events\GuideModulePage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Views\Events\ExplorerMapPage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Views\Cards\QrCodePage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Views\Cards\ScannerPage.xaml">
 		<Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
+	</ItemGroup>
+
+	<ItemGroup>
+	  <Folder Include="Services\Implementations\Authentication\" />
+	  <Folder Include="Services\Interfaces\Authentication\" />
+	  <Folder Include="ViewModels\Authentication\" />
 	</ItemGroup>
 
 </Project>

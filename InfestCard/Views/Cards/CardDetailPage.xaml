@@ -31,20 +31,48 @@
                 <VerticalStackLayout Spacing="14">
 
                     <!-- Imagen -->
-                    <Border Stroke="{Binding Card.Category, Converter={StaticResource CardCategoryBorderConverter}}"
-                            StrokeThickness="2"
-                            StrokeShape="RoundRectangle 12"
-                            Padding="0">
-
+                    <Grid>
+                        <!-- Imagen de la carta -->
                         <Image x:Name="CardImage"
                                Source="{Binding ImageSource}"
                                Aspect="AspectFit"
-                               HorizontalOptions="Center"
-                               VerticalOptions="Center"
-                               Opacity="0"
-                               Scale="0.90" />
-                    </Border>
+                               HorizontalOptions="Fill"
+                               VerticalOptions="Fill"
+                               HeightRequest="300">
 
+                            <Image.GestureRecognizers>
+                                <TapGestureRecognizer Tapped="CardImage_Tapped"/>
+                            </Image.GestureRecognizers>
+                        </Image>
+
+                        <!-- Indicador de que la carta se puede tocar -->
+                        <Border BackgroundColor="#DD111321"
+                                Stroke="#8B5CF6"
+                                StrokeThickness="1"
+                                StrokeShape="RoundRectangle 14"
+                                Padding="12,7"
+                                HorizontalOptions="Center"
+                                VerticalOptions="End"
+                                Margin="0,0,0,14">
+
+                            <HorizontalStackLayout Spacing="7"
+                               VerticalOptions="Center">
+
+                                <Label Text="⤢"
+                                   TextColor="#C4B5FD"
+                                   FontSize="16"
+                                   VerticalOptions="Center"/>
+
+                                <Label Text="Vista interactiva"
+                                   TextColor="#DDD6FE"
+                                   FontSize="10"
+                                   FontAttributes="Bold"
+                                   CharacterSpacing="1"
+                                   VerticalOptions="Center"/>
+
+                            </HorizontalStackLayout>
+                        </Border>
+                    </Grid>
                     <!-- Nombre -->
                     <Label x:Name="CardNameLabel"
                            Text="{Binding Card.Name}"

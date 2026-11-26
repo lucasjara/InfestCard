@@ -125,4 +125,31 @@ public partial class CardDetailPage : ContentPage
                 "Aceptar");
         }
     }
+    private async void CardImage_Tapped(object sender, TappedEventArgs e)
+    {
+        if (sender is not Image image)
+            return;
+
+        // Evita que se pueda pulsar repetidamente
+        image.IsEnabled = false;
+
+        try
+        {
+            // Pequeño efecto de pulsación
+            await image.ScaleTo(0.92, 100, Easing.CubicOut);
+
+            // Efecto de desaparición suave
+            await image.FadeTo(0, 160, Easing.CubicIn);
+            var showPage = new CardShowcasePage(ViewModel);
+            NavigationPage.SetHasNavigationBar(showPage, false);
+            // Abrir la vista 3D
+            await Navigation.PushAsync(showPage);
+        }
+        finally
+        {
+            image.Scale = 1;
+            image.Opacity = 1;
+            image.IsEnabled = true;
+        }
+    }
 }

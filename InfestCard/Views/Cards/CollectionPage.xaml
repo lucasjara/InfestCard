@@ -168,7 +168,7 @@
                 <DataTemplate x:DataType="models:Card">
 
                     <Border
-                        Stroke="{Binding Category, Converter={StaticResource CardCategoryBorderConverter}}"
+                        Stroke="{Binding ., Converter={StaticResource CardCategoryBorderConverter}}"
                         StrokeThickness="2"
                         StrokeShape="RoundRectangle 12"
                         HeightRequest="210"
@@ -188,7 +188,7 @@
                                 Padding="0,10,10,0">
 
                                 <Border
-                                    Stroke="{Binding Category, Converter={StaticResource CardCategoryBorderConverter}}"
+                                    Stroke="{Binding ., Converter={StaticResource CardCategoryBorderConverter}}"
                                     StrokeThickness="2"
                                     StrokeShape="RoundRectangle 8"
                                     BackgroundColor="#151520"

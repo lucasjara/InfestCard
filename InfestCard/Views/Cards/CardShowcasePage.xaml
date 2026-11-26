@@ -1,0 +1,348 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:vm="clr-namespace:InfestCard.ViewModels"
+    x:Class="InfestCard.Views.CardShowcasePage"
+    x:DataType="vm:CardDetailViewModel"
+    Shell.NavBarIsVisible="False"
+    BackgroundColor="#090A12">
+
+    <Grid RowDefinitions="Auto,*,Auto"
+          Padding="20">
+
+        <!-- CABECERA DE LA VISTA -->
+
+        <Grid Grid.Row="0"
+              ColumnDefinitions="Auto,*"
+              VerticalOptions="Center">
+
+            <Button Text="‹"
+                    FontSize="32"
+                    WidthRequest="48"
+                    HeightRequest="48"
+                    Padding="0"
+                    CornerRadius="24"
+                    BackgroundColor="#1C1D2B"
+                    TextColor="White"
+                    Clicked="BackButton_Clicked"/>
+
+            <Label Grid.Column="1"
+                   Text=""
+                   TextColor="#999BAF"
+                   FontSize="12"
+                   CharacterSpacing="3"
+                   VerticalOptions="Center"
+                   HorizontalTextAlignment="Center"/>
+        </Grid>
+
+        <!-- ZONA CENTRAL -->
+
+        <Grid Grid.Row="1"
+              HorizontalOptions="Fill"
+              VerticalOptions="Center">
+
+            <!-- ILUMINACIÓN AMBIENTAL -->
+
+            <Border WidthRequest="270"
+                    HeightRequest="380"
+                    HorizontalOptions="Center"
+                    VerticalOptions="Center"
+                    StrokeThickness="0"
+                    Opacity="0.65">
+
+                <Border.Background>
+                    <RadialGradientBrush
+                        Center="0.5,0.5"
+                        Radius="0.7">
+
+                        <GradientStop Color="#664B36B8"
+                                      Offset="0"/>
+
+                        <GradientStop Color="#003B82F6"
+                                      Offset="0.6"/>
+
+                        <GradientStop Color="#00090A12"
+                                      Offset="1"/>
+
+                    </RadialGradientBrush>
+                </Border.Background>
+
+            </Border>
+
+            <!-- CARTA COMPLETA -->
+
+            <Border x:Name="CardSurface"
+                    WidthRequest="300"
+                    HeightRequest="480"
+                    HorizontalOptions="Center"
+                    VerticalOptions="Center"
+                    Stroke="#A78BFA"
+                    StrokeThickness="2"
+                    BackgroundColor="#171827"
+                    StrokeShape="RoundRectangle 20"
+                    Padding="5"
+                    Opacity="0"
+                    Scale="0.75"
+                    TranslationY="55"
+                    Rotation="0"
+                    AnchorX="0.5"
+                    AnchorY="0.5">
+
+                <Grid x:Name="CardContent"
+                      RowDefinitions="Auto,*,Auto,Auto,Auto"
+                      RowSpacing="5"
+                      BackgroundColor="#111321">
+
+                    <!-- 1. NOMBRE -->
+
+                    <Grid Grid.Row="0"
+                          Padding="12,10,12,5">
+
+                        <Label Text="{Binding Card.Name}"
+                               TextColor="White"
+                               FontSize="19"
+                               FontAttributes="Bold"
+                               LineBreakMode="TailTruncation"
+                               MaxLines="1"
+                               VerticalOptions="Center"/>
+
+                    </Grid>
+
+                    <!-- 2. IMAGEN -->
+
+                    <Border Grid.Row="1"
+                            Margin="7,0"
+                            Stroke="#6250A4"
+                            StrokeThickness="1"
+                            StrokeShape="RoundRectangle 12"
+                            BackgroundColor="#090A12">
+
+                        <Image Source="{Binding ImageSource}"
+                               Aspect="AspectFit"
+                               HorizontalOptions="Fill"
+                               VerticalOptions="Fill"/>
+
+                    </Border>
+
+                    <!-- 3. CATEGORÍA: DEBAJO DE LA IMAGEN -->
+
+                    <Grid Grid.Row="2"
+                          Padding="12,7,12,2">
+
+                        <Border BackgroundColor="#29233F"
+                                Stroke="#8B5CF6"
+                                StrokeThickness="1"
+                                StrokeShape="RoundRectangle 8"
+                                Padding="10,5"
+                                HorizontalOptions="Center">
+
+                            <Label Text="{Binding CategoryDisplayName}"
+                                   TextColor="#DDD6FE"
+                                   FontSize="12"
+                                   FontAttributes="Bold"
+                                   CharacterSpacing="1"
+                                   HorizontalTextAlignment="Center"/>
+
+                        </Border>
+
+                    </Grid>
+
+                    <!-- 4. DESCRIPCIÓN -->
+
+                    <Grid Grid.Row="3"
+                          Padding="12,5,12,8">
+
+                        <Label Text="{Binding Card.Description}"
+                               TextColor="#D0D1DF"
+                               FontSize="11"
+                               LineBreakMode="WordWrap"
+                               MaxLines="3"
+                               HorizontalTextAlignment="Center"
+                               VerticalTextAlignment="Center"/>
+
+                    </Grid>
+
+                    <!-- 5. NIVEL / RAREZA Y CANTIDAD -->
+
+                    <Grid Grid.Row="4"
+                          Padding="12,8,12,10"
+                          ColumnDefinitions="*,Auto"
+                          ColumnSpacing="10">
+
+                        <!-- NIVEL O RAREZA -->
+
+                        <!-- NIVEL -->
+                        <Border Grid.Column="0"
+        BackgroundColor="#29233F"
+        Stroke="#8B5CF6"
+        StrokeThickness="1"
+        StrokeShape="RoundRectangle 10"
+        Padding="10,6"
+        VerticalOptions="Center">
+
+                            <VerticalStackLayout Spacing="2"
+                        HorizontalOptions="Center">
+
+                                <Label Text="NIVEL"
+               TextColor="#88899E"
+               FontSize="8"
+               CharacterSpacing="1"
+               HorizontalTextAlignment="Center"/>
+
+                                <Label Text="{Binding LevelIndicators}"
+               TextColor="#DDD6FE"
+               FontSize="14"
+               FontAttributes="Bold"
+               HorizontalTextAlignment="Center"/>
+
+                            </VerticalStackLayout>
+
+                        </Border>
+
+                        <!-- CANTIDAD -->
+
+                        <Border Grid.Column="1"
+                                BackgroundColor="#1C1D2B"
+                                Stroke="#6250A4"
+                                StrokeThickness="1"
+                                StrokeShape="RoundRectangle 10"
+                                Padding="12,6"
+                                VerticalOptions="Center">
+
+                            <VerticalStackLayout Spacing="2"
+                                                HorizontalOptions="Center">
+
+                                <Label Text="CANTIDAD"
+                                       TextColor="#88899E"
+                                       FontSize="8"
+                                       CharacterSpacing="1"
+                                       HorizontalTextAlignment="Center"/>
+
+                                <Label Text="{Binding Card.Quantity, StringFormat='x{0}'}"
+                                       TextColor="#C4B5FD"
+                                       FontSize="16"
+                                       FontAttributes="Bold"
+                                       HorizontalTextAlignment="Center"/>
+
+                            </VerticalStackLayout>
+
+                        </Border>
+
+                    </Grid>
+
+                    <!-- CAPA HOLOGRÁFICA -->
+
+                    <Border x:Name="HoloLayer"
+                            Grid.RowSpan="5"
+                            HorizontalOptions="Fill"
+                            VerticalOptions="Fill"
+                            StrokeThickness="0"
+                            StrokeShape="RoundRectangle 15"
+                            InputTransparent="True"
+                            Opacity="0">
+
+                        <Border.Background>
+                            <LinearGradientBrush
+                                StartPoint="0,0"
+                                EndPoint="1,1">
+
+                                <GradientStop Color="#66FF00FF"
+                                              Offset="0"/>
+
+                                <GradientStop Color="#00FFFFFF"
+                                              Offset="0.25"/>
+
+                                <GradientStop Color="#55FFFFFF"
+                                              Offset="0.48"/>
+
+                                <GradientStop Color="#0029D9FF"
+                                              Offset="0.7"/>
+
+                                <GradientStop Color="#558B5CF6"
+                                              Offset="1"/>
+
+                            </LinearGradientBrush>
+                        </Border.Background>
+
+                    </Border>
+
+                    <!-- REFLEJO DE LUZ -->
+
+                    <Border x:Name="ShineLayer"
+                            Grid.RowSpan="5"
+                            HorizontalOptions="Fill"
+                            VerticalOptions="Fill"
+                            StrokeThickness="0"
+                            StrokeShape="RoundRectangle 15"
+                            InputTransparent="True"
+                            Opacity="0">
+
+                        <Border.Background>
+                            <LinearGradientBrush
+                                StartPoint="0,0"
+                                EndPoint="1,0">
+
+                                <GradientStop Color="#00FFFFFF"
+                                              Offset="0"/>
+
+                                <GradientStop Color="#66FFFFFF"
+                                              Offset="0.45"/>
+
+                                <GradientStop Color="#00FFFFFF"
+                                              Offset="0.75"/>
+
+                            </LinearGradientBrush>
+                        </Border.Background>
+
+                    </Border>
+
+                </Grid>
+
+            </Border>
+
+            <!-- ÁREA DE MOVIMIENTO 3D -->
+
+            <Border x:Name="TouchArea"
+                    WidthRequest="300"
+                    HeightRequest="480"
+                    HorizontalOptions="Center"
+                    VerticalOptions="Center"
+                    BackgroundColor="Transparent"
+                    StrokeThickness="0">
+
+                <Border.GestureRecognizers>
+
+                    <PanGestureRecognizer
+                        PanUpdated="Card_PanUpdated"/>
+
+                </Border.GestureRecognizers>
+
+            </Border>
+
+        </Grid>
+
+        <!-- INDICACIÓN INFERIOR -->
+
+        <VerticalStackLayout Grid.Row="2"
+                             Spacing="7"
+                             HorizontalOptions="Center"
+                             VerticalOptions="Center"
+                             Padding="0,12">
+
+            <Label Text="✦"
+                   TextColor="#A78BFA"
+                   FontSize="20"
+                   HorizontalTextAlignment="Center"/>
+
+            <Label Text="MUEVE LA CARTA PARA DESCUBRIR SUS EFECTOS"
+                   TextColor="#88899E"
+                   FontSize="9"
+                   CharacterSpacing="1.2"
+                   HorizontalTextAlignment="Center"/>
+
+        </VerticalStackLayout>
+
+    </Grid>
+
+</ContentPage>

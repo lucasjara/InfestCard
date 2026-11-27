@@ -124,10 +124,10 @@ namespace InfestCard.Converters
         // CONVERTER: OBTENER COLOR AUTOMÁTICAMENTE
         // ==========================================
 
-        public object Convert(
-            object value,
+        public object? Convert(
+            object? value,
             Type targetType,
-            object parameter,
+            object? parameter,
             CultureInfo culture)
         {
             if (value == null)
@@ -210,10 +210,10 @@ namespace InfestCard.Converters
         // CONVERT BACK
         // ==========================================
 
-        public object ConvertBack(
-            object value,
+        public object? ConvertBack(
+            object? value,
             Type targetType,
-            object parameter,
+            object? parameter,
             CultureInfo culture)
         {
             throw new NotImplementedException();

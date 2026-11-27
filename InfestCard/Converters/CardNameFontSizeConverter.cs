@@ -7,10 +7,10 @@ namespace InfestCard.Converters;
 
 public class CardNameFontSizeConverter : IValueConverter
 {
-    public object Convert(
-        object value,
+    public object? Convert(
+        object? value,
         Type targetType,
-        object parameter,
+        object? parameter,
         CultureInfo culture)
     {
         var name = value?.ToString() ?? string.Empty;
@@ -24,10 +24,10 @@ public class CardNameFontSizeConverter : IValueConverter
         };
     }
 
-    public object ConvertBack(
-        object value,
+    public object? ConvertBack(
+        object? value,
         Type targetType,
-        object parameter,
+        object? parameter,
         CultureInfo culture)
     {
         throw new NotImplementedException();

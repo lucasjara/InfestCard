@@ -39,7 +39,7 @@ public partial class HomeViewModel : ObservableObject
     [RelayCommand]
     private async Task NavigateToPassportAsync()
     {
-        await Application.Current!.Windows[0].Page!.DisplayAlert(
+        await Application.Current!.Windows[0].Page!.DisplayAlertAsync(
             "Pasaporte INFEST",
             "Este módulo estará disponible próximamente.",
             "Aceptar");

@@ -136,10 +136,10 @@ public partial class CardDetailPage : ContentPage
         try
         {
             // Pequeño efecto de pulsación
-            await image.ScaleTo(0.92, 100, Easing.CubicOut);
+            await image.ScaleToAsync(0.92, 100, Easing.CubicOut);
 
             // Efecto de desaparición suave
-            await image.FadeTo(0, 160, Easing.CubicIn);
+            await image.FadeToAsync(0, 160, Easing.CubicIn);
             var showPage = new CardShowcasePage(ViewModel);
             NavigationPage.SetHasNavigationBar(showPage, false);
             // Abrir la vista 3D

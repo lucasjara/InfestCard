@@ -30,7 +30,7 @@ public partial class WelcomePage : ContentPage
         }
         catch (Exception ex)
         {
-            await DisplayAlert(
+            await DisplayAlertAsync(
                 "Error",
                 $"No fue posible abrir la colección: {ex.Message}",
                 "Aceptar"
@@ -46,7 +46,7 @@ public partial class WelcomePage : ContentPage
         object sender,
         EventArgs e)
     {
-        await DisplayAlert(
+        await DisplayAlertAsync(
             "Inicio de sesión",
             "La autenticación con Google estará disponible próximamente.",
             "Aceptar"
